@@ -1,12 +1,35 @@
 "use client";
+
+import type { inferRouterOutputs } from "@trpc/server";
 import { communityMetrics } from "@/lib/pulse/pulse-data";
-export default function CommunityMetrics() {
+import type { AppRouter } from "@/server/api/root";
+
+type Pulse = inferRouterOutputs<AppRouter>["analytics"]["getCivilizationPulse"];
+
+interface Props {
+  pulse?: Pulse;
+}
+
+export default function CommunityMetrics({ pulse }: Props) {
   const items = [
-    { label: "Total Users", value: communityMetrics.totalUsers },
-    { label: "Active Clinics", value: communityMetrics.activeClinics },
-    { label: "Conversations", value: communityMetrics.conversations },
-    { label: "Contributions", value: communityMetrics.contributions },
+    {
+      label: "Total Users",
+      value: communityMetrics.totalUsers,
+    },
+    {
+      label: "Active Clinics",
+      value: communityMetrics.activeClinics,
+    },
+    {
+      label: "Page Views",
+      value: pulse?.totalViews ?? communityMetrics.conversations,
+    },
+    {
+      label: "Searches",
+      value: pulse?.totalSearches ?? communityMetrics.contributions,
+    },
   ];
+
   return (
     <div className="bg-white border rounded-lg p-4">
       <h3 className="font-semibold text-[#1e2d3d] mb-3">Community</h3>

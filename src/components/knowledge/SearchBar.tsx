@@ -1,13 +1,27 @@
 "use client";
+
 import { useState } from "react";
 import { knowledgeItems } from "@/lib/memory/knowledge-data";
+import { api } from "@/trpc/react";
+
 export default function SearchBar() {
   const [query, setQuery] = useState("");
-  const results = query.trim()
+
+  const { data: apiResults } = api.civilization.searchArticles.useQuery(
+    { query },
+    { enabled: query.trim().length > 0 },
+  );
+
+  const staticResults = query.trim()
     ? knowledgeItems.filter((i) =>
         i.title.toLowerCase().includes(query.toLowerCase()),
       )
     : [];
+
+  const results = apiResults
+    ? apiResults.map((r) => ({ id: r.id.toString(), title: r.title }))
+    : staticResults.map((r) => ({ id: r.id, title: r.title }));
+
   return (
     <div className="relative">
       <input

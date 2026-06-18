@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Footer from "@/components/layout/Footer";
+import { TRPCReactProvider } from "./_providers";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -30,8 +31,10 @@ export default function RootLayout({
       style={{ colorScheme: "light" }}
     >
       <body className="min-h-full flex flex-col">
-        {children}
-        <Footer />
+        <TRPCReactProvider>
+          {children}
+          <Footer />
+        </TRPCReactProvider>
       </body>
     </html>
   );

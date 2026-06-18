@@ -1,12 +1,32 @@
 "use client";
+
 import { useState } from "react";
-import { gaps } from "@/lib/gaps/gap-data";
+import { gaps as staticGaps } from "@/lib/gaps/gap-data";
+import { api } from "@/trpc/react";
 
 type Filter = "all" | "closed" | "roadmap";
+
 export default function GapCards() {
   const [filter, setFilter] = useState<Filter>("all");
+  const { data: dbGaps } = api.gap.listGaps.useQuery();
+
+  const gaps = dbGaps
+    ? dbGaps.map((g) => ({
+        id: g.id.toString(),
+        name: g.title,
+        code: g.sbpId,
+        status: (g.status === "deferred" || g.status === "partial"
+          ? "roadmap"
+          : "closed") as "closed" | "roadmap",
+        closureDocument: null as string | null,
+        triggerCondition: g.reason,
+        targetDate: g.targetGate,
+      }))
+    : staticGaps;
+
   const filtered =
     filter === "all" ? gaps : gaps.filter((g) => g.status === filter);
+
   return (
     <div>
       <div className="flex gap-2 mb-4">
@@ -50,7 +70,8 @@ export default function GapCards() {
             )}
             {gap.triggerCondition && (
               <p className="text-xs text-yellow-700 mt-2">
-                Trigger: {gap.triggerCondition} ({gap.targetDate})
+                {gap.triggerCondition}
+                {gap.targetDate ? ` (${gap.targetDate})` : ""}
               </p>
             )}
           </div>
