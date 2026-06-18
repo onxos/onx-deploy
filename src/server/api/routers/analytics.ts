@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { and, desc, eq, gte, sql } from "drizzle-orm";
 import { z } from "zod";
 import {
@@ -7,6 +8,10 @@ import {
 } from "@/server/api/trpc";
 import { db } from "@/server/db";
 import { visitorInteraction } from "@/server/db/schema/civilization";
+
+const RATE_LIMIT_MAX = 100;
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
+const trackRateLimits = new Map<string, { count: number; resetAt: number }>();
 
 export const analyticsRouter = createTRPCRouter({
   track: publicProcedure
@@ -19,7 +24,24 @@ export const analyticsRouter = createTRPCRouter({
         metadata: z.string().optional(),
       }),
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ ctx, input }) => {
+      const now = Date.now();
+      const current = trackRateLimits.get(ctx.ip);
+
+      if (!current || current.resetAt <= now) {
+        trackRateLimits.set(ctx.ip, {
+          count: 1,
+          resetAt: now + RATE_LIMIT_WINDOW_MS,
+        });
+      } else if (current.count >= RATE_LIMIT_MAX) {
+        throw new TRPCError({
+          code: "TOO_MANY_REQUESTS",
+          message: "analytics.track limited to 100 requests per hour per IP",
+        });
+      } else {
+        current.count += 1;
+      }
+
       const interaction = await db
         .insert(visitorInteraction)
         .values(input)

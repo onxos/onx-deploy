@@ -9,9 +9,26 @@ import { db } from "@/server/db";
 import { sechStatusLog } from "@/server/db/schema/civilization";
 
 const SECH_LAYERS = ["S", "E", "C", "H", "Council"] as const;
+type SechCurrentStatus = {
+  layer: (typeof SECH_LAYERS)[number];
+  status: string;
+  message: string | null;
+  lastUpdate: Date | null;
+};
+
+let sechStatusCache:
+  | {
+      expiresAt: number;
+      data: SechCurrentStatus[];
+    }
+  | undefined;
 
 export const sechRouter = createTRPCRouter({
   getCurrentStatus: publicProcedure.query(async () => {
+    if (sechStatusCache && sechStatusCache.expiresAt > Date.now()) {
+      return sechStatusCache.data;
+    }
+
     const statuses = await Promise.all(
       SECH_LAYERS.map(async (layer) => {
         const latest = await db.query.sechStatusLog.findFirst({
@@ -26,6 +43,10 @@ export const sechRouter = createTRPCRouter({
         };
       }),
     );
+    sechStatusCache = {
+      data: statuses,
+      expiresAt: Date.now() + 30 * 1000,
+    };
     return statuses;
   }),
 
@@ -55,6 +76,7 @@ export const sechRouter = createTRPCRouter({
     )
     .mutation(async ({ input }) => {
       const log = await db.insert(sechStatusLog).values(input).returning();
+      sechStatusCache = undefined;
       return log[0];
     }),
 

@@ -3,8 +3,8 @@ import { systemsList } from "@/lib/pulse/pulse-data";
 export default function SystemsStatus() {
   return (
     <div className="bg-white border rounded-lg p-4">
-      <h3 className="font-semibold text-[#1e2d3d] mb-3">Systems Status</h3>
-      <p className="text-2xl font-bold text-green-600 mb-2">
+      <h2 className="font-semibold text-[#1e2d3d] mb-3">Systems Status</h2>
+      <p className="text-2xl font-bold text-green-800 mb-2">
         {systemsList.length}/{systemsList.length} Healthy
       </p>
       <div className="grid grid-cols-2 gap-1 text-xs max-h-40 overflow-y-auto">

@@ -53,7 +53,7 @@ export const civilizationRouter = createTRPCRouter({
     )
     .query(async ({ input }) => {
       return db.query.knowledgeArticles.findMany({
-        where: like(knowledgeArticles.title, `%${input.query}%`),
+        where: like(knowledgeArticles.content, `%${input.query}%`),
         orderBy: [desc(knowledgeArticles.searchCount)],
         limit: input.limit,
       });
@@ -78,6 +78,39 @@ export const civilizationRouter = createTRPCRouter({
         .values(input)
         .returning();
       return article[0];
+    }),
+
+  updateArticle: protectedProcedure
+    .input(
+      z.object({
+        id: z.number().int().positive(),
+        title: z.string().min(1).max(256),
+        slug: z.string().min(1).max(256),
+        category: z.string().min(1).max(100),
+        content: z.string().min(1),
+        documentRef: z.string().optional(),
+        importance: z
+          .enum(["critical", "standard", "reference"])
+          .default("standard"),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const { id, ...data } = input;
+      const article = await db
+        .update(knowledgeArticles)
+        .set(data)
+        .where(eq(knowledgeArticles.id, id))
+        .returning();
+      return article[0] ?? null;
+    }),
+
+  deleteArticle: protectedProcedure
+    .input(z.object({ id: z.number().int().positive() }))
+    .mutation(async ({ input }) => {
+      await db
+        .delete(knowledgeArticles)
+        .where(eq(knowledgeArticles.id, input.id));
+      return { success: true };
     }),
 
   getAnalytics: protectedProcedure.query(async () => {

@@ -12,7 +12,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
-    "seed:civilization": "bun run src/server/db/seeds/civilization-seed.ts"
+    "seed:civilization": "bun run src/server/db/seeds/civilization-seed.ts",
+    "ingest:corpus": "bun run src/scripts/ingest-corpus.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

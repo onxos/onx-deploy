@@ -4,11 +4,24 @@ import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { db } from "@/server/db";
 import { titanRegistry } from "@/server/db/schema/civilization";
 
+let titanCache:
+  | {
+      expiresAt: number;
+      data: Awaited<ReturnType<typeof db.query.titanRegistry.findMany>>;
+    }
+  | undefined;
+
 export const titanRouter = createTRPCRouter({
   listTitans: publicProcedure.query(async () => {
-    return db.query.titanRegistry.findMany({
+    if (titanCache && titanCache.expiresAt > Date.now()) {
+      return titanCache.data;
+    }
+
+    const data = await db.query.titanRegistry.findMany({
       orderBy: [asc(titanRegistry.number)],
     });
+    titanCache = { data, expiresAt: Date.now() + 5 * 60 * 1000 };
+    return data;
   }),
 
   getTitan: publicProcedure

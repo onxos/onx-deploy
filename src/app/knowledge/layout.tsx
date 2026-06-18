@@ -1,3 +1,6 @@
+import { Suspense } from "react";
+import RouteLoading from "@/components/civilization/route-loading";
+
 export const metadata = {
   title: "ONX Knowledge Center",
   description:
@@ -8,5 +11,9 @@ export default function KnowledgeLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="min-h-screen bg-[#faf9f5]">{children}</div>;
+  return (
+    <div className="min-h-screen bg-[#faf9f5]">
+      <Suspense fallback={<RouteLoading />}>{children}</Suspense>
+    </div>
+  );
 }

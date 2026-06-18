@@ -1,4 +1,5 @@
 import { createTRPCRouter } from "@/server/api/trpc";
+import { adminRouter } from "./routers/admin";
 import { analyticsRouter } from "./routers/analytics";
 import { civilizationRouter } from "./routers/civilization";
 import { gapRouter } from "./routers/gap";
@@ -11,6 +12,7 @@ export const appRouter = createTRPCRouter({
   gap: gapRouter,
   sech: sechRouter,
   analytics: analyticsRouter,
+  admin: adminRouter,
 });
 
 export type AppRouter = typeof appRouter;

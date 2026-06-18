@@ -1,4 +1,5 @@
 import { neon } from "@neondatabase/serverless";
+import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "../schema";
 import {
@@ -218,6 +219,7 @@ async function seed() {
     .onConflictDoNothing();
 
   console.log("Seeding SECH initial status (all clear)...");
+  await db.delete(sechStatusLog).where(eq(sechStatusLog.triggeredBy, "seed"));
   await db.insert(sechStatusLog).values([
     {
       layer: "S",

@@ -15,14 +15,14 @@ export default function SechActivity({ sechStatus }: Props) {
 
   return (
     <div className="bg-white border rounded-lg p-4">
-      <h3 className="font-semibold text-[#1e2d3d] mb-3">SECH Activity</h3>
+      <h2 className="font-semibold text-[#1e2d3d] mb-3">SECH Activity</h2>
       {sechStatus ? (
         <div className="space-y-2 text-sm">
           {sechStatus.map((s) => (
             <div key={s.layer} className="flex justify-between">
               <span className="text-[#5a6c7d]">Layer {s.layer}</span>
               <span
-                className={`font-semibold capitalize ${s.status === "clear" ? "text-green-600" : s.status === "veto" ? "text-red-600" : "text-yellow-600"}`}
+                className={`font-semibold capitalize ${s.status === "clear" ? "text-green-800" : s.status === "veto" ? "text-red-700" : "text-yellow-800"}`}
               >
                 {s.status}
               </span>
@@ -31,7 +31,7 @@ export default function SechActivity({ sechStatus }: Props) {
           <div className="flex justify-between pt-1 border-t">
             <span className="text-[#5a6c7d]">Overall</span>
             <span
-              className={`font-semibold ${allClear ? "text-green-600" : "text-yellow-600"}`}
+              className={`font-semibold ${allClear ? "text-green-800" : "text-yellow-800"}`}
             >
               {allClear ? "All Clear" : "Advisory"}
             </span>
@@ -53,7 +53,7 @@ export default function SechActivity({ sechStatus }: Props) {
           </div>
           <div className="flex justify-between">
             <span className="text-[#5a6c7d]">Harmony</span>
-            <span className="font-semibold text-green-600">
+            <span className="font-semibold text-green-800">
               {sechMetrics.harmonyStatus}
             </span>
           </div>

@@ -36,7 +36,7 @@ export default function CommunityMetrics({ pulse }: Props) {
       <div className="grid grid-cols-2 gap-3">
         {items.map((item) => (
           <div key={item.label} className="text-center p-2">
-            <p className="text-2xl font-bold text-[#c9a84c]">
+            <p className="text-2xl font-bold text-[#7a5a0a]">
               {item.value.toLocaleString()}
             </p>
             <p className="text-xs text-[#5a6c7d] mt-0.5">{item.label}</p>

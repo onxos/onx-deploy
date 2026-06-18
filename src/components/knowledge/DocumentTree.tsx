@@ -4,11 +4,41 @@ import {
   knowledgeCategories,
   knowledgeItems,
 } from "@/lib/memory/knowledge-data";
+import { api } from "@/trpc/react";
+
 export default function DocumentTree() {
   const [expanded, setExpanded] = useState<string | null>(null);
+  const { data: dbArticles } = api.civilization.listArticles.useQuery({
+    limit: 100,
+  });
+
+  const categories =
+    dbArticles && dbArticles.length > 0
+      ? Array.from(new Set(dbArticles.map((article) => article.category))).map(
+          (category) => ({
+            key: category,
+            label: category
+              .split("-")
+              .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+              .join(" "),
+            count: dbArticles.filter((article) => article.category === category)
+              .length,
+          }),
+        )
+      : knowledgeCategories;
+
+  const items =
+    dbArticles && dbArticles.length > 0
+      ? dbArticles.map((article) => ({
+          id: article.id.toString(),
+          title: article.title,
+          category: article.category,
+        }))
+      : knowledgeItems;
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {knowledgeCategories.map((cat) => (
+      {categories.map((cat) => (
         <div key={cat.key} className="border rounded-lg overflow-hidden">
           <button
             type="button"
@@ -22,7 +52,7 @@ export default function DocumentTree() {
           </button>
           {expanded === cat.key && (
             <div className="bg-white p-3 max-h-64 overflow-y-auto">
-              {knowledgeItems
+              {items
                 .filter((i) => i.category === cat.key)
                 .map((item) => (
                   <div

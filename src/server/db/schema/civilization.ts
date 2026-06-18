@@ -1,6 +1,7 @@
 import { sql } from "drizzle-orm";
 import {
   boolean,
+  index,
   integer,
   pgTableCreator,
   serial,
@@ -11,34 +12,47 @@ import {
 
 const createTable = pgTableCreator((name) => `onx_${name}`);
 
-export const knowledgeArticles = createTable("knowledge_article", {
-  id: serial("id").primaryKey(),
-  title: varchar("title", { length: 256 }).notNull(),
-  slug: varchar("slug", { length: 256 }).notNull().unique(),
-  category: varchar("category", { length: 100 }).notNull(),
-  content: text("content").notNull(),
-  documentRef: varchar("document_ref", { length: 50 }),
-  importance: varchar("importance", { length: 20 }).default("standard"),
-  viewCount: integer("view_count").default(0),
-  searchCount: integer("search_count").default(0),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
-    () => new Date(),
-  ),
-});
+export const knowledgeArticles = createTable(
+  "knowledge_article",
+  {
+    id: serial("id").primaryKey(),
+    title: varchar("title", { length: 256 }).notNull(),
+    slug: varchar("slug", { length: 256 }).notNull().unique(),
+    category: varchar("category", { length: 100 }).notNull(),
+    content: text("content").notNull(),
+    documentRef: varchar("document_ref", { length: 50 }),
+    importance: varchar("importance", { length: 20 }).default("standard"),
+    viewCount: integer("view_count").default(0),
+    searchCount: integer("search_count").default(0),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+      () => new Date(),
+    ),
+  },
+  (table) => [index("onx_knowledge_article_category_idx").on(table.category)],
+);
 
-export const sechStatusLog = createTable("sech_status_log", {
-  id: serial("id").primaryKey(),
-  layer: varchar("layer", { length: 20 }).notNull(),
-  status: varchar("status", { length: 20 }).notNull(),
-  message: text("message"),
-  triggeredBy: varchar("triggered_by", { length: 256 }),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
-});
+export const sechStatusLog = createTable(
+  "sech_status_log",
+  {
+    id: serial("id").primaryKey(),
+    layer: varchar("layer", { length: 20 }).notNull(),
+    status: varchar("status", { length: 20 }).notNull(),
+    message: text("message"),
+    triggeredBy: varchar("triggered_by", { length: 256 }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+  },
+  (table) => [
+    index("onx_sech_status_log_layer_created_idx").on(
+      table.layer,
+      table.createdAt,
+    ),
+  ],
+);
 
 export const titanRegistry = createTable("titan_registry", {
   id: serial("id").primaryKey(),
@@ -74,17 +88,26 @@ export const gapClosureItem = createTable("gap_closure_item", {
   ),
 });
 
-export const visitorInteraction = createTable("visitor_interaction", {
-  id: serial("id").primaryKey(),
-  sessionId: varchar("session_id", { length: 256 }).notNull(),
-  page: varchar("page", { length: 256 }).notNull(),
-  action: varchar("action", { length: 50 }).notNull(),
-  query: text("query"),
-  metadata: text("metadata"),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
-});
+export const visitorInteraction = createTable(
+  "visitor_interaction",
+  {
+    id: serial("id").primaryKey(),
+    sessionId: varchar("session_id", { length: 256 }).notNull(),
+    page: varchar("page", { length: 256 }).notNull(),
+    action: varchar("action", { length: 50 }).notNull(),
+    query: text("query"),
+    metadata: text("metadata"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+  },
+  (table) => [
+    index("onx_visitor_interaction_page_action_idx").on(
+      table.page,
+      table.action,
+    ),
+  ],
+);
 
 export type KnowledgeArticle = typeof knowledgeArticles.$inferSelect;
 export type SechStatusLog = typeof sechStatusLog.$inferSelect;

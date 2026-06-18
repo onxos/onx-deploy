@@ -61,7 +61,9 @@ export const gapRouter = createTRPCRouter({
         sbpId: z.string(),
         status: z.enum(["deferred", "partial", "in_progress", "closed"]),
         reason: z.string().optional(),
+        effort: z.string().optional(),
         targetGate: z.string().optional(),
+        dependencies: z.string().optional(),
       }),
     )
     .mutation(async ({ input }) => {

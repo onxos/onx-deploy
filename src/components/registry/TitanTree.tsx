@@ -12,13 +12,13 @@ export default function TitanTree() {
       {titans.map((t) => (
         <div key={t.id} className="relative">
           <div className="absolute -left-[41px] w-5 h-5 rounded-full bg-[#c9a84c] border-4 border-[#faf9f5]" />
-          <h3 className="text-lg font-bold text-[#1e2d3d]">{t.name}</h3>
+          <h2 className="text-lg font-bold text-[#1e2d3d]">{t.name}</h2>
           <p className="text-sm text-[#5a6c7d] font-medium">
             {"title" in t ? String(t.title) : t.domain}
           </p>
           <p className="text-sm text-[#2c3e50] mt-1">{t.description}</p>
           {"manifesto" in t && t.manifesto && (
-            <p className="text-sm text-[#c9a84c] italic mt-1 border-l-2 border-[#c9a84c] pl-3">
+            <p className="text-sm text-[#7a5a0a] italic mt-1 border-l-2 border-[#c9a84c] pl-3">
               {String(t.manifesto)}
             </p>
           )}
