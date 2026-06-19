@@ -1,5 +1,7 @@
 import { and, desc, eq, like, sql } from "drizzle-orm";
 import { z } from "zod";
+import { answerCivilizationQuestion } from "@/lib/ai/conversation-handler";
+import { buildKnowledgeSynthesis } from "@/lib/ai/synthesis-engine";
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -7,8 +9,45 @@ import {
 } from "@/server/api/trpc";
 import { db } from "@/server/db";
 import { knowledgeArticles } from "@/server/db/schema/civilization";
+import { knowledgeSynthesis } from "@/server/db/schema/knowledge-synthesis";
 
 export const civilizationRouter = createTRPCRouter({
+  ask: publicProcedure
+    .input(z.object({ query: z.string().min(1).max(4000) }))
+    .mutation(async ({ input }) => {
+      return answerCivilizationQuestion(input.query);
+    }),
+
+  synthesize: publicProcedure
+    .input(
+      z.object({
+        topic: z.string().min(1).max(256),
+        type: z.enum(["topic", "comparative", "gap-analysis"]).default("topic"),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const synthesis = await buildKnowledgeSynthesis(input.topic, input.type);
+      const [record] = await db
+        .insert(knowledgeSynthesis)
+        .values({
+          topic: input.topic,
+          synthesisType: input.type,
+          summary: synthesis.summary,
+          sourceRefs: synthesis.sourceRefs,
+          confidence: synthesis.confidence,
+        })
+        .returning();
+      return { ...synthesis, id: record?.id };
+    }),
+
+  getSynthesis: publicProcedure
+    .input(z.object({ id: z.number().int().positive() }))
+    .query(async ({ input }) => {
+      return db.query.knowledgeSynthesis.findFirst({
+        where: eq(knowledgeSynthesis.id, input.id),
+      });
+    }),
+
   listArticles: publicProcedure
     .input(
       z

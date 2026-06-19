@@ -1,5 +1,7 @@
 "use client";
 
+import { AiQueryMetrics } from "@/components/analytics/ai-query-metrics";
+import { ConclaveMetrics } from "@/components/analytics/conclave-metrics";
 import { api } from "@/trpc/react";
 
 export default function AnalyticsView() {
@@ -60,6 +62,10 @@ export default function AnalyticsView() {
             ))}
           </div>
         </div>
+      </div>
+      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+        <ConclaveMetrics />
+        <AiQueryMetrics />
       </div>
     </section>
   );

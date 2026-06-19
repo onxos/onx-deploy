@@ -50,6 +50,20 @@ const routes = [
       "Real-time system health, knowledge preservation score, and SECH activity.",
     badge: "live",
   },
+  {
+    href: "/ask",
+    title: "Conversational ONX",
+    description:
+      "Ask the civilization corpus questions and generate knowledge synthesis records.",
+    badge: "Gate 6",
+  },
+  {
+    href: "/titan-conclave",
+    title: "Titan Conclave",
+    description:
+      "Consult SECH, Kimi, Hadeer, Founder, and Atlas personas with source-backed responses.",
+    badge: "Gate 6",
+  },
 ];
 
 export default function Home() {

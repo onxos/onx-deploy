@@ -8,6 +8,7 @@ import {
 } from "@/server/api/trpc";
 import { db } from "@/server/db";
 import { visitorInteraction } from "@/server/db/schema/civilization";
+import { titanConversation } from "@/server/db/schema/titan-conversation";
 
 const RATE_LIMIT_MAX = 100;
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
@@ -120,6 +121,41 @@ export const analyticsRouter = createTRPCRouter({
       totalViews: totalViews[0]?.count ?? 0,
       totalSearches: totalSearches[0]?.count ?? 0,
       topPages,
+      generatedAt: new Date(),
+    };
+  }),
+
+  getAiQueryMetrics: protectedProcedure.query(async () => {
+    const titanInteractions = await db
+      .select({
+        titanId: titanConversation.titanId,
+        count: sql<number>`count(*)`,
+      })
+      .from(titanConversation)
+      .groupBy(titanConversation.titanId)
+      .orderBy(desc(sql`count(*)`));
+
+    return {
+      titanInteractions,
+      generatedAt: new Date(),
+    };
+  }),
+
+  getConclaveMetrics: protectedProcedure.query(async () => {
+    const totalConversations = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(titanConversation);
+    const byConfidence = await db
+      .select({
+        confidence: titanConversation.confidence,
+        count: sql<number>`count(*)`,
+      })
+      .from(titanConversation)
+      .groupBy(titanConversation.confidence);
+
+    return {
+      totalConversations: totalConversations[0]?.count ?? 0,
+      byConfidence,
       generatedAt: new Date(),
     };
   }),
