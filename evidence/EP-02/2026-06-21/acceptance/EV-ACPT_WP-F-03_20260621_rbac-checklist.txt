@@ -1,0 +1,24 @@
+WP-F-03 Acceptance Checklist
+Commit: dd8802de5c25b178b8090f3557aa57401523c92f
+
+AC-01 Role enum/type defined with all 6 roles: PASS
+AC-02 Permission matrix maps roles to operations per resource: PASS
+AC-03 requireRole() enforces minimum role level: PASS
+AC-04 requirePermission() checks specific permission: PASS
+AC-05 Insufficient role returns 403 FORBIDDEN: PASS
+AC-06 Role stored in user table and included in session context: PASS
+AC-07 Registration defaults role to operator and blocks role input: PASS
+AC-08 Admin can change other users roles via auth.updateRole/user.updateRole permission: PASS
+AC-09 Permission checks applied to existing protected tRPC procedures: PASS
+AC-10 Role hierarchy founder > admin > editor > operator > viewer > guest: PASS
+AC-11 Client-side permission helpers exist in src/lib/permissions.ts: PASS
+AC-12 Unit scenarios cover RBAC allow/deny/default branches >=80%: PASS
+AC-13 bun run lint: PASS
+AC-14 bun run test: PASS
+AC-15 bun run build: PASS
+
+Commands verified 2026-06-21:
+- bun run lint PASS
+- bun run test PASS
+- bun run test:rbac PASS
+- bun run build PASS

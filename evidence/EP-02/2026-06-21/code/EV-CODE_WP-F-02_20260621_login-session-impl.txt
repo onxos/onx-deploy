@@ -1,0 +1,43 @@
+WP-F-02 Code Evidence: Login & Session Management
+
+Evidence ID: EV-CODE_WP-F-02_20260621_login-session-impl
+WP ID: WP-F-02
+Collected: 2026-06-21T12:55:49+0300
+Git commit: dd8802de5c25b178b8090f3557aa57401523c92f
+
+Implementation files:
+- src/server/auth/login.ts
+  - Defines strict login input schema.
+  - Normalizes email to lowercase before authentication.
+  - Delegates credential validation and password comparison to Better Auth.
+  - Returns token plus public user fields only: id, email, name, role.
+  - Converts failed sign-in attempts to TRPC UNAUTHORIZED.
+
+- src/server/auth/session.ts
+  - Loads the active database-backed Better Auth session from request headers.
+  - Returns token, expiry, and public user fields only.
+  - Rejects missing/expired sessions with TRPC UNAUTHORIZED.
+
+- src/server/auth/logout.ts
+  - Calls Better Auth signOut using request headers.
+  - Returns { ok: true } after session invalidation.
+
+- src/server/api/routers/auth.ts
+  - Adds auth.login public tRPC mutation.
+  - Adds auth.session public tRPC query.
+  - Adds auth.refresh public tRPC mutation.
+  - Adds auth.logout public tRPC mutation.
+  - Keeps auth.register intact.
+
+- src/lib/auth-client.ts
+  - Exposes getSession, signIn, signOut, and refreshSession client helpers.
+
+- middleware.ts
+  - Existing middleware blocks unauthenticated access to protected routes:
+    /pulse, /registry, /gaps, /admin.
+  - Redirects unauthenticated protected access to /login.
+
+Security notes:
+- Passwords are not returned by any new public user/session mapper.
+- Role injection is rejected by strict login input validation.
+- Session cookies remain owned by Better Auth and nextCookies integration.

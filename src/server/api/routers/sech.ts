@@ -1,5 +1,6 @@
 import { desc, eq } from "drizzle-orm";
 import { z } from "zod";
+import { requirePermission } from "@/server/api/middleware/rbac";
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -66,6 +67,7 @@ export const sechRouter = createTRPCRouter({
     }),
 
   setLayerStatus: protectedProcedure
+    .use(requirePermission("sech:update"))
     .input(
       z.object({
         layer: z.enum(SECH_LAYERS),

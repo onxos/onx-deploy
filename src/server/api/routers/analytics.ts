@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { and, desc, eq, gte, sql } from "drizzle-orm";
 import { z } from "zod";
+import { requirePermission } from "@/server/api/middleware/rbac";
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -51,6 +52,7 @@ export const analyticsRouter = createTRPCRouter({
     }),
 
   getPageViews: protectedProcedure
+    .use(requirePermission("analytics:read"))
     .input(
       z
         .object({
@@ -79,6 +81,7 @@ export const analyticsRouter = createTRPCRouter({
     }),
 
   getSearchAnalytics: protectedProcedure
+    .use(requirePermission("analytics:read"))
     .input(z.object({ days: z.number().default(30) }).optional())
     .query(async ({ input }) => {
       const since = new Date();
@@ -125,38 +128,42 @@ export const analyticsRouter = createTRPCRouter({
     };
   }),
 
-  getAiQueryMetrics: protectedProcedure.query(async () => {
-    const titanInteractions = await db
-      .select({
-        titanId: titanConversation.titanId,
-        count: sql<number>`count(*)`,
-      })
-      .from(titanConversation)
-      .groupBy(titanConversation.titanId)
-      .orderBy(desc(sql`count(*)`));
+  getAiQueryMetrics: protectedProcedure
+    .use(requirePermission("analytics:read"))
+    .query(async () => {
+      const titanInteractions = await db
+        .select({
+          titanId: titanConversation.titanId,
+          count: sql<number>`count(*)`,
+        })
+        .from(titanConversation)
+        .groupBy(titanConversation.titanId)
+        .orderBy(desc(sql`count(*)`));
 
-    return {
-      titanInteractions,
-      generatedAt: new Date(),
-    };
-  }),
+      return {
+        titanInteractions,
+        generatedAt: new Date(),
+      };
+    }),
 
-  getConclaveMetrics: protectedProcedure.query(async () => {
-    const totalConversations = await db
-      .select({ count: sql<number>`count(*)` })
-      .from(titanConversation);
-    const byConfidence = await db
-      .select({
-        confidence: titanConversation.confidence,
-        count: sql<number>`count(*)`,
-      })
-      .from(titanConversation)
-      .groupBy(titanConversation.confidence);
+  getConclaveMetrics: protectedProcedure
+    .use(requirePermission("analytics:read"))
+    .query(async () => {
+      const totalConversations = await db
+        .select({ count: sql<number>`count(*)` })
+        .from(titanConversation);
+      const byConfidence = await db
+        .select({
+          confidence: titanConversation.confidence,
+          count: sql<number>`count(*)`,
+        })
+        .from(titanConversation)
+        .groupBy(titanConversation.confidence);
 
-    return {
-      totalConversations: totalConversations[0]?.count ?? 0,
-      byConfidence,
-      generatedAt: new Date(),
-    };
-  }),
+      return {
+        totalConversations: totalConversations[0]?.count ?? 0,
+        byConfidence,
+        generatedAt: new Date(),
+      };
+    }),
 });

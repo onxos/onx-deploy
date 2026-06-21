@@ -1,0 +1,32 @@
+WP-F-01 Code Evidence
+
+Work package: WP-F-01
+Mutation: auth.register
+Date: 2026-06-21
+Category: Code Evidence
+
+Implemented files:
+
+- src/server/auth/register.ts
+- src/server/api/routers/auth.ts
+- src/server/api/root.ts
+- scripts/test-auth-register.ts
+- package.json
+
+Implementation summary:
+
+- Added strict register input schema with email, password, and name.
+- Added public tRPC mutation auth.register.
+- Registered auth router in the app router.
+- Uses Better Auth signUpEmail for account creation.
+- Returns only safe user fields: id, email, name, role.
+- Defaults role to operator.
+- Rejects unknown input fields, including role injection.
+- Maps duplicate registration errors to tRPC CONFLICT.
+
+Acceptance authority:
+
+- Bound by docs/ONX_ACCEPTANCE_AUTHORITY_D04_v1.0.docx.
+- Evidence category follows docs/ONX_UNIFIED_EVIDENCE_STANDARD_v1.0.docx.
+
+Status: PASS

@@ -1,5 +1,6 @@
 import { and, asc, eq, sql } from "drizzle-orm";
 import { z } from "zod";
+import { requirePermission } from "@/server/api/middleware/rbac";
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -56,6 +57,7 @@ export const gapRouter = createTRPCRouter({
   }),
 
   updateGap: protectedProcedure
+    .use(requirePermission("gap:update"))
     .input(
       z.object({
         sbpId: z.string(),

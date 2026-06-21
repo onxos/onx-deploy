@@ -1,0 +1,12 @@
+WP-F-04 Acceptance Checklist
+Commit: dd8802de5c25b178b8090f3557aa57401523c92f
+
+- Middleware protects /pulse, /registry, /gaps, /admin: PASS
+- Unauthenticated protected route access redirects to /login with callbackUrl: PASS
+- /pulse allows authenticated operator and above: PASS
+- /registry, /gaps, /admin require admin/founder: PASS
+- Insufficient role redirects to /forbidden: PASS
+- Nested admin routes covered by matcher and server layout: PASS
+- bun run test:routes: PASS
+- bun run lint: PASS
+- bun run build: PASS

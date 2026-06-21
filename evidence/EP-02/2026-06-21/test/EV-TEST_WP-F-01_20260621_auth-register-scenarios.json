@@ -1,0 +1,47 @@
+{
+  "workPackage": "WP-F-01",
+  "mutation": "auth.register",
+  "date": "2026-06-21",
+  "command": "bun run test:auth-register",
+  "scenarioCount": 6,
+  "results": [
+    {
+      "id": "S01-valid-founder-length-password",
+      "expected": "PASS",
+      "actual": "PASS",
+      "ok": true
+    },
+    {
+      "id": "S02-invalid-email-rejected",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "ok": true
+    },
+    {
+      "id": "S03-short-password-rejected",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "ok": true
+    },
+    {
+      "id": "S04-empty-name-rejected",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "ok": true
+    },
+    {
+      "id": "S05-unknown-role-injection-rejected",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "ok": true
+    },
+    {
+      "id": "S06-email-normalized-on-accepted-input",
+      "expected": "PASS",
+      "actual": "PASS",
+      "ok": true,
+      "normalized": "normalize.me@example.com"
+    }
+  ],
+  "status": "PASS"
+}

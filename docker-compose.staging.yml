@@ -1,0 +1,29 @@
+services:
+  onx:
+    image: ${IMAGE_TAG:-ghcr.io/onxos/onx-deploy:staging-latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${STAGING_PORT:-3000}:3000"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: ${DATABASE_URL}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL}
+      ONX_FOUNDER_EMAIL: ${ONX_FOUNDER_EMAIL}
+      ONX_FOUNDER_PASSWORD: ${ONX_FOUNDER_PASSWORD}
+      ONX_FOUNDER_NAME: ${ONX_FOUNDER_NAME:-ONX Founder}
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "bun",
+          "-e",
+          "const r=await fetch('http://localhost:3000/api/health'); process.exit(r.ok?0:1)",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s

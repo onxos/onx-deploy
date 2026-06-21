@@ -1,0 +1,43 @@
+{
+  "evidenceId": "EV-TEST_WP-F-02_20260621_login-scenarios",
+  "wpId": "WP-F-02",
+  "collected": "2026-06-21T12:55:49+0300",
+  "gitCommit": "dd8802de5c25b178b8090f3557aa57401523c92f",
+  "command": "bun run test:auth-login",
+  "status": "PASS",
+  "scenarioCount": 5,
+  "results": [
+    {
+      "id": "S01-valid-login-input-accepted",
+      "expected": "PASS",
+      "actual": "PASS",
+      "ok": true
+    },
+    {
+      "id": "S02-invalid-email-rejected",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "ok": true
+    },
+    {
+      "id": "S03-short-password-rejected",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "ok": true
+    },
+    {
+      "id": "S04-extra-role-injection-rejected",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "ok": true
+    },
+    {
+      "id": "S05-email-normalized-on-accepted-input",
+      "expected": "PASS",
+      "actual": "PASS",
+      "ok": true,
+      "normalized": "normalize.me@example.com"
+    }
+  ],
+  "passwordLeak": false
+}

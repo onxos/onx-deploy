@@ -1,0 +1,32 @@
+WP-F-02 Acceptance Checklist: Login & Session Management
+
+Evidence ID: EV-ACPT_WP-F-02_20260621_login-session-checklist
+WP ID: WP-F-02
+Collected: 2026-06-21T12:55:49+0300
+Git commit: dd8802de5c25b178b8090f3557aa57401523c92f
+
+Acceptance criteria:
+- AC-01 Login accepts valid email + password and returns session token: IMPLEMENTED
+- AC-02 Login rejects invalid email with 401: IMPLEMENTED
+- AC-03 Login rejects wrong password with 401: IMPLEMENTED via Better Auth credential validation
+- AC-04 Session token is securely created by Better Auth: IMPLEMENTED
+- AC-05 HTTP-only cookie is managed by Better Auth nextCookies integration: IMPLEMENTED
+- AC-06 Logout invalidates session and clears cookie: IMPLEMENTED
+- AC-07 Token/session refresh works before expiry: IMPLEMENTED through auth.refresh/getSession
+- AC-08 Expired token is rejected with 401: IMPLEMENTED through Better Auth session validation
+- AC-09 Middleware blocks unauthenticated access to protected routes: IMPLEMENTED
+- AC-10 Client-side auth helpers getSession, signIn, signOut functional: IMPLEMENTED
+- AC-11 Password is never returned in any response: IMPLEMENTED and scenario-checked
+- AC-12 Unit/scenario tests cover login validation and public response mapping: PASS
+- AC-13 bun run lint: PASS
+- AC-14 bun run test: PASS
+- AC-15 bun run build: PASS
+
+Verification commands:
+- bun run test:auth-login: PASS
+- bun run lint: PASS
+- bun run test: PASS
+- bun run build: PASS
+
+Known scope note:
+The implementation follows the repository's existing Better Auth architecture rather than adding a parallel custom JWT stack. Better Auth owns password comparison, database-backed sessions, secure cookies, expiry, refresh, and logout invalidation.

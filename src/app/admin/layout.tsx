@@ -1,21 +1,20 @@
-import { cookies } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import {
-  adminAccessCookieName,
-  hasAdminAccessToken,
-} from "@/server/admin-auth";
+import { getCurrentSession, hasRequiredRole } from "@/server/auth/roles";
 
 export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get(adminAccessCookieName)?.value;
+  const session = await getCurrentSession();
 
-  if (!hasAdminAccessToken(token)) {
-    redirect("/");
+  if (!session) {
+    redirect("/login?callbackUrl=/admin");
+  }
+
+  if (!hasRequiredRole(session.user.role, "admin")) {
+    redirect("/forbidden");
   }
 
   return (

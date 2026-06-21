@@ -2,6 +2,7 @@ import { and, desc, eq, like, sql } from "drizzle-orm";
 import { z } from "zod";
 import { answerCivilizationQuestion } from "@/lib/ai/conversation-handler";
 import { buildKnowledgeSynthesis } from "@/lib/ai/synthesis-engine";
+import { requirePermission } from "@/server/api/middleware/rbac";
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -99,6 +100,7 @@ export const civilizationRouter = createTRPCRouter({
     }),
 
   createArticle: protectedProcedure
+    .use(requirePermission("article:create"))
     .input(
       z.object({
         title: z.string().min(1).max(256),
@@ -120,6 +122,7 @@ export const civilizationRouter = createTRPCRouter({
     }),
 
   updateArticle: protectedProcedure
+    .use(requirePermission("article:update"))
     .input(
       z.object({
         id: z.number().int().positive(),
@@ -144,6 +147,7 @@ export const civilizationRouter = createTRPCRouter({
     }),
 
   deleteArticle: protectedProcedure
+    .use(requirePermission("article:delete"))
     .input(z.object({ id: z.number().int().positive() }))
     .mutation(async ({ input }) => {
       await db
@@ -152,24 +156,26 @@ export const civilizationRouter = createTRPCRouter({
       return { success: true };
     }),
 
-  getAnalytics: protectedProcedure.query(async () => {
-    const totalArticles = await db
-      .select({ count: sql<number>`count(*)` })
-      .from(knowledgeArticles);
-    const totalViews = await db
-      .select({ sum: sql<number>`sum(view_count)` })
-      .from(knowledgeArticles);
-    const categories = await db
-      .select({
-        category: knowledgeArticles.category,
-        count: sql<number>`count(*)`,
-      })
-      .from(knowledgeArticles)
-      .groupBy(knowledgeArticles.category);
-    return {
-      totalArticles: totalArticles[0]?.count ?? 0,
-      totalViews: totalViews[0]?.sum ?? 0,
-      categories,
-    };
-  }),
+  getAnalytics: protectedProcedure
+    .use(requirePermission("analytics:read"))
+    .query(async () => {
+      const totalArticles = await db
+        .select({ count: sql<number>`count(*)` })
+        .from(knowledgeArticles);
+      const totalViews = await db
+        .select({ sum: sql<number>`sum(view_count)` })
+        .from(knowledgeArticles);
+      const categories = await db
+        .select({
+          category: knowledgeArticles.category,
+          count: sql<number>`count(*)`,
+        })
+        .from(knowledgeArticles)
+        .groupBy(knowledgeArticles.category);
+      return {
+        totalArticles: totalArticles[0]?.count ?? 0,
+        totalViews: totalViews[0]?.sum ?? 0,
+        categories,
+      };
+    }),
 });

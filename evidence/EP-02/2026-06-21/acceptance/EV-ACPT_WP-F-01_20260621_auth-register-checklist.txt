@@ -1,0 +1,29 @@
+WP-F-01 Acceptance Checklist
+
+Work package: WP-F-01
+Mutation: auth.register
+Date: 2026-06-21
+Authority: ONX_ACCEPTANCE_AUTHORITY_D04_v1.0
+Evidence standard: ONX_UNIFIED_EVIDENCE_STANDARD_v1.0
+
+Binary scoring:
+
+PASS - auth.register tRPC mutation exists.
+PASS - Mutation is exposed through appRouter.auth.register.
+PASS - Input validates email format.
+PASS - Input rejects short passwords.
+PASS - Input rejects missing/blank names.
+PASS - Input rejects unknown fields, including role injection.
+PASS - Accepted email input is normalized to lowercase before registration.
+PASS - Mutation delegates account creation to Better Auth signUpEmail.
+PASS - Mutation response excludes password/session secrets.
+PASS - Six scenarios executed with zero failures.
+
+Critical items:
+
+PASS - Auth endpoint implemented.
+PASS - Session/auth provider integration preserved through Better Auth.
+PASS - Role escalation through registration input is blocked.
+
+Overall result: PASS
+Disposition: WP-F-01 may proceed to WP-F-02 after Kimi review.

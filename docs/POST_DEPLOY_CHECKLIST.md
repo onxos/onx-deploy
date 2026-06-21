@@ -1,0 +1,21 @@
+# ONX Staging Post-Deploy Checklist
+
+- [ ] `bun run lint` passed.
+- [ ] `bun run test` passed.
+- [ ] `bun run build` passed.
+- [ ] GitHub Actions published `ghcr.io/onxos/onx-deploy:staging-<COMMIT_SHA>`.
+- [ ] Coolify pulled the new image from GHCR.
+- [ ] Coolify deployment log shows successful rollout.
+- [ ] `bun run db:migrate` applied migrations to the staging database.
+- [ ] `bun run bootstrap:founder` created or confirmed founder access.
+- [ ] `/api/health` returns HTTP 200.
+- [ ] `/api/health/ready` returns HTTP 200.
+- [ ] `/login` renders.
+- [ ] `/pulse` redirects unauthenticated users to `/login`.
+- [ ] `/registry` redirects unauthenticated users to `/login`.
+- [ ] `/gaps` redirects unauthenticated users to `/login`.
+- [ ] Founder/admin can access `/registry`, `/gaps`, and `/admin`.
+- [ ] Operator can access `/pulse`.
+- [ ] Operator receives `/forbidden` for admin-only routes.
+- [ ] `bun run test:staging` passes with `ONX_BASE_URL` pointed at staging.
+- [ ] Coolify rollback was tested and captured as `EV-DEPL` evidence.
