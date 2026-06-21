@@ -5,10 +5,37 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 
+const defaultCallbackUrl = "/pulse";
+const allowedCallbackPaths = new Set([
+  "/admin",
+  "/gaps",
+  "/pulse",
+  "/registry",
+]);
+
+function safeCallbackUrl(value: string | null) {
+  if (!value) return defaultCallbackUrl;
+
+  try {
+    const callbackUrl = new URL(value, "https://onx.local");
+
+    if (
+      callbackUrl.origin !== "https://onx.local" ||
+      !allowedCallbackPaths.has(callbackUrl.pathname)
+    ) {
+      return defaultCallbackUrl;
+    }
+
+    return `${callbackUrl.pathname}${callbackUrl.search}${callbackUrl.hash}`;
+  } catch {
+    return defaultCallbackUrl;
+  }
+}
+
 export default function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") ?? "/pulse";
+  const callbackUrl = safeCallbackUrl(searchParams.get("callbackUrl"));
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);

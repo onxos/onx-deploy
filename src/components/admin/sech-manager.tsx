@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef } from "react";
 import { api } from "@/trpc/react";
 
 const statuses = ["clear", "advisory", "alert", "veto"] as const;
@@ -16,7 +16,7 @@ export default function SechManager() {
     { refetchInterval: 30000 },
   );
   const setLayerStatus = api.sech.setLayerStatus.useMutation();
-  const [drafts, setDrafts] = useState<Record<string, string>>({});
+  const draftsRef = useRef<Record<string, string>>({});
 
   return (
     <section className="rounded border bg-white p-4">
@@ -32,13 +32,14 @@ export default function SechManager() {
                 </p>
               </div>
               <select
+                aria-label={`Status for SECH layer ${layer.layer}`}
                 defaultValue={layer.status}
-                onChange={(event) =>
-                  setDrafts((current) => ({
-                    ...current,
+                onChange={(event) => {
+                  draftsRef.current = {
+                    ...draftsRef.current,
                     [`${layer.layer}:status`]: event.target.value,
-                  }))
-                }
+                  };
+                }}
                 className="rounded border px-3 py-2 text-sm"
               >
                 {statuses.map((status) => (
@@ -49,19 +50,21 @@ export default function SechManager() {
               </select>
             </div>
             <textarea
+              aria-label={`Message for SECH layer ${layer.layer}`}
               placeholder="Status message"
-              onChange={(event) =>
-                setDrafts((current) => ({
-                  ...current,
+              onChange={(event) => {
+                draftsRef.current = {
+                  ...draftsRef.current,
                   [`${layer.layer}:message`]: event.target.value,
-                }))
-              }
+                };
+              }}
               className="mt-3 w-full rounded border px-3 py-2 text-sm"
               rows={2}
             />
             <button
               type="button"
               onClick={async () => {
+                const drafts = draftsRef.current;
                 const nextStatus =
                   drafts[`${layer.layer}:status`] ?? layer.status;
                 await setLayerStatus.mutateAsync({

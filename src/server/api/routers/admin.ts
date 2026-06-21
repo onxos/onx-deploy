@@ -14,16 +14,20 @@ export const adminRouter = createTRPCRouter({
   getSystemStats: protectedProcedure
     .use(requirePermission("admin:read"))
     .query(async () => {
-      const [articleCount, titanCount, gapCount, sechCount, interactionCount] =
-        await Promise.all([
-          db.select({ count: sql<number>`count(*)` }).from(knowledgeArticles),
-          db.select({ count: sql<number>`count(*)` }).from(titanRegistry),
-          db.select({ count: sql<number>`count(*)` }).from(gapClosureItem),
-          db.select({ count: sql<number>`count(*)` }).from(sechStatusLog),
-          db.select({ count: sql<number>`count(*)` }).from(visitorInteraction),
-        ]);
-
-      const [viewCount, searchCount] = await Promise.all([
+      const [
+        articleCount,
+        titanCount,
+        gapCount,
+        sechCount,
+        interactionCount,
+        viewCount,
+        searchCount,
+      ] = await Promise.all([
+        db.select({ count: sql<number>`count(*)` }).from(knowledgeArticles),
+        db.select({ count: sql<number>`count(*)` }).from(titanRegistry),
+        db.select({ count: sql<number>`count(*)` }).from(gapClosureItem),
+        db.select({ count: sql<number>`count(*)` }).from(sechStatusLog),
+        db.select({ count: sql<number>`count(*)` }).from(visitorInteraction),
         db
           .select({ sum: sql<number>`sum(view_count)` })
           .from(knowledgeArticles),

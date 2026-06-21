@@ -18,13 +18,7 @@ export function ChatInterface() {
 
   return (
     <section className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
-      <form
-        className="rounded border bg-white p-4"
-        onSubmit={(event) => {
-          event.preventDefault();
-          if (query.trim()) ask.mutate({ query });
-        }}
-      >
+      <div className="rounded border bg-white p-4">
         <label htmlFor={id} className="text-sm font-semibold text-[#1e2d3d]">
           Ask ONX
         </label>
@@ -38,7 +32,10 @@ export function ChatInterface() {
         <button
           className="mt-3 rounded bg-[#1e2d3d] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
           disabled={ask.isPending}
-          type="submit"
+          type="button"
+          onClick={() => {
+            if (query.trim()) ask.mutate({ query });
+          }}
         >
           {ask.isPending ? "Asking..." : "Ask"}
         </button>
@@ -48,7 +45,7 @@ export function ChatInterface() {
             {answer.response}
           </article>
         ) : null}
-      </form>
+      </div>
 
       <aside className="rounded border bg-white p-4">
         <h2 className="font-semibold text-[#1e2d3d]">Citations</h2>

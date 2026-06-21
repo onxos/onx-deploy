@@ -2,19 +2,15 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { auth } from "@/server/auth";
 
-export const passwordResetRequestInputSchema = z
-  .object({
-    email: z.email().max(254),
-    redirectTo: z.string().min(1).max(512).optional(),
-  })
-  .strict();
+export const passwordResetRequestInputSchema = z.strictObject({
+  email: z.email().max(254),
+  redirectTo: z.string().min(1).max(512).optional(),
+});
 
-export const passwordResetInputSchema = z
-  .object({
-    token: z.string().min(16).max(512),
-    newPassword: z.string().min(12).max(128),
-  })
-  .strict();
+export const passwordResetInputSchema = z.strictObject({
+  token: z.string().min(16).max(512),
+  newPassword: z.string().min(12).max(128),
+});
 
 export type PasswordResetRequestInput = z.infer<
   typeof passwordResetRequestInputSchema

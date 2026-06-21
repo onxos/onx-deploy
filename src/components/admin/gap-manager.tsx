@@ -19,6 +19,7 @@ export default function GapManager() {
       <div className="flex items-center justify-between gap-3">
         <h3 className="font-bold text-[#1e2d3d]">Gap Manager</h3>
         <select
+          aria-label="Filter gaps by status"
           value={statusFilter}
           onChange={(event) => setStatusFilter(event.target.value)}
           className="rounded border px-3 py-2 text-sm"
@@ -40,6 +41,7 @@ export default function GapManager() {
             <p className="text-xs text-[#5a6c7d]">{gap.category}</p>
             <div className="mt-3 grid gap-2 md:grid-cols-2">
               <select
+                aria-label={`Status for ${gap.sbpId}`}
                 defaultValue={gap.status}
                 onChange={async (event) => {
                   await updateGap.mutateAsync({
@@ -61,6 +63,7 @@ export default function GapManager() {
                 ))}
               </select>
               <input
+                aria-label={`Target gate for ${gap.sbpId}`}
                 defaultValue={gap.targetGate ?? ""}
                 onBlur={async (event) => {
                   await updateGap.mutateAsync({

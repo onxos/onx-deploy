@@ -163,23 +163,25 @@ export const analyticsRouter = createTRPCRouter({
     }),
 
   getCivilizationPulse: publicProcedure.query(async () => {
-    const totalViews = await db
-      .select({ count: sql<number>`count(*)` })
-      .from(visitorInteraction)
-      .where(eq(visitorInteraction.action, "view"));
-    const totalSearches = await db
-      .select({ count: sql<number>`count(*)` })
-      .from(visitorInteraction)
-      .where(eq(visitorInteraction.action, "search"));
-    const topPages = await db
-      .select({
-        page: visitorInteraction.page,
-        count: sql<number>`count(*)`,
-      })
-      .from(visitorInteraction)
-      .groupBy(visitorInteraction.page)
-      .orderBy(desc(sql`count(*)`))
-      .limit(10);
+    const [totalViews, totalSearches, topPages] = await Promise.all([
+      db
+        .select({ count: sql<number>`count(*)` })
+        .from(visitorInteraction)
+        .where(eq(visitorInteraction.action, "view")),
+      db
+        .select({ count: sql<number>`count(*)` })
+        .from(visitorInteraction)
+        .where(eq(visitorInteraction.action, "search")),
+      db
+        .select({
+          page: visitorInteraction.page,
+          count: sql<number>`count(*)`,
+        })
+        .from(visitorInteraction)
+        .groupBy(visitorInteraction.page)
+        .orderBy(desc(sql`count(*)`))
+        .limit(10),
+    ]);
     return {
       totalViews: totalViews[0]?.count ?? 0,
       totalSearches: totalSearches[0]?.count ?? 0,
@@ -209,16 +211,16 @@ export const analyticsRouter = createTRPCRouter({
   getConclaveMetrics: protectedProcedure
     .use(requirePermission("analytics:read"))
     .query(async () => {
-      const totalConversations = await db
-        .select({ count: sql<number>`count(*)` })
-        .from(titanConversation);
-      const byConfidence = await db
-        .select({
-          confidence: titanConversation.confidence,
-          count: sql<number>`count(*)`,
-        })
-        .from(titanConversation)
-        .groupBy(titanConversation.confidence);
+      const [totalConversations, byConfidence] = await Promise.all([
+        db.select({ count: sql<number>`count(*)` }).from(titanConversation),
+        db
+          .select({
+            confidence: titanConversation.confidence,
+            count: sql<number>`count(*)`,
+          })
+          .from(titanConversation)
+          .groupBy(titanConversation.confidence),
+      ]);
 
       return {
         totalConversations: totalConversations[0]?.count ?? 0,

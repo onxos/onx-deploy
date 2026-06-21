@@ -213,19 +213,19 @@ export const civilizationRouter = createTRPCRouter({
   getAnalytics: protectedProcedure
     .use(requirePermission("analytics:read"))
     .query(async () => {
-      const totalArticles = await db
-        .select({ count: sql<number>`count(*)` })
-        .from(knowledgeArticles);
-      const totalViews = await db
-        .select({ sum: sql<number>`sum(view_count)` })
-        .from(knowledgeArticles);
-      const categories = await db
-        .select({
-          category: knowledgeArticles.category,
-          count: sql<number>`count(*)`,
-        })
-        .from(knowledgeArticles)
-        .groupBy(knowledgeArticles.category);
+      const [totalArticles, totalViews, categories] = await Promise.all([
+        db.select({ count: sql<number>`count(*)` }).from(knowledgeArticles),
+        db
+          .select({ sum: sql<number>`sum(view_count)` })
+          .from(knowledgeArticles),
+        db
+          .select({
+            category: knowledgeArticles.category,
+            count: sql<number>`count(*)`,
+          })
+          .from(knowledgeArticles)
+          .groupBy(knowledgeArticles.category),
+      ]);
       return {
         totalArticles: totalArticles[0]?.count ?? 0,
         totalViews: totalViews[0]?.sum ?? 0,

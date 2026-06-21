@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { badRequest } from "@/server/api/errors";
-import { boundedDateRangeSchema } from "@/server/api/validation";
 
 export const analyticsMetricSchema = z.enum([
   "pageViews",
@@ -16,13 +15,14 @@ export const analyticsGranularitySchema = z.enum([
 ]);
 
 export const analyticsQueryInputSchema = z
-  .object({
+  .strictObject({
     metric: analyticsMetricSchema.default("pageViews"),
     granularity: analyticsGranularitySchema.default("daily"),
     limit: z.number().int().min(1).max(366).default(90),
     offset: z.number().int().min(0).default(0),
+    startDate: z.coerce.date().optional(),
+    endDate: z.coerce.date().optional(),
   })
-  .merge(boundedDateRangeSchema)
   .superRefine((input, ctx) => {
     if (input.startDate && input.endDate && input.startDate > input.endDate) {
       ctx.addIssue({

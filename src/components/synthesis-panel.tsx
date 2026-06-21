@@ -18,12 +18,14 @@ export function SynthesisPanel() {
       <h2 className="font-semibold text-[#1e2d3d]">Knowledge Synthesis</h2>
       <div className="mt-4 grid gap-3 md:grid-cols-[minmax(0,1fr)_220px_auto]">
         <input
+          aria-label="Synthesis topic"
           className="rounded border p-2 text-sm"
           value={topic}
           onChange={(event) => setTopic(event.target.value)}
           placeholder="Topic"
         />
         <select
+          aria-label="Synthesis type"
           className="rounded border p-2 text-sm"
           value={type}
           onChange={(event) =>

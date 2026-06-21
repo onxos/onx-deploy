@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import ArticleEditor from "@/components/admin/article-editor";
 import { api } from "@/trpc/react";
 
@@ -11,10 +11,8 @@ export default function AdminCivilizationPage() {
     limit: 100,
   });
 
-  const categories = useMemo(
-    () =>
-      Array.from(new Set((articles ?? []).map((article) => article.category))),
-    [articles],
+  const categories = Array.from(
+    new Set((articles ?? []).map((article) => article.category)),
   );
   const filteredArticles =
     category === "all"
@@ -50,6 +48,7 @@ export default function AdminCivilizationPage() {
       </div>
 
       <ArticleEditor
+        key={editingArticle?.id ?? "create"}
         article={editingArticle}
         onSaved={() => {
           setEditingId(null);

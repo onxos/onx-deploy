@@ -32,23 +32,23 @@ export const gapRouter = createTRPCRouter({
     }),
 
   getGapSummary: publicProcedure.query(async () => {
-    const total = await db
-      .select({ count: sql<number>`count(*)` })
-      .from(gapClosureItem);
-    const byCategory = await db
-      .select({
-        category: gapClosureItem.category,
-        count: sql<number>`count(*)`,
-      })
-      .from(gapClosureItem)
-      .groupBy(gapClosureItem.category);
-    const byStatus = await db
-      .select({
-        status: gapClosureItem.status,
-        count: sql<number>`count(*)`,
-      })
-      .from(gapClosureItem)
-      .groupBy(gapClosureItem.status);
+    const [total, byCategory, byStatus] = await Promise.all([
+      db.select({ count: sql<number>`count(*)` }).from(gapClosureItem),
+      db
+        .select({
+          category: gapClosureItem.category,
+          count: sql<number>`count(*)`,
+        })
+        .from(gapClosureItem)
+        .groupBy(gapClosureItem.category),
+      db
+        .select({
+          status: gapClosureItem.status,
+          count: sql<number>`count(*)`,
+        })
+        .from(gapClosureItem)
+        .groupBy(gapClosureItem.status),
+    ]);
     return {
       total: total[0]?.count ?? 0,
       byCategory,

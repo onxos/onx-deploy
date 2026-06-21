@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { api } from "@/trpc/react";
 
 type EditableArticle = {
@@ -59,6 +59,19 @@ function toArticleCategory(category: string): ArticleCategory {
     : "civilization";
 }
 
+function toArticleForm(article?: EditableArticle): ArticleForm {
+  if (!article) return { ...emptyForm };
+
+  return {
+    title: article.title,
+    slug: article.slug,
+    category: toArticleCategory(article.category),
+    content: article.content,
+    documentRef: article.documentRef ?? "",
+    importance: (article.importance as ArticleForm["importance"]) ?? "standard",
+  };
+}
+
 export default function ArticleEditor({
   article,
   onSaved,
@@ -66,25 +79,9 @@ export default function ArticleEditor({
   article?: EditableArticle;
   onSaved: () => void;
 }) {
-  const [form, setForm] = useState<ArticleForm>(emptyForm);
+  const [form, setForm] = useState<ArticleForm>(() => toArticleForm(article));
   const createArticle = api.civilization.createArticle.useMutation();
   const updateArticle = api.civilization.updateArticle.useMutation();
-
-  useEffect(() => {
-    setForm(
-      article
-        ? {
-            title: article.title,
-            slug: article.slug,
-            category: toArticleCategory(article.category),
-            content: article.content,
-            documentRef: article.documentRef ?? "",
-            importance:
-              (article.importance as ArticleForm["importance"]) ?? "standard",
-          }
-        : emptyForm,
-    );
-  }, [article]);
 
   const updateField = <Field extends keyof ArticleForm>(
     field: Field,
@@ -120,18 +117,21 @@ export default function ArticleEditor({
       </h3>
       <div className="mt-4 grid gap-3 md:grid-cols-2">
         <input
+          aria-label="Article title"
           value={form.title}
           onChange={(event) => updateField("title", event.target.value)}
           placeholder="Title"
           className="rounded border px-3 py-2 text-sm"
         />
         <input
+          aria-label="Article slug"
           value={form.slug}
           onChange={(event) => updateField("slug", event.target.value)}
           placeholder="slug"
           className="rounded border px-3 py-2 text-sm"
         />
         <select
+          aria-label="Article category"
           value={form.category}
           onChange={(event) =>
             updateField("category", event.target.value as ArticleCategory)
@@ -146,12 +146,14 @@ export default function ArticleEditor({
         </select>
         <div className="grid grid-cols-2 gap-3">
           <input
+            aria-label="Document reference"
             value={form.documentRef}
             onChange={(event) => updateField("documentRef", event.target.value)}
             placeholder="document ref"
             className="rounded border px-3 py-2 text-sm"
           />
           <select
+            aria-label="Article importance"
             value={form.importance}
             onChange={(event) =>
               updateField(
@@ -167,6 +169,7 @@ export default function ArticleEditor({
           </select>
         </div>
         <textarea
+          aria-label="Article content"
           value={form.content}
           onChange={(event) => updateField("content", event.target.value)}
           placeholder="Article content"

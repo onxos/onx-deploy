@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { versionString } from "@/lib/pulse/pulse-data";
 import { api } from "@/trpc/react";
 import CommunityMetrics from "./CommunityMetrics";
@@ -9,19 +8,15 @@ import SechActivity from "./SechActivity";
 import SystemsStatus from "./SystemsStatus";
 
 export default function PulseDashboard() {
-  const [lastUpdated, setLastUpdated] = useState(new Date());
-  const { data: pulse, refetch } =
-    api.analytics.getCivilizationPulse.useQuery();
+  const { data: pulse } = api.analytics.getCivilizationPulse.useQuery(
+    undefined,
+    { refetchInterval: 30000 },
+  );
   const { data: sechStatus } = api.sech.getCurrentStatus.useQuery();
   const { data: gapSummary } = api.gap.getGapSummary.useQuery();
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setLastUpdated(new Date());
-      void refetch();
-    }, 30000);
-    return () => clearInterval(interval);
-  }, [refetch]);
+  const lastUpdated = pulse?.generatedAt
+    ? new Date(pulse.generatedAt).toLocaleTimeString()
+    : "pending";
 
   return (
     <div>
@@ -38,7 +33,7 @@ export default function PulseDashboard() {
         </div>
       )}
       <div className="mt-4 p-3 bg-[#1e2d3d] text-white rounded-lg text-center text-sm">
-        {versionString} | Last Updated: {lastUpdated.toLocaleTimeString()}
+        {versionString} | Last Updated: {lastUpdated}
       </div>
     </div>
   );

@@ -52,16 +52,16 @@ export default function DocumentTree() {
           </button>
           {expanded === cat.key && (
             <div className="bg-white p-3 max-h-64 overflow-y-auto">
-              {items
-                .filter((i) => i.category === cat.key)
-                .map((item) => (
+              {items.map((item) =>
+                item.category === cat.key ? (
                   <div
                     key={item.id}
                     className="py-1 px-2 hover:bg-gray-100 rounded cursor-pointer text-sm text-[#2c3e50]"
                   >
                     {item.title}
                   </div>
-                ))}
+                ) : null,
+              )}
             </div>
           )}
         </div>

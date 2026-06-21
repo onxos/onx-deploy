@@ -25,6 +25,7 @@ export default function SearchBar() {
   return (
     <div className="relative">
       <input
+        aria-label="Search ONX knowledge"
         type="text"
         placeholder="Search ONX knowledge..."
         value={query}

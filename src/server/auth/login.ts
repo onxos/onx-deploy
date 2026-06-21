@@ -3,12 +3,10 @@ import { z } from "zod";
 import { auth } from "@/server/auth";
 import { normalizeRole } from "@/server/auth/roles";
 
-export const loginInputSchema = z
-  .object({
-    email: z.email().max(254),
-    password: z.string().min(8).max(128),
-  })
-  .strict();
+export const loginInputSchema = z.strictObject({
+  email: z.email().max(254),
+  password: z.string().min(8).max(128),
+});
 
 export type LoginInput = z.infer<typeof loginInputSchema>;
 
