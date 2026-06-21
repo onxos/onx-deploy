@@ -1,0 +1,409 @@
+diff --git a/drizzle/0000_real_unicorn.sql b/drizzle/0000_real_unicorn.sql
+index 7c5fc41..eaf67da 100644
+--- a/drizzle/0000_real_unicorn.sql
++++ b/drizzle/0000_real_unicorn.sql
+@@ -72,12 +72,14 @@ CREATE TABLE "onx_knowledge_article" (
+ 	"slug" varchar(256) NOT NULL,
+ 	"category" varchar(100) NOT NULL,
+ 	"content" text NOT NULL,
++	"owner_id" text,
+ 	"document_ref" varchar(50),
+ 	"importance" varchar(20) DEFAULT 'standard',
+ 	"view_count" integer DEFAULT 0,
+ 	"search_count" integer DEFAULT 0,
+ 	"created_at" timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+ 	"updated_at" timestamp with time zone,
++	"deleted_at" timestamp with time zone,
+ 	CONSTRAINT "onx_knowledge_article_slug_unique" UNIQUE("slug")
+ );
+ --> statement-breakpoint
+@@ -152,6 +154,7 @@ CREATE TABLE "onx_titan_persona" (
+ --> statement-breakpoint
+ ALTER TABLE "onx_account" ADD CONSTRAINT "onx_account_user_id_onx_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."onx_user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ ALTER TABLE "onx_session" ADD CONSTRAINT "onx_session_user_id_onx_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."onx_user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
++ALTER TABLE "onx_knowledge_article" ADD CONSTRAINT "onx_knowledge_article_owner_id_onx_user_id_fk" FOREIGN KEY ("owner_id") REFERENCES "public"."onx_user"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
+ CREATE INDEX "onx_account_user_id_idx" ON "onx_account" USING btree ("user_id");--> statement-breakpoint
+ CREATE INDEX "onx_session_user_id_idx" ON "onx_session" USING btree ("user_id");--> statement-breakpoint
+ CREATE INDEX "onx_user_role_idx" ON "onx_user" USING btree ("role");--> statement-breakpoint
+@@ -162,4 +165,4 @@ CREATE INDEX "onx_knowledge_synthesis_topic_idx" ON "onx_knowledge_synthesis" US
+ CREATE INDEX "onx_knowledge_synthesis_type_created_idx" ON "onx_knowledge_synthesis" USING btree ("synthesis_type","created_at");--> statement-breakpoint
+ CREATE INDEX "onx_titan_conversation_session_idx" ON "onx_titan_conversation" USING btree ("session_id");--> statement-breakpoint
+ CREATE INDEX "onx_titan_conversation_titan_created_idx" ON "onx_titan_conversation" USING btree ("titan_id","created_at");--> statement-breakpoint
+-CREATE INDEX "onx_titan_persona_active_idx" ON "onx_titan_persona" USING btree ("is_active");
+\ No newline at end of file
++CREATE INDEX "onx_titan_persona_active_idx" ON "onx_titan_persona" USING btree ("is_active");
+diff --git a/package.json b/package.json
+index 2101d51..31519c5 100644
+--- a/package.json
++++ b/package.json
+@@ -8,7 +8,7 @@
+     "start": "next start",
+     "lint": "biome check",
+     "format": "biome format --write",
+-    "test": "bun run scripts/staging-readiness-check.ts",
++    "test": "bun run scripts/staging-readiness-check.ts && bun run scripts/test-wp-g-01.ts",
+     "test:auth-register": "bun run scripts/test-auth-register.ts",
+     "test:auth-login": "bun run scripts/test-auth-login.ts",
+     "test:rbac": "bun run scripts/test-rbac.ts",
+diff --git a/src/components/admin/article-editor.tsx b/src/components/admin/article-editor.tsx
+index 9506631..12d2dc1 100644
+--- a/src/components/admin/article-editor.tsx
++++ b/src/components/admin/article-editor.tsx
+@@ -13,24 +13,52 @@ type EditableArticle = {
+   importance: string | null;
+ };
+ 
++const articleCategories = [
++  "approval-archive",
++  "ccmr-graph",
++  "civilization",
++  "constitution",
++  "correction-archive",
++  "founder",
++  "gap",
++  "hadeer",
++  "pulse",
++  "registry",
++  "sech",
++  "system",
++  "va-capabilities",
++] as const;
++
++type ArticleCategory = (typeof articleCategories)[number];
++
+ type ArticleForm = {
+   title: string;
+   slug: string;
+-  category: string;
++  category: ArticleCategory;
+   content: string;
+   documentRef: string;
+   importance: "critical" | "standard" | "reference";
+ };
+ 
++type ArticlePayload = Omit<ArticleForm, "documentRef"> & {
++  documentRef?: string;
++};
++
+ const emptyForm: ArticleForm = {
+   title: "",
+   slug: "",
+-  category: "knowledge",
++  category: "civilization",
+   content: "",
+   documentRef: "",
+   importance: "standard",
+ };
+ 
++function toArticleCategory(category: string): ArticleCategory {
++  return articleCategories.includes(category as ArticleCategory)
++    ? (category as ArticleCategory)
++    : "civilization";
++}
++
+ export default function ArticleEditor({
+   article,
+   onSaved,
+@@ -48,7 +76,7 @@ export default function ArticleEditor({
+         ? {
+             title: article.title,
+             slug: article.slug,
+-            category: article.category,
++            category: toArticleCategory(article.category),
+             content: article.content,
+             documentRef: article.documentRef ?? "",
+             importance:
+@@ -58,14 +86,21 @@ export default function ArticleEditor({
+     );
+   }, [article]);
+ 
+-  const updateField = (field: keyof ArticleForm, value: string) => {
++  const updateField = <Field extends keyof ArticleForm>(
++    field: Field,
++    value: ArticleForm[Field],
++  ) => {
+     setForm((current) => ({ ...current, [field]: value }));
+   };
+ 
+   const save = async () => {
+-    const payload = {
+-      ...form,
++    const payload: ArticlePayload = {
++      title: form.title,
++      slug: form.slug,
++      category: form.category,
++      content: form.content,
+       documentRef: form.documentRef || undefined,
++      importance: form.importance,
+     };
+ 
+     if (article) {
+@@ -96,12 +131,19 @@ export default function ArticleEditor({
+           placeholder="slug"
+           className="rounded border px-3 py-2 text-sm"
+         />
+-        <input
++        <select
+           value={form.category}
+-          onChange={(event) => updateField("category", event.target.value)}
+-          placeholder="category"
++          onChange={(event) =>
++            updateField("category", event.target.value as ArticleCategory)
++          }
+           className="rounded border px-3 py-2 text-sm"
+-        />
++        >
++          {articleCategories.map((category) => (
++            <option key={category} value={category}>
++              {category}
++            </option>
++          ))}
++        </select>
+         <div className="grid grid-cols-2 gap-3">
+           <input
+             value={form.documentRef}
+@@ -111,7 +153,12 @@ export default function ArticleEditor({
+           />
+           <select
+             value={form.importance}
+-            onChange={(event) => updateField("importance", event.target.value)}
++            onChange={(event) =>
++              updateField(
++                "importance",
++                event.target.value as ArticleForm["importance"],
++              )
++            }
+             className="rounded border px-3 py-2 text-sm"
+           >
+             <option value="critical">critical</option>
+diff --git a/src/lib/permissions.ts b/src/lib/permissions.ts
+index a30f0fd..7bbcce5 100644
+--- a/src/lib/permissions.ts
++++ b/src/lib/permissions.ts
+@@ -44,7 +44,7 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
+     "user:updateRole",
+   ],
+   editor: ["analytics:read", "article:create", "article:update", "gap:update"],
+-  operator: ["gap:update", "sech:update"],
++  operator: ["article:create", "gap:update", "sech:update"],
+   viewer: [],
+   guest: [],
+ };
+diff --git a/src/server/api/routers/civilization.ts b/src/server/api/routers/civilization.ts
+index 607d4c9..83620b1 100644
+--- a/src/server/api/routers/civilization.ts
++++ b/src/server/api/routers/civilization.ts
+@@ -1,8 +1,14 @@
+-import { and, desc, eq, like, sql } from "drizzle-orm";
++import { TRPCError } from "@trpc/server";
++import { and, desc, eq, isNull, like, ne, sql } from "drizzle-orm";
+ import { z } from "zod";
+ import { answerCivilizationQuestion } from "@/lib/ai/conversation-handler";
+ import { buildKnowledgeSynthesis } from "@/lib/ai/synthesis-engine";
+ import { requirePermission } from "@/server/api/middleware/rbac";
++import {
++  assertArticleMutationAllowed,
++  createArticleInputSchema,
++  updateArticleInputSchema,
++} from "@/server/api/routers/civilization-article-contract";
+ import {
+   createTRPCRouter,
+   protectedProcedure,
+@@ -60,7 +66,7 @@ export const civilizationRouter = createTRPCRouter({
+         .optional(),
+     )
+     .query(async ({ input }) => {
+-      const conditions = [];
++      const conditions = [isNull(knowledgeArticles.deletedAt)];
+       if (input?.category) {
+         conditions.push(eq(knowledgeArticles.category, input.category));
+       }
+@@ -76,7 +82,10 @@ export const civilizationRouter = createTRPCRouter({
+     .input(z.object({ slug: z.string() }))
+     .query(async ({ input }) => {
+       const article = await db.query.knowledgeArticles.findFirst({
+-        where: eq(knowledgeArticles.slug, input.slug),
++        where: and(
++          eq(knowledgeArticles.slug, input.slug),
++          isNull(knowledgeArticles.deletedAt),
++        ),
+       });
+       if (article) {
+         await db
+@@ -93,7 +102,10 @@ export const civilizationRouter = createTRPCRouter({
+     )
+     .query(async ({ input }) => {
+       return db.query.knowledgeArticles.findMany({
+-        where: like(knowledgeArticles.content, `%${input.query}%`),
++        where: and(
++          like(knowledgeArticles.content, `%${input.query}%`),
++          isNull(knowledgeArticles.deletedAt),
++        ),
+         orderBy: [desc(knowledgeArticles.searchCount)],
+         limit: input.limit,
+       });
+@@ -101,43 +113,64 @@ export const civilizationRouter = createTRPCRouter({
+ 
+   createArticle: protectedProcedure
+     .use(requirePermission("article:create"))
+-    .input(
+-      z.object({
+-        title: z.string().min(1).max(256),
+-        slug: z.string().min(1).max(256),
+-        category: z.string().min(1).max(100),
+-        content: z.string().min(1),
+-        documentRef: z.string().optional(),
+-        importance: z
+-          .enum(["critical", "standard", "reference"])
+-          .default("standard"),
+-      }),
+-    )
+-    .mutation(async ({ input }) => {
++    .input(createArticleInputSchema)
++    .mutation(async ({ ctx, input }) => {
++      const existing = await db.query.knowledgeArticles.findFirst({
++        where: eq(knowledgeArticles.slug, input.slug),
++      });
++      if (existing) {
++        throw new TRPCError({
++          code: "CONFLICT",
++          message: "Article slug must be unique",
++        });
++      }
++
+       const article = await db
+         .insert(knowledgeArticles)
+-        .values(input)
++        .values({ ...input, ownerId: ctx.user.id })
+         .returning();
+       return article[0];
+     }),
+ 
+   updateArticle: protectedProcedure
+-    .use(requirePermission("article:update"))
+-    .input(
+-      z.object({
+-        id: z.number().int().positive(),
+-        title: z.string().min(1).max(256),
+-        slug: z.string().min(1).max(256),
+-        category: z.string().min(1).max(100),
+-        content: z.string().min(1),
+-        documentRef: z.string().optional(),
+-        importance: z
+-          .enum(["critical", "standard", "reference"])
+-          .default("standard"),
+-      }),
+-    )
+-    .mutation(async ({ input }) => {
++    .input(updateArticleInputSchema)
++    .mutation(async ({ ctx, input }) => {
+       const { id, ...data } = input;
++      const existing = await db.query.knowledgeArticles.findFirst({
++        where: and(
++          eq(knowledgeArticles.id, id),
++          isNull(knowledgeArticles.deletedAt),
++        ),
++      });
++      if (!existing) {
++        throw new TRPCError({
++          code: "NOT_FOUND",
++          message: "Article not found",
++        });
++      }
++
++      assertArticleMutationAllowed({
++        action: "update",
++        actorId: ctx.user.id,
++        actorRole: ctx.user.role,
++        ownerId: existing.ownerId,
++      });
++
++      if (data.slug) {
++        const slugConflict = await db.query.knowledgeArticles.findFirst({
++          where: and(
++            eq(knowledgeArticles.slug, data.slug),
++            ne(knowledgeArticles.id, id),
++          ),
++        });
++        if (slugConflict) {
++          throw new TRPCError({
++            code: "CONFLICT",
++            message: "Article slug must be unique",
++          });
++        }
++      }
++
+       const article = await db
+         .update(knowledgeArticles)
+         .set(data)
+@@ -147,13 +180,34 @@ export const civilizationRouter = createTRPCRouter({
+     }),
+ 
+   deleteArticle: protectedProcedure
+-    .use(requirePermission("article:delete"))
+     .input(z.object({ id: z.number().int().positive() }))
+-    .mutation(async ({ input }) => {
+-      await db
+-        .delete(knowledgeArticles)
+-        .where(eq(knowledgeArticles.id, input.id));
+-      return { success: true };
++    .mutation(async ({ ctx, input }) => {
++      const existing = await db.query.knowledgeArticles.findFirst({
++        where: and(
++          eq(knowledgeArticles.id, input.id),
++          isNull(knowledgeArticles.deletedAt),
++        ),
++      });
++      if (!existing) {
++        throw new TRPCError({
++          code: "NOT_FOUND",
++          message: "Article not found",
++        });
++      }
++
++      assertArticleMutationAllowed({
++        action: "delete",
++        actorId: ctx.user.id,
++        actorRole: ctx.user.role,
++        ownerId: existing.ownerId,
++      });
++
++      const [article] = await db
++        .update(knowledgeArticles)
++        .set({ deletedAt: new Date() })
++        .where(eq(knowledgeArticles.id, input.id))
++        .returning();
++      return { success: true, article };
+     }),
+ 
+   getAnalytics: protectedProcedure
+diff --git a/src/server/db/schema/civilization.ts b/src/server/db/schema/civilization.ts
+index c29fb11..08d35d8 100644
+--- a/src/server/db/schema/civilization.ts
++++ b/src/server/db/schema/civilization.ts
+@@ -9,6 +9,7 @@ import {
+   timestamp,
+   varchar,
+ } from "drizzle-orm/pg-core";
++import { user } from "./auth";
+ 
+ const createTable = pgTableCreator((name) => `onx_${name}`);
+ 
+@@ -20,6 +21,9 @@ export const knowledgeArticles = createTable(
+     slug: varchar("slug", { length: 256 }).notNull().unique(),
+     category: varchar("category", { length: 100 }).notNull(),
+     content: text("content").notNull(),
++    ownerId: text("owner_id").references(() => user.id, {
++      onDelete: "set null",
++    }),
+     documentRef: varchar("document_ref", { length: 50 }),
+     importance: varchar("importance", { length: 20 }).default("standard"),
+     viewCount: integer("view_count").default(0),
+@@ -30,6 +34,7 @@ export const knowledgeArticles = createTable(
+     updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+       () => new Date(),
+     ),
++    deletedAt: timestamp("deleted_at", { withTimezone: true }),
+   },
+   (table) => [index("onx_knowledge_article_category_idx").on(table.category)],
+ );

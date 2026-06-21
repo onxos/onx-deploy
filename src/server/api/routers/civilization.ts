@@ -1,8 +1,14 @@
-import { and, desc, eq, like, sql } from "drizzle-orm";
+import { TRPCError } from "@trpc/server";
+import { and, desc, eq, isNull, like, ne, sql } from "drizzle-orm";
 import { z } from "zod";
 import { answerCivilizationQuestion } from "@/lib/ai/conversation-handler";
 import { buildKnowledgeSynthesis } from "@/lib/ai/synthesis-engine";
 import { requirePermission } from "@/server/api/middleware/rbac";
+import {
+  assertArticleMutationAllowed,
+  createArticleInputSchema,
+  updateArticleInputSchema,
+} from "@/server/api/routers/civilization-article-contract";
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -60,7 +66,7 @@ export const civilizationRouter = createTRPCRouter({
         .optional(),
     )
     .query(async ({ input }) => {
-      const conditions = [];
+      const conditions = [isNull(knowledgeArticles.deletedAt)];
       if (input?.category) {
         conditions.push(eq(knowledgeArticles.category, input.category));
       }
@@ -76,7 +82,10 @@ export const civilizationRouter = createTRPCRouter({
     .input(z.object({ slug: z.string() }))
     .query(async ({ input }) => {
       const article = await db.query.knowledgeArticles.findFirst({
-        where: eq(knowledgeArticles.slug, input.slug),
+        where: and(
+          eq(knowledgeArticles.slug, input.slug),
+          isNull(knowledgeArticles.deletedAt),
+        ),
       });
       if (article) {
         await db
@@ -93,7 +102,10 @@ export const civilizationRouter = createTRPCRouter({
     )
     .query(async ({ input }) => {
       return db.query.knowledgeArticles.findMany({
-        where: like(knowledgeArticles.content, `%${input.query}%`),
+        where: and(
+          like(knowledgeArticles.content, `%${input.query}%`),
+          isNull(knowledgeArticles.deletedAt),
+        ),
         orderBy: [desc(knowledgeArticles.searchCount)],
         limit: input.limit,
       });
@@ -101,43 +113,64 @@ export const civilizationRouter = createTRPCRouter({
 
   createArticle: protectedProcedure
     .use(requirePermission("article:create"))
-    .input(
-      z.object({
-        title: z.string().min(1).max(256),
-        slug: z.string().min(1).max(256),
-        category: z.string().min(1).max(100),
-        content: z.string().min(1),
-        documentRef: z.string().optional(),
-        importance: z
-          .enum(["critical", "standard", "reference"])
-          .default("standard"),
-      }),
-    )
-    .mutation(async ({ input }) => {
+    .input(createArticleInputSchema)
+    .mutation(async ({ ctx, input }) => {
+      const existing = await db.query.knowledgeArticles.findFirst({
+        where: eq(knowledgeArticles.slug, input.slug),
+      });
+      if (existing) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "Article slug must be unique",
+        });
+      }
+
       const article = await db
         .insert(knowledgeArticles)
-        .values(input)
+        .values({ ...input, ownerId: ctx.user.id })
         .returning();
       return article[0];
     }),
 
   updateArticle: protectedProcedure
-    .use(requirePermission("article:update"))
-    .input(
-      z.object({
-        id: z.number().int().positive(),
-        title: z.string().min(1).max(256),
-        slug: z.string().min(1).max(256),
-        category: z.string().min(1).max(100),
-        content: z.string().min(1),
-        documentRef: z.string().optional(),
-        importance: z
-          .enum(["critical", "standard", "reference"])
-          .default("standard"),
-      }),
-    )
-    .mutation(async ({ input }) => {
+    .input(updateArticleInputSchema)
+    .mutation(async ({ ctx, input }) => {
       const { id, ...data } = input;
+      const existing = await db.query.knowledgeArticles.findFirst({
+        where: and(
+          eq(knowledgeArticles.id, id),
+          isNull(knowledgeArticles.deletedAt),
+        ),
+      });
+      if (!existing) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Article not found",
+        });
+      }
+
+      assertArticleMutationAllowed({
+        action: "update",
+        actorId: ctx.user.id,
+        actorRole: ctx.user.role,
+        ownerId: existing.ownerId,
+      });
+
+      if (data.slug) {
+        const slugConflict = await db.query.knowledgeArticles.findFirst({
+          where: and(
+            eq(knowledgeArticles.slug, data.slug),
+            ne(knowledgeArticles.id, id),
+          ),
+        });
+        if (slugConflict) {
+          throw new TRPCError({
+            code: "CONFLICT",
+            message: "Article slug must be unique",
+          });
+        }
+      }
+
       const article = await db
         .update(knowledgeArticles)
         .set(data)
@@ -147,13 +180,34 @@ export const civilizationRouter = createTRPCRouter({
     }),
 
   deleteArticle: protectedProcedure
-    .use(requirePermission("article:delete"))
     .input(z.object({ id: z.number().int().positive() }))
-    .mutation(async ({ input }) => {
-      await db
-        .delete(knowledgeArticles)
-        .where(eq(knowledgeArticles.id, input.id));
-      return { success: true };
+    .mutation(async ({ ctx, input }) => {
+      const existing = await db.query.knowledgeArticles.findFirst({
+        where: and(
+          eq(knowledgeArticles.id, input.id),
+          isNull(knowledgeArticles.deletedAt),
+        ),
+      });
+      if (!existing) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Article not found",
+        });
+      }
+
+      assertArticleMutationAllowed({
+        action: "delete",
+        actorId: ctx.user.id,
+        actorRole: ctx.user.role,
+        ownerId: existing.ownerId,
+      });
+
+      const [article] = await db
+        .update(knowledgeArticles)
+        .set({ deletedAt: new Date() })
+        .where(eq(knowledgeArticles.id, input.id))
+        .returning();
+      return { success: true, article };
     }),
 
   getAnalytics: protectedProcedure

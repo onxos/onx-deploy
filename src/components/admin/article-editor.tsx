@@ -13,23 +13,51 @@ type EditableArticle = {
   importance: string | null;
 };
 
+const articleCategories = [
+  "approval-archive",
+  "ccmr-graph",
+  "civilization",
+  "constitution",
+  "correction-archive",
+  "founder",
+  "gap",
+  "hadeer",
+  "pulse",
+  "registry",
+  "sech",
+  "system",
+  "va-capabilities",
+] as const;
+
+type ArticleCategory = (typeof articleCategories)[number];
+
 type ArticleForm = {
   title: string;
   slug: string;
-  category: string;
+  category: ArticleCategory;
   content: string;
   documentRef: string;
   importance: "critical" | "standard" | "reference";
 };
 
+type ArticlePayload = Omit<ArticleForm, "documentRef"> & {
+  documentRef?: string;
+};
+
 const emptyForm: ArticleForm = {
   title: "",
   slug: "",
-  category: "knowledge",
+  category: "civilization",
   content: "",
   documentRef: "",
   importance: "standard",
 };
+
+function toArticleCategory(category: string): ArticleCategory {
+  return articleCategories.includes(category as ArticleCategory)
+    ? (category as ArticleCategory)
+    : "civilization";
+}
 
 export default function ArticleEditor({
   article,
@@ -48,7 +76,7 @@ export default function ArticleEditor({
         ? {
             title: article.title,
             slug: article.slug,
-            category: article.category,
+            category: toArticleCategory(article.category),
             content: article.content,
             documentRef: article.documentRef ?? "",
             importance:
@@ -58,14 +86,21 @@ export default function ArticleEditor({
     );
   }, [article]);
 
-  const updateField = (field: keyof ArticleForm, value: string) => {
+  const updateField = <Field extends keyof ArticleForm>(
+    field: Field,
+    value: ArticleForm[Field],
+  ) => {
     setForm((current) => ({ ...current, [field]: value }));
   };
 
   const save = async () => {
-    const payload = {
-      ...form,
+    const payload: ArticlePayload = {
+      title: form.title,
+      slug: form.slug,
+      category: form.category,
+      content: form.content,
       documentRef: form.documentRef || undefined,
+      importance: form.importance,
     };
 
     if (article) {
@@ -96,12 +131,19 @@ export default function ArticleEditor({
           placeholder="slug"
           className="rounded border px-3 py-2 text-sm"
         />
-        <input
+        <select
           value={form.category}
-          onChange={(event) => updateField("category", event.target.value)}
-          placeholder="category"
+          onChange={(event) =>
+            updateField("category", event.target.value as ArticleCategory)
+          }
           className="rounded border px-3 py-2 text-sm"
-        />
+        >
+          {articleCategories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
         <div className="grid grid-cols-2 gap-3">
           <input
             value={form.documentRef}
@@ -111,7 +153,12 @@ export default function ArticleEditor({
           />
           <select
             value={form.importance}
-            onChange={(event) => updateField("importance", event.target.value)}
+            onChange={(event) =>
+              updateField(
+                "importance",
+                event.target.value as ArticleForm["importance"],
+              )
+            }
             className="rounded border px-3 py-2 text-sm"
           >
             <option value="critical">critical</option>

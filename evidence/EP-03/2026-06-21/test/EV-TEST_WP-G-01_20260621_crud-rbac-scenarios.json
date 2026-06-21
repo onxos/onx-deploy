@@ -1,0 +1,104 @@
+{
+  "workPackage": "WP-G-01",
+  "scenarioCount": 16,
+  "passed": 16,
+  "failed": 0,
+  "results": [
+    {
+      "id": "AC-01-create-valid-article",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    },
+    {
+      "id": "AC-02-reject-invalid-title",
+      "actual": false,
+      "expected": false,
+      "ok": true
+    },
+    {
+      "id": "AC-03-reject-invalid-slug",
+      "actual": false,
+      "expected": false,
+      "ok": true
+    },
+    {
+      "id": "AC-04-reject-noncanonical-slug",
+      "actual": false,
+      "expected": false,
+      "ok": true
+    },
+    {
+      "id": "AC-05-reject-short-content",
+      "actual": false,
+      "expected": false,
+      "ok": true
+    },
+    {
+      "id": "AC-06-operator-create-allowed",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    },
+    {
+      "id": "AC-07-owner-update-allowed",
+      "actual": "ALLOW",
+      "expected": "ALLOW",
+      "ok": true
+    },
+    {
+      "id": "AC-08-non-owner-update-denied",
+      "actual": "FORBIDDEN",
+      "expected": "FORBIDDEN",
+      "ok": true
+    },
+    {
+      "id": "AC-09-editor-update-allowed",
+      "actual": "ALLOW",
+      "expected": "ALLOW",
+      "ok": true
+    },
+    {
+      "id": "AC-10-owner-delete-allowed",
+      "actual": "ALLOW",
+      "expected": "ALLOW",
+      "ok": true
+    },
+    {
+      "id": "AC-11-admin-delete-allowed",
+      "actual": "ALLOW",
+      "expected": "ALLOW",
+      "ok": true
+    },
+    {
+      "id": "AC-12-editor-delete-denied",
+      "actual": "FORBIDDEN",
+      "expected": "FORBIDDEN",
+      "ok": true
+    },
+    {
+      "id": "AC-13-unauthorized-delete-denied",
+      "actual": "FORBIDDEN",
+      "expected": "FORBIDDEN",
+      "ok": true
+    },
+    {
+      "id": "AC-14-partial-update-supported",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    },
+    {
+      "id": "AC-15-empty-update-rejected",
+      "actual": false,
+      "expected": false,
+      "ok": true
+    },
+    {
+      "id": "AC-16-soft-delete-contract-verified",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    }
+  ]
+}

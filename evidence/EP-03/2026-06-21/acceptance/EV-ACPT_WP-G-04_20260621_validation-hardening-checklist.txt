@@ -1,0 +1,31 @@
+WP-G-04 ACCEPTANCE CHECKLIST
+Work package: WP-G-04 Input Validation Hardening
+Date: 2026-06-21
+Commit hash: pending final commit
+
+Summary:
+WP-G-04 complete. 16/16 PASS. Coverage 100% acceptance-scenario mapping. lint/test/build PASS.
+
+Acceptance criteria:
+AC-01 shared validation module exists: PASS
+AC-02 canonical slug validation: PASS
+AC-03 trimmed string validation: PASS
+AC-04 optional empty string sanitized: PASS
+AC-05 page path validation: PASS
+AC-06 article title max length: PASS
+AC-07 article content max length: PASS
+AC-08 documentRef max length: PASS
+AC-09 analytics limit max: PASS
+AC-10 analytics offset min: PASS
+AC-11 invalid date range rejected: PASS
+AC-12 analytics.track input sanitized: PASS
+AC-13 article contract uses shared validators: PASS
+AC-14 ad hoc slug regex removed from article contract: PASS
+AC-15 bun run test includes WP-G-04: PASS
+AC-16 valid hardened article still accepted: PASS
+
+Evidence:
+Code: evidence/EP-03/2026-06-21/code/EV-CODE_WP-G-04_20260621_validation-hardening-impl.txt
+Test: evidence/EP-03/2026-06-21/test/EV-TEST_WP-G-04_20260621_validation-hardening-scenarios.json
+Coverage: evidence/EP-03/2026-06-21/test/EV-TEST_WP-G-04_20260621_coverage.html
+Deployment: evidence/EP-03/2026-06-21/deployment/EV-DEPL_WP-G-04_20260621_build.txt

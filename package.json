@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write",
-    "test": "bun run scripts/staging-readiness-check.ts",
+    "test": "bun run scripts/staging-readiness-check.ts && bun run scripts/test-wp-g-01.ts && bun run scripts/test-wp-g-02.ts && bun run scripts/test-wp-g-03.ts && bun run scripts/test-wp-g-04.ts && bun run scripts/test-wp-g-05.ts",
     "test:auth-register": "bun run scripts/test-auth-register.ts",
     "test:auth-login": "bun run scripts/test-auth-login.ts",
     "test:rbac": "bun run scripts/test-rbac.ts",

@@ -8,6 +8,13 @@
       "when": 1782030615314,
       "tag": "0000_real_unicorn",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1782046000121,
+      "tag": "0001_next_jean_grey",
+      "breakpoints": true
     }
   ]
 }

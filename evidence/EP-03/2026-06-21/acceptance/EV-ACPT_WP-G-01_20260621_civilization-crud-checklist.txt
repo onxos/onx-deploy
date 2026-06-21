@@ -1,0 +1,41 @@
+WP-G-01 Civilization CRUD Acceptance Checklist
+Date: 2026-06-21
+Commit: f646ec63a9913ebb74ce4a70559b32facf6dae34
+
+Scope
+- Build civilization.createArticle, civilization.updateArticle, and civilization.deleteArticle tRPC mutations.
+- Enforce Zod validation for title, slug, category, content, documentRef, and importance.
+- Enforce RBAC and ownership rules:
+  - operator+ can create articles through article:create permission.
+  - article owner or editor+ can update articles.
+  - article owner or admin+ can delete articles.
+- Preserve deleted articles with soft delete and exclude them from public reads/search.
+
+Acceptance Results
+- AC-01 create valid article: PASS
+- AC-02 reject title shorter than 3 chars: PASS
+- AC-03 reject empty slug: PASS
+- AC-04 reject noncanonical slug: PASS
+- AC-05 reject content shorter than 10 chars: PASS
+- AC-06 operator create allowed: PASS
+- AC-07 owner update allowed: PASS
+- AC-08 non-owner operator update denied: PASS
+- AC-09 editor update allowed: PASS
+- AC-10 owner delete allowed: PASS
+- AC-11 admin delete allowed: PASS
+- AC-12 editor delete denied when not owner: PASS
+- AC-13 non-owner operator delete denied: PASS
+- AC-14 partial update supported: PASS
+- AC-15 empty update rejected: PASS
+- AC-16 deleteArticle uses soft delete, not physical delete: PASS
+
+Evidence Links
+- Test: evidence/EP-03/2026-06-21/test/EV-TEST_WP-G-01_20260621_crud-rbac-scenarios.json
+- Code: evidence/EP-03/2026-06-21/code/EV-CODE_WP-G-01_20260621_crud-rbac-diff.txt
+- Deployment/build: evidence/EP-03/2026-06-21/deployment/EV-DEPL_WP-G-01_20260621_build.txt
+
+Verification Commands
+- bun run scripts/test-wp-g-01.ts: PASS, 16/16 scenarios
+- bun run test: PASS
+- bun run lint: PASS
+- bun run build: PASS

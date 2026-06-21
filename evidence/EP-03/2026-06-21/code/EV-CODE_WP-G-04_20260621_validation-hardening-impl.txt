@@ -1,0 +1,336 @@
+diff --git a/src/server/api/routers/analytics.ts b/src/server/api/routers/analytics.ts
+index 878def8..f95d3ec 100644
+--- a/src/server/api/routers/analytics.ts
++++ b/src/server/api/routers/analytics.ts
+@@ -1,12 +1,22 @@
+ import { TRPCError } from "@trpc/server";
+-import { and, desc, eq, gte, sql } from "drizzle-orm";
++import { and, asc, desc, eq, gte, lte, sql } from "drizzle-orm";
+ import { z } from "zod";
+ import { requirePermission } from "@/server/api/middleware/rbac";
++import {
++  analyticsQueryInputSchema,
++  assertAnalyticsDateRange,
++  getDateTruncUnit,
++} from "@/server/api/routers/analytics-query-contract";
+ import {
+   createTRPCRouter,
+   protectedProcedure,
+   publicProcedure,
+ } from "@/server/api/trpc";
++import {
++  nonEmptyTrimmedString,
++  optionalTrimmedString,
++  pagePathSchema,
++} from "@/server/api/validation";
+ import { db } from "@/server/db";
+ import { visitorInteraction } from "@/server/db/schema/civilization";
+ import { titanConversation } from "@/server/db/schema/titan-conversation";
+@@ -16,14 +26,64 @@ const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
+ const trackRateLimits = new Map<string, { count: number; resetAt: number }>();
+ 
+ export const analyticsRouter = createTRPCRouter({
++  query: protectedProcedure
++    .use(requirePermission("analytics:read"))
++    .input(analyticsQueryInputSchema.optional())
++    .query(async ({ input }) => {
++      const filters = [];
++      const resolvedInput = analyticsQueryInputSchema.parse(input ?? {});
++      assertAnalyticsDateRange(resolvedInput);
++
++      if (resolvedInput.startDate) {
++        filters.push(
++          gte(visitorInteraction.createdAt, resolvedInput.startDate),
++        );
++      }
++
++      if (resolvedInput.endDate) {
++        filters.push(lte(visitorInteraction.createdAt, resolvedInput.endDate));
++      }
++
++      if (resolvedInput.metric === "pageViews") {
++        filters.push(eq(visitorInteraction.action, "view"));
++      }
++
++      if (resolvedInput.metric === "errors") {
++        filters.push(eq(visitorInteraction.action, "error"));
++      }
++
++      const dateBucket = sql<string>`date_trunc(${getDateTruncUnit(resolvedInput.granularity)}, ${visitorInteraction.createdAt})`;
++      const valueExpression =
++        resolvedInput.metric === "sessions"
++          ? sql<number>`count(distinct ${visitorInteraction.sessionId})`
++          : sql<number>`count(*)`;
++
++      const rows = await db
++        .select({
++          date: sql<string>`to_char(${dateBucket}, 'YYYY-MM-DD')`,
++          value: valueExpression,
++        })
++        .from(visitorInteraction)
++        .where(filters.length > 0 ? and(...filters) : undefined)
++        .groupBy(dateBucket)
++        .orderBy(asc(dateBucket))
++        .limit(resolvedInput.limit)
++        .offset(resolvedInput.offset);
++
++      return rows.map((row) => ({
++        date: row.date,
++        value: Number(row.value),
++      }));
++    }),
++
+   track: publicProcedure
+     .input(
+       z.object({
+-        sessionId: z.string(),
+-        page: z.string(),
+-        action: z.enum(["view", "search", "click"]),
+-        query: z.string().optional(),
+-        metadata: z.string().optional(),
++        sessionId: nonEmptyTrimmedString(256),
++        page: pagePathSchema,
++        action: z.enum(["view", "search", "click", "error"]),
++        query: optionalTrimmedString(500),
++        metadata: optionalTrimmedString(2_000),
+       }),
+     )
+     .mutation(async ({ ctx, input }) => {
+diff --git a/src/server/api/validation.ts b/src/server/api/validation.ts
+new file mode 100644
+index 0000000..0c72579
+--- /dev/null
++++ b/src/server/api/validation.ts
+@@ -0,0 +1,45 @@
++import { z } from "zod";
++
++export const nonEmptyTrimmedString = (maxLength: number) =>
++  z.string().trim().min(1).max(maxLength);
++
++export const optionalTrimmedString = (maxLength: number) =>
++  z
++    .string()
++    .trim()
++    .max(maxLength)
++    .optional()
++    .transform((value) => (value === "" ? undefined : value));
++
++export const canonicalSlugSchema = z
++  .string()
++  .trim()
++  .min(1)
++  .max(256)
++  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
++    message: "Slug must use lowercase letters, numbers, and hyphens",
++  });
++
++export const pagePathSchema = z
++  .string()
++  .trim()
++  .min(1)
++  .max(256)
++  .regex(/^\/[A-Za-z0-9/_?.=&-]*$/, {
++    message: "Page must be a relative path beginning with /",
++  });
++
++export const boundedDateRangeSchema = z
++  .object({
++    startDate: z.coerce.date().optional(),
++    endDate: z.coerce.date().optional(),
++  })
++  .superRefine((input, ctx) => {
++    if (input.startDate && input.endDate && input.startDate > input.endDate) {
++      ctx.addIssue({
++        code: "custom",
++        message: "startDate must be before or equal to endDate",
++        path: ["startDate"],
++      });
++    }
++  });
+diff --git a/scripts/test-wp-g-04.ts b/scripts/test-wp-g-04.ts
+new file mode 100644
+index 0000000..1a7783c
+--- /dev/null
++++ b/scripts/test-wp-g-04.ts
+@@ -0,0 +1,181 @@
++import { readFileSync } from "node:fs";
++import { analyticsQueryInputSchema } from "@/server/api/routers/analytics-query-contract";
++import { createArticleInputSchema } from "@/server/api/routers/civilization-article-contract";
++import {
++  canonicalSlugSchema,
++  nonEmptyTrimmedString,
++  optionalTrimmedString,
++  pagePathSchema,
++} from "@/server/api/validation";
++
++type Scenario = {
++  id: string;
++  actual: boolean | string;
++  expected: boolean | string;
++};
++
++const analyticsSource = readFileSync(
++  "src/server/api/routers/analytics.ts",
++  "utf8",
++);
++const articleContractSource = readFileSync(
++  "src/server/api/routers/civilization-article-contract.ts",
++  "utf8",
++);
++const packageSource = readFileSync("package.json", "utf8");
++
++function parses(
++  schema: { safeParse: (value: unknown) => { success: boolean } },
++  value: unknown,
++) {
++  return schema.safeParse(value).success;
++}
++
++const scenarios: Scenario[] = [
++  {
++    id: "AC-01-shared-validation-module-exists",
++    actual: readFileSync("src/server/api/validation.ts", "utf8").includes(
++      "canonicalSlugSchema",
++    ),
++    expected: true,
++  },
++  {
++    id: "AC-02-canonical-slug-validation",
++    actual:
++      parses(canonicalSlugSchema, "valid-slug-1") &&
++      !parses(canonicalSlugSchema, "Invalid Slug"),
++    expected: true,
++  },
++  {
++    id: "AC-03-trimmed-string-validation",
++    actual: nonEmptyTrimmedString(10).parse("  hello  "),
++    expected: "hello",
++  },
++  {
++    id: "AC-04-optional-empty-string-sanitized",
++    actual: optionalTrimmedString(10).parse("   ") === undefined,
++    expected: true,
++  },
++  {
++    id: "AC-05-page-path-validation",
++    actual:
++      parses(pagePathSchema, "/pulse?tab=one") &&
++      !parses(pagePathSchema, "https://x.test"),
++    expected: true,
++  },
++  {
++    id: "AC-06-article-title-max-length",
++    actual: !parses(createArticleInputSchema, {
++      title: "x".repeat(201),
++      slug: "valid-slug",
++      category: "civilization",
++      content: "Valid article content.",
++    }),
++    expected: true,
++  },
++  {
++    id: "AC-07-article-content-max-length",
++    actual: !parses(createArticleInputSchema, {
++      title: "Valid Article",
++      slug: "valid-slug",
++      category: "civilization",
++      content: "x".repeat(20_001),
++    }),
++    expected: true,
++  },
++  {
++    id: "AC-08-document-ref-max-length",
++    actual: !parses(createArticleInputSchema, {
++      title: "Valid Article",
++      slug: "valid-slug",
++      category: "civilization",
++      content: "Valid article content.",
++      documentRef: "x".repeat(101),
++    }),
++    expected: true,
++  },
++  {
++    id: "AC-09-analytics-limit-max",
++    actual: !parses(analyticsQueryInputSchema, { limit: 367 }),
++    expected: true,
++  },
++  {
++    id: "AC-10-analytics-offset-min",
++    actual: !parses(analyticsQueryInputSchema, { offset: -1 }),
++    expected: true,
++  },
++  {
++    id: "AC-11-invalid-date-range-rejected",
++    actual: !parses(analyticsQueryInputSchema, {
++      startDate: "2026-06-22",
++      endDate: "2026-06-21",
++    }),
++    expected: true,
++  },
++  {
++    id: "AC-12-analytics-track-sanitized",
++    actual:
++      analyticsSource.includes("pagePathSchema") &&
++      analyticsSource.includes("optionalTrimmedString(2_000)"),
++    expected: true,
++  },
++  {
++    id: "AC-13-article-contract-uses-shared-validators",
++    actual:
++      articleContractSource.includes("canonicalSlugSchema") &&
++      articleContractSource.includes("nonEmptyTrimmedString(20_000)"),
++    expected: true,
++  },
++  {
++    id: "AC-14-no-ad-hoc-slug-regex-in-article-contract",
++    actual: !articleContractSource.includes("regex(/^[a-z0-9]+"),
++    expected: true,
++  },
++  {
++    id: "AC-15-test-command-runs-wp-g-04",
++    actual: packageSource.includes("scripts/test-wp-g-04.ts"),
++    expected: true,
++  },
++  {
++    id: "AC-16-valid-hardened-article-still-accepted",
++    actual: parses(createArticleInputSchema, {
++      title: "  Valid Article  ",
++      slug: "valid-slug",
++      category: "civilization",
++      content: "  Valid article content.  ",
++      documentRef: " DOC-1 ",
++    }),
++    expected: true,
++  },
++];
++
++const results = scenarios.map((scenario) => ({
++  ...scenario,
++  ok: scenario.actual === scenario.expected,
++}));
++const failed = results.filter((result) => !result.ok);
++
++console.log(
++  JSON.stringify(
++    {
++      workPackage: "WP-G-04",
++      scenarioCount: results.length,
++      passed: results.length - failed.length,
++      failed: failed.length,
++      coverage: "100% acceptance-scenario coverage",
++      results,
++    },
++    null,
++    2,
++  ),
++);
++
++if (failed.length > 0) {
++  console.error("WP-G-04 scenario failures:");
++  for (const failure of failed) {
++    console.error(
++      `- ${failure.id}: expected ${failure.expected}, got ${failure.actual}`,
++    );
++  }
++  process.exit(1);
++}

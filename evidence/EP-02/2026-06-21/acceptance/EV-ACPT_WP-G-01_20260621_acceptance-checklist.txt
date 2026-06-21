@@ -1,0 +1,56 @@
+WP-G-01 Civilization CRUD Procedures - Acceptance Checklist
+Collected: 2026-06-21
+Git commit referenced: f646ec63a9913ebb74ce4a70559b32facf6dae34
+
+Acceptance conditions:
+
+[PASS] CRUD mutations exist.
+- createArticle exists in src/server/api/routers/civilization.ts.
+- updateArticle exists in src/server/api/routers/civilization.ts.
+- deleteArticle exists in src/server/api/routers/civilization.ts.
+
+[PASS] Validation verified through Zod.
+- createArticleInputSchema enforces title 3-200 chars.
+- createArticleInputSchema enforces slug format and length.
+- createArticleInputSchema enforces content minimum 10 chars.
+- createArticleInputSchema enforces category enum.
+- updateArticleInputSchema supports partial updates and rejects empty updates.
+
+[PASS] Better Auth session integration verified.
+- createArticle is a protectedProcedure.
+- createArticle sets ownerId from ctx.user.id.
+- updateArticle and deleteArticle use ctx.user.id and ctx.user.role.
+
+[PASS] RBAC enforcement verified.
+- operator has article:create.
+- createArticle uses requirePermission("article:create").
+- updateArticle allows owner or editor+ with article:update permission.
+- deleteArticle allows owner or admin+ with article:delete permission.
+
+[PASS] Ownership enforcement verified.
+- updateArticle fetches the existing non-deleted article and compares ownerId to ctx.user.id.
+- deleteArticle fetches the existing non-deleted article and compares ownerId to ctx.user.id.
+- Non-owner operator update and delete scenarios return FORBIDDEN in tests.
+
+[PASS] Soft delete verified.
+- deleteArticle updates deletedAt with a timestamp.
+- deleteArticle does not call db.delete.
+- listArticles, getArticle, and searchArticles filter deletedAt IS NULL.
+
+[PASS] Drizzle integration verified.
+- knowledgeArticles includes ownerId and deletedAt columns.
+- drizzle/0001_next_jean_grey.sql includes owner_id, deleted_at, and owner foreign key.
+- CRUD mutations use Drizzle insert/update/query APIs.
+
+[PASS] Required commands passed.
+- bun run lint: exit 0.
+- bun run test: exit 0, 16/16 WP-G-01 scenarios passed.
+- bun run build: exit 0.
+
+[PASS] Evidence package complete.
+- EV-CODE_WP-G-01_20260621_civilization-crud.txt
+- EV-TEST_WP-G-01_20260621_verification-output.txt
+- EV-ACPT_WP-G-01_20260621_acceptance-checklist.txt
+
+Disposition:
+WP-G-01 implementation is complete and ready for review. Per directive, wait for WP-G-02 activation after acceptance.

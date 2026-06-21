@@ -1,0 +1,31 @@
+WP-G-05 ACCEPTANCE CHECKLIST
+Work package: WP-G-05 Error Handling Standardization
+Date: 2026-06-21
+Commit hash: pending final commit
+
+Summary:
+WP-G-05 complete. 16/16 PASS. Coverage 100% acceptance-scenario mapping. lint/test/build PASS.
+
+Acceptance criteria:
+AC-01 standard error helper exists: PASS
+AC-02 BAD_REQUEST code supported: PASS
+AC-03 FORBIDDEN code supported: PASS
+AC-04 NOT_FOUND code supported: PASS
+AC-05 user-friendly default message: PASS
+AC-06 resource not-found message: PASS
+AC-07 cause supported: PASS
+AC-08 logging present for causes: PASS
+AC-09 user router uses standard forbidden helper: PASS
+AC-10 user router uses standard notFound helper: PASS
+AC-11 analytics uses standard badRequest helper: PASS
+AC-12 standard code allowlist present: PASS
+AC-13 no raw TRPCError in user router: PASS
+AC-14 helper exports shortcuts: PASS
+AC-15 bun run test includes WP-G-05: PASS
+AC-16 user-friendly message map complete: PASS
+
+Evidence:
+Code: evidence/EP-03/2026-06-21/code/EV-CODE_WP-G-05_20260621_error-handling-impl.txt
+Test: evidence/EP-03/2026-06-21/test/EV-TEST_WP-G-05_20260621_error-handling-scenarios.json
+Coverage: evidence/EP-03/2026-06-21/test/EV-TEST_WP-G-05_20260621_coverage.html
+Deployment: evidence/EP-03/2026-06-21/deployment/EV-DEPL_WP-G-05_20260621_build.txt

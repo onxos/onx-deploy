@@ -1,0 +1,105 @@
+{
+  "workPackage": "WP-G-04",
+  "scenarioCount": 16,
+  "passed": 16,
+  "failed": 0,
+  "coverage": "100% acceptance-scenario coverage",
+  "results": [
+    {
+      "id": "AC-01-shared-validation-module-exists",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    },
+    {
+      "id": "AC-02-canonical-slug-validation",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    },
+    {
+      "id": "AC-03-trimmed-string-validation",
+      "actual": "hello",
+      "expected": "hello",
+      "ok": true
+    },
+    {
+      "id": "AC-04-optional-empty-string-sanitized",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    },
+    {
+      "id": "AC-05-page-path-validation",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    },
+    {
+      "id": "AC-06-article-title-max-length",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    },
+    {
+      "id": "AC-07-article-content-max-length",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    },
+    {
+      "id": "AC-08-document-ref-max-length",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    },
+    {
+      "id": "AC-09-analytics-limit-max",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    },
+    {
+      "id": "AC-10-analytics-offset-min",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    },
+    {
+      "id": "AC-11-invalid-date-range-rejected",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    },
+    {
+      "id": "AC-12-analytics-track-sanitized",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    },
+    {
+      "id": "AC-13-article-contract-uses-shared-validators",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    },
+    {
+      "id": "AC-14-no-ad-hoc-slug-regex-in-article-contract",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    },
+    {
+      "id": "AC-15-test-command-runs-wp-g-04",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    },
+    {
+      "id": "AC-16-valid-hardened-article-still-accepted",
+      "actual": true,
+      "expected": true,
+      "ok": true
+    }
+  ]
+}

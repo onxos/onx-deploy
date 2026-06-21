@@ -1,0 +1,110 @@
+WP-G-01 Civilization CRUD Procedures - Test Evidence
+Collected: 2026-06-21
+Git commit referenced: f646ec63a9913ebb74ce4a70559b32facf6dae34
+
+Command: bun run lint
+Exit: 0
+
+    $ biome check
+    Checked 145 files in 33ms. No fixes applied.
+
+Command: bun run test
+Exit: 0
+
+    $ bun run scripts/staging-readiness-check.ts && bun run scripts/test-wp-g-01.ts
+    Staging readiness evidence files present.
+    {
+      "workPackage": "WP-G-01",
+      "scenarioCount": 16,
+      "passed": 16,
+      "failed": 0,
+      "results": [
+        { "id": "AC-01-create-valid-article", "ok": true },
+        { "id": "AC-02-reject-invalid-title", "ok": true },
+        { "id": "AC-03-reject-invalid-slug", "ok": true },
+        { "id": "AC-04-reject-noncanonical-slug", "ok": true },
+        { "id": "AC-05-reject-short-content", "ok": true },
+        { "id": "AC-06-operator-create-allowed", "ok": true },
+        { "id": "AC-07-owner-update-allowed", "ok": true },
+        { "id": "AC-08-non-owner-update-denied", "ok": true },
+        { "id": "AC-09-editor-update-allowed", "ok": true },
+        { "id": "AC-10-owner-delete-allowed", "ok": true },
+        { "id": "AC-11-admin-delete-allowed", "ok": true },
+        { "id": "AC-12-editor-delete-denied", "ok": true },
+        { "id": "AC-13-unauthorized-delete-denied", "ok": true },
+        { "id": "AC-14-partial-update-supported", "ok": true },
+        { "id": "AC-15-empty-update-rejected", "ok": true },
+        { "id": "AC-16-soft-delete-contract-verified", "ok": true }
+      ]
+    }
+
+Command: bun run build
+Exit: 0
+
+    $ next build
+    ▲ Next.js 16.2.9 (Turbopack)
+    - Environments: .env.local, .env
+
+      Creating an optimized production build ...
+    ✓ Compiled successfully in 3.4s
+      Running TypeScript ...
+      Finished TypeScript in 2.3s ...
+      Collecting page data using 9 workers ...
+      Generating static pages using 9 workers (0/24) ...
+      Generating static pages using 9 workers (6/24)
+      Generating static pages using 9 workers (12/24)
+      Generating static pages using 9 workers (18/24)
+    ✓ Generating static pages using 9 workers (24/24) in 204ms
+      Finalizing page optimization ...
+
+    Route (app)
+    ┌ ○ /
+    ├ ○ /_not-found
+    ├ ƒ /admin
+    ├ ƒ /admin/civilization
+    ├ ƒ /admin/titans
+    ├ ƒ /api/auth/[...all]
+    ├ ƒ /api/health
+    ├ ƒ /api/health/db
+    ├ ƒ /api/health/ready
+    ├ ƒ /api/metrics
+    ├ ƒ /api/trpc/[trpc]
+    ├ ○ /ask
+    ├ ○ /constitution
+    ├ ○ /forbidden
+    ├ ○ /forgot-password
+    ├ ƒ /gaps
+    ├ ○ /knowledge
+    ├ ○ /login
+    ├ ○ /memory
+    ├ ƒ /pulse
+    ├ ƒ /registry
+    ├ ○ /reset-password
+    ├ ○ /titan-conclave
+    └ ○ /va-capabilities
+
+    ƒ Proxy (Middleware)
+
+    ○  (Static)   prerendered as static content
+    ƒ  (Dynamic)  server-rendered on demand
+
+Scenario file:
+- scripts/test-wp-g-01.ts
+
+Scenario coverage:
+- create valid article
+- reject invalid title
+- reject invalid slug
+- reject noncanonical slug
+- reject short content
+- operator create allowed
+- owner update allowed
+- non-owner update denied
+- editor update allowed
+- owner delete allowed
+- admin delete allowed
+- editor delete denied
+- unauthorized delete denied
+- partial update supported
+- empty update rejected
+- soft delete verified

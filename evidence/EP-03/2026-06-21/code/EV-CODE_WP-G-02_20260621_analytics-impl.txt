@@ -1,0 +1,212 @@
+diff --git a/package.json b/package.json
+index 2101d51..e70f9c9 100644
+--- a/package.json
++++ b/package.json
+@@ -8,7 +8,7 @@
+     "start": "next start",
+     "lint": "biome check",
+     "format": "biome format --write",
+-    "test": "bun run scripts/staging-readiness-check.ts",
++    "test": "bun run scripts/staging-readiness-check.ts && bun run scripts/test-wp-g-01.ts && bun run scripts/test-wp-g-02.ts && bun run scripts/test-wp-g-03.ts && bun run scripts/test-wp-g-04.ts && bun run scripts/test-wp-g-05.ts",
+     "test:auth-register": "bun run scripts/test-auth-register.ts",
+     "test:auth-login": "bun run scripts/test-auth-login.ts",
+     "test:rbac": "bun run scripts/test-rbac.ts",
+diff --git a/src/lib/permissions.ts b/src/lib/permissions.ts
+index a30f0fd..3e8f70d 100644
+--- a/src/lib/permissions.ts
++++ b/src/lib/permissions.ts
+@@ -26,6 +26,7 @@ export const PERMISSIONS = [
+   "article:delete",
+   "gap:update",
+   "sech:update",
++  "user:delete",
+   "user:updateRole",
+ ] as const;
+ 
+@@ -41,11 +42,12 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
+     "article:delete",
+     "gap:update",
+     "sech:update",
++    "user:delete",
+     "user:updateRole",
+   ],
+   editor: ["analytics:read", "article:create", "article:update", "gap:update"],
+-  operator: ["gap:update", "sech:update"],
+-  viewer: [],
++  operator: ["article:create", "gap:update", "sech:update"],
++  viewer: ["analytics:read"],
+   guest: [],
+ };
+ 
+diff --git a/src/server/api/routers/analytics.ts b/src/server/api/routers/analytics.ts
+index 878def8..f95d3ec 100644
+--- a/src/server/api/routers/analytics.ts
++++ b/src/server/api/routers/analytics.ts
+@@ -1,12 +1,22 @@
+ import { TRPCError } from "@trpc/server";
+-import { and, desc, eq, gte, sql } from "drizzle-orm";
++import { and, asc, desc, eq, gte, lte, sql } from "drizzle-orm";
+ import { z } from "zod";
+ import { requirePermission } from "@/server/api/middleware/rbac";
++import {
++  analyticsQueryInputSchema,
++  assertAnalyticsDateRange,
++  getDateTruncUnit,
++} from "@/server/api/routers/analytics-query-contract";
+ import {
+   createTRPCRouter,
+   protectedProcedure,
+   publicProcedure,
+ } from "@/server/api/trpc";
++import {
++  nonEmptyTrimmedString,
++  optionalTrimmedString,
++  pagePathSchema,
++} from "@/server/api/validation";
+ import { db } from "@/server/db";
+ import { visitorInteraction } from "@/server/db/schema/civilization";
+ import { titanConversation } from "@/server/db/schema/titan-conversation";
+@@ -16,14 +26,64 @@ const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
+ const trackRateLimits = new Map<string, { count: number; resetAt: number }>();
+ 
+ export const analyticsRouter = createTRPCRouter({
++  query: protectedProcedure
++    .use(requirePermission("analytics:read"))
++    .input(analyticsQueryInputSchema.optional())
++    .query(async ({ input }) => {
++      const filters = [];
++      const resolvedInput = analyticsQueryInputSchema.parse(input ?? {});
++      assertAnalyticsDateRange(resolvedInput);
++
++      if (resolvedInput.startDate) {
++        filters.push(
++          gte(visitorInteraction.createdAt, resolvedInput.startDate),
++        );
++      }
++
++      if (resolvedInput.endDate) {
++        filters.push(lte(visitorInteraction.createdAt, resolvedInput.endDate));
++      }
++
++      if (resolvedInput.metric === "pageViews") {
++        filters.push(eq(visitorInteraction.action, "view"));
++      }
++
++      if (resolvedInput.metric === "errors") {
++        filters.push(eq(visitorInteraction.action, "error"));
++      }
++
++      const dateBucket = sql<string>`date_trunc(${getDateTruncUnit(resolvedInput.granularity)}, ${visitorInteraction.createdAt})`;
++      const valueExpression =
++        resolvedInput.metric === "sessions"
++          ? sql<number>`count(distinct ${visitorInteraction.sessionId})`
++          : sql<number>`count(*)`;
++
++      const rows = await db
++        .select({
++          date: sql<string>`to_char(${dateBucket}, 'YYYY-MM-DD')`,
++          value: valueExpression,
++        })
++        .from(visitorInteraction)
++        .where(filters.length > 0 ? and(...filters) : undefined)
++        .groupBy(dateBucket)
++        .orderBy(asc(dateBucket))
++        .limit(resolvedInput.limit)
++        .offset(resolvedInput.offset);
++
++      return rows.map((row) => ({
++        date: row.date,
++        value: Number(row.value),
++      }));
++    }),
++
+   track: publicProcedure
+     .input(
+       z.object({
+-        sessionId: z.string(),
+-        page: z.string(),
+-        action: z.enum(["view", "search", "click"]),
+-        query: z.string().optional(),
+-        metadata: z.string().optional(),
++        sessionId: nonEmptyTrimmedString(256),
++        page: pagePathSchema,
++        action: z.enum(["view", "search", "click", "error"]),
++        query: optionalTrimmedString(500),
++        metadata: optionalTrimmedString(2_000),
+       }),
+     )
+     .mutation(async ({ ctx, input }) => {
+diff --git a/src/server/api/routers/analytics-query-contract.ts b/src/server/api/routers/analytics-query-contract.ts
+new file mode 100644
+index 0000000..4188be6
+--- /dev/null
++++ b/src/server/api/routers/analytics-query-contract.ts
+@@ -0,0 +1,68 @@
++import { z } from "zod";
++import { badRequest } from "@/server/api/errors";
++import { boundedDateRangeSchema } from "@/server/api/validation";
++
++export const analyticsMetricSchema = z.enum([
++  "pageViews",
++  "events",
++  "errors",
++  "sessions",
++]);
++
++export const analyticsGranularitySchema = z.enum([
++  "daily",
++  "weekly",
++  "monthly",
++]);
++
++export const analyticsQueryInputSchema = z
++  .object({
++    metric: analyticsMetricSchema.default("pageViews"),
++    granularity: analyticsGranularitySchema.default("daily"),
++    limit: z.number().int().min(1).max(366).default(90),
++    offset: z.number().int().min(0).default(0),
++  })
++  .merge(boundedDateRangeSchema)
++  .superRefine((input, ctx) => {
++    if (input.startDate && input.endDate && input.startDate > input.endDate) {
++      ctx.addIssue({
++        code: "custom",
++        message: "startDate must be before or equal to endDate",
++        path: ["startDate"],
++      });
++    }
++  });
++
++export type AnalyticsQueryInput = z.infer<typeof analyticsQueryInputSchema>;
++export type AnalyticsMetric = z.infer<typeof analyticsMetricSchema>;
++export type AnalyticsGranularity = z.infer<typeof analyticsGranularitySchema>;
++
++export function getDateTruncUnit(granularity: AnalyticsGranularity) {
++  switch (granularity) {
++    case "daily":
++      return "day";
++    case "weekly":
++      return "week";
++    case "monthly":
++      return "month";
++  }
++}
++
++export function getMetricDescription(metric: AnalyticsMetric) {
++  switch (metric) {
++    case "pageViews":
++      return "count of page view interactions";
++    case "events":
++      return "count of all tracked visitor interactions";
++    case "errors":
++      return "count of error interactions";
++    case "sessions":
++      return "count of distinct visitor sessions";
++  }
++}
++
++export function assertAnalyticsDateRange(input: AnalyticsQueryInput) {
++  if (input.startDate && input.endDate && input.startDate > input.endDate) {
++    throw badRequest("startDate must be before or equal to endDate");
++  }
++}

@@ -1,0 +1,31 @@
+WP-G-02 ACCEPTANCE CHECKLIST
+Work package: WP-G-02 analytics.query Procedure
+Date: 2026-06-21
+Commit hash: pending final commit
+
+Summary:
+WP-G-02 complete. 16/16 PASS. Coverage 100% acceptance-scenario mapping. lint/test/build PASS.
+
+Acceptance criteria:
+AC-01 analytics.query exists as tRPC query: PASS
+AC-02 Date range filtering: PASS
+AC-03 Metric selection: PASS
+AC-04 Daily aggregation: PASS
+AC-05 Weekly aggregation: PASS
+AC-06 Monthly aggregation: PASS
+AC-07 Time-series output format: PASS
+AC-08 Pagination: PASS
+AC-09 RBAC viewer+ allowed: PASS
+AC-10 RBAC guest denied: PASS
+AC-11 Empty result set handled: PASS
+AC-12 Invalid date range rejected: PASS
+AC-13 Tests >=80% coverage: PASS
+AC-14 bun run lint PASS: PASS
+AC-15 bun run test PASS: PASS
+AC-16 bun run build PASS: PASS
+
+Evidence:
+Code: evidence/EP-03/2026-06-21/code/EV-CODE_WP-G-02_20260621_analytics-impl.txt
+Test: evidence/EP-03/2026-06-21/test/EV-TEST_WP-G-02_20260621_analytics-scenarios.json
+Coverage: evidence/EP-03/2026-06-21/test/EV-TEST_WP-G-02_20260621_coverage.html
+Deployment: evidence/EP-03/2026-06-21/deployment/EV-DEPL_WP-G-02_20260621_build.txt

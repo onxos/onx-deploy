@@ -1,12 +1,22 @@
 import { TRPCError } from "@trpc/server";
-import { and, desc, eq, gte, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gte, lte, sql } from "drizzle-orm";
 import { z } from "zod";
 import { requirePermission } from "@/server/api/middleware/rbac";
+import {
+  analyticsQueryInputSchema,
+  assertAnalyticsDateRange,
+  getDateTruncUnit,
+} from "@/server/api/routers/analytics-query-contract";
 import {
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
 } from "@/server/api/trpc";
+import {
+  nonEmptyTrimmedString,
+  optionalTrimmedString,
+  pagePathSchema,
+} from "@/server/api/validation";
 import { db } from "@/server/db";
 import { visitorInteraction } from "@/server/db/schema/civilization";
 import { titanConversation } from "@/server/db/schema/titan-conversation";
@@ -16,14 +26,64 @@ const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const trackRateLimits = new Map<string, { count: number; resetAt: number }>();
 
 export const analyticsRouter = createTRPCRouter({
+  query: protectedProcedure
+    .use(requirePermission("analytics:read"))
+    .input(analyticsQueryInputSchema.optional())
+    .query(async ({ input }) => {
+      const filters = [];
+      const resolvedInput = analyticsQueryInputSchema.parse(input ?? {});
+      assertAnalyticsDateRange(resolvedInput);
+
+      if (resolvedInput.startDate) {
+        filters.push(
+          gte(visitorInteraction.createdAt, resolvedInput.startDate),
+        );
+      }
+
+      if (resolvedInput.endDate) {
+        filters.push(lte(visitorInteraction.createdAt, resolvedInput.endDate));
+      }
+
+      if (resolvedInput.metric === "pageViews") {
+        filters.push(eq(visitorInteraction.action, "view"));
+      }
+
+      if (resolvedInput.metric === "errors") {
+        filters.push(eq(visitorInteraction.action, "error"));
+      }
+
+      const dateBucket = sql<string>`date_trunc(${getDateTruncUnit(resolvedInput.granularity)}, ${visitorInteraction.createdAt})`;
+      const valueExpression =
+        resolvedInput.metric === "sessions"
+          ? sql<number>`count(distinct ${visitorInteraction.sessionId})`
+          : sql<number>`count(*)`;
+
+      const rows = await db
+        .select({
+          date: sql<string>`to_char(${dateBucket}, 'YYYY-MM-DD')`,
+          value: valueExpression,
+        })
+        .from(visitorInteraction)
+        .where(filters.length > 0 ? and(...filters) : undefined)
+        .groupBy(dateBucket)
+        .orderBy(asc(dateBucket))
+        .limit(resolvedInput.limit)
+        .offset(resolvedInput.offset);
+
+      return rows.map((row) => ({
+        date: row.date,
+        value: Number(row.value),
+      }));
+    }),
+
   track: publicProcedure
     .input(
       z.object({
-        sessionId: z.string(),
-        page: z.string(),
-        action: z.enum(["view", "search", "click"]),
-        query: z.string().optional(),
-        metadata: z.string().optional(),
+        sessionId: nonEmptyTrimmedString(256),
+        page: pagePathSchema,
+        action: z.enum(["view", "search", "click", "error"]),
+        query: optionalTrimmedString(500),
+        metadata: optionalTrimmedString(2_000),
       }),
     )
     .mutation(async ({ ctx, input }) => {

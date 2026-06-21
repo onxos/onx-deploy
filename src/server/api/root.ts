@@ -6,6 +6,7 @@ import { civilizationRouter } from "./routers/civilization";
 import { gapRouter } from "./routers/gap";
 import { sechRouter } from "./routers/sech";
 import { titanRouter } from "./routers/titan";
+import { userRouter } from "./routers/user";
 
 export const appRouter = createTRPCRouter({
   auth: authRouter,
@@ -15,6 +16,7 @@ export const appRouter = createTRPCRouter({
   sech: sechRouter,
   analytics: analyticsRouter,
   admin: adminRouter,
+  user: userRouter,
 });
 
 export type AppRouter = typeof appRouter;

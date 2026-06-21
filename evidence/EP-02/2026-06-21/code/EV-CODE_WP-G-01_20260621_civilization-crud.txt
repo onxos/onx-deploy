@@ -1,0 +1,194 @@
+WP-G-01 Civilization CRUD Procedures - Code Evidence
+Collected: 2026-06-21
+Git commit referenced: f646ec63a9913ebb74ce4a70559b32facf6dae34
+
+Implemented files:
+- src/server/api/routers/civilization.ts
+- src/server/api/routers/civilization-article-contract.ts
+- src/server/db/schema/civilization.ts
+- src/lib/permissions.ts
+- src/components/admin/article-editor.tsx
+- scripts/test-wp-g-01.ts
+- package.json
+- drizzle/0001_next_jean_grey.sql
+
+Code snippet: owner and soft-delete columns
+File: src/server/db/schema/civilization.ts
+
+    ownerId: text("owner_id").references(() => user.id, {
+      onDelete: "set null",
+    }),
+    deletedAt: timestamp("deleted_at", { withTimezone: true }),
+
+Code snippet: Zod validation contract
+File: src/server/api/routers/civilization-article-contract.ts
+
+    export const createArticleInputSchema = z.object({
+      title: z.string().min(3).max(200),
+      slug: z
+        .string()
+        .min(1)
+        .max(256)
+        .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
+          message: "Slug must use lowercase letters, numbers, and hyphens",
+        }),
+      category: articleCategorySchema,
+      content: z.string().min(10),
+      documentRef: z.string().optional(),
+      importance: articleImportanceSchema.default("standard"),
+    });
+
+    export const updateArticleInputSchema = z
+      .object({
+        id: z.number().int().positive(),
+        title: z.string().min(3).max(200).optional(),
+        slug: z.string().min(1).max(256).regex(...).optional(),
+        category: articleCategorySchema.optional(),
+        content: z.string().min(10).optional(),
+        documentRef: z.string().optional(),
+        importance: articleImportanceSchema.optional(),
+      })
+      .refine(
+        ({ id: _id, ...updates }) =>
+          Object.values(updates).some((value) => value !== undefined),
+        { message: "At least one article field must be provided" },
+      );
+
+Code snippet: ownership and role authorization
+File: src/server/api/routers/civilization-article-contract.ts
+
+    export function assertArticleMutationAllowed(options: {
+      action: "update" | "delete";
+      actorId: string;
+      actorRole: string;
+      ownerId: string | null;
+    }) {
+      const isOwner = options.ownerId === options.actorId;
+      const hasRole =
+        options.action === "update"
+          ? hasMinimumRole(options.actorRole, "editor") &&
+            hasPermission(options.actorRole, "article:update")
+          : hasMinimumRole(options.actorRole, "admin") &&
+            hasPermission(options.actorRole, "article:delete");
+
+      if (!isOwner && !hasRole) {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+    }
+
+Code snippet: createArticle mutation
+File: src/server/api/routers/civilization.ts
+
+    createArticle: protectedProcedure
+      .use(requirePermission("article:create"))
+      .input(createArticleInputSchema)
+      .mutation(async ({ ctx, input }) => {
+        const existing = await db.query.knowledgeArticles.findFirst({
+          where: eq(knowledgeArticles.slug, input.slug),
+        });
+        if (existing) {
+          throw new TRPCError({
+            code: "CONFLICT",
+            message: "Article slug must be unique",
+          });
+        }
+
+        const article = await db
+          .insert(knowledgeArticles)
+          .values({ ...input, ownerId: ctx.user.id })
+          .returning();
+        return article[0];
+      }),
+
+Code snippet: updateArticle mutation
+File: src/server/api/routers/civilization.ts
+
+    updateArticle: protectedProcedure
+      .input(updateArticleInputSchema)
+      .mutation(async ({ ctx, input }) => {
+        const { id, ...data } = input;
+        const existing = await db.query.knowledgeArticles.findFirst({
+          where: and(
+            eq(knowledgeArticles.id, id),
+            isNull(knowledgeArticles.deletedAt),
+          ),
+        });
+        if (!existing) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Article not found" });
+        }
+
+        assertArticleMutationAllowed({
+          action: "update",
+          actorId: ctx.user.id,
+          actorRole: ctx.user.role,
+          ownerId: existing.ownerId,
+        });
+
+        if (data.slug) {
+          const slugConflict = await db.query.knowledgeArticles.findFirst({
+            where: and(
+              eq(knowledgeArticles.slug, data.slug),
+              ne(knowledgeArticles.id, id),
+            ),
+          });
+          if (slugConflict) {
+            throw new TRPCError({
+              code: "CONFLICT",
+              message: "Article slug must be unique",
+            });
+          }
+        }
+
+        const article = await db
+          .update(knowledgeArticles)
+          .set(data)
+          .where(eq(knowledgeArticles.id, id))
+          .returning();
+        return article[0] ?? null;
+      }),
+
+Code snippet: deleteArticle soft delete
+File: src/server/api/routers/civilization.ts
+
+    deleteArticle: protectedProcedure
+      .input(z.object({ id: z.number().int().positive() }))
+      .mutation(async ({ ctx, input }) => {
+        const existing = await db.query.knowledgeArticles.findFirst({
+          where: and(
+            eq(knowledgeArticles.id, input.id),
+            isNull(knowledgeArticles.deletedAt),
+          ),
+        });
+        if (!existing) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Article not found" });
+        }
+
+        assertArticleMutationAllowed({
+          action: "delete",
+          actorId: ctx.user.id,
+          actorRole: ctx.user.role,
+          ownerId: existing.ownerId,
+        });
+
+        const [article] = await db
+          .update(knowledgeArticles)
+          .set({ deletedAt: new Date() })
+          .where(eq(knowledgeArticles.id, input.id))
+          .returning();
+        return { success: true, article };
+      }),
+
+Code snippet: operator create permission
+File: src/lib/permissions.ts
+
+    operator: ["article:create", "gap:update", "sech:update"],
+
+Code snippet: migration for ownership and soft delete
+File: drizzle/0001_next_jean_grey.sql
+
+    ALTER TABLE "onx_knowledge_article" ADD COLUMN "owner_id" text;
+    ALTER TABLE "onx_knowledge_article" ADD COLUMN "deleted_at" timestamp with time zone;
+    ALTER TABLE "onx_knowledge_article" ADD CONSTRAINT
+      "onx_knowledge_article_owner_id_onx_user_id_fk"
+      FOREIGN KEY ("owner_id") REFERENCES "public"."onx_user"("id")
+      ON DELETE set null ON UPDATE no action;

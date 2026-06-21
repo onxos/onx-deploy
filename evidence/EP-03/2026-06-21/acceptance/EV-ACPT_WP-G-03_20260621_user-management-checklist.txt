@@ -1,0 +1,31 @@
+WP-G-03 ACCEPTANCE CHECKLIST
+Work package: WP-G-03 user Management Procedures
+Date: 2026-06-21
+Commit hash: pending final commit
+
+Summary:
+WP-G-03 complete. 16/16 PASS. Coverage 100% acceptance-scenario mapping. lint/test/build PASS.
+
+Acceptance criteria:
+AC-01 user router mounted: PASS
+AC-02 user.list query exists: PASS
+AC-03 user.updateRole mutation exists: PASS
+AC-04 user.delete mutation exists: PASS
+AC-05 list admin-only RBAC: PASS
+AC-06 delete admin-only RBAC: PASS
+AC-07 founder has user delete: PASS
+AC-08 admin has user delete: PASS
+AC-09 operator denied user delete: PASS
+AC-10 list pagination validation: PASS
+AC-11 list role filter validation: PASS
+AC-12 update role validation: PASS
+AC-13 delete validation: PASS
+AC-14 self-demote/self-delete guard: PASS
+AC-15 bun run test includes WP-G-03: PASS
+AC-16 standard errors used: PASS
+
+Evidence:
+Code: evidence/EP-03/2026-06-21/code/EV-CODE_WP-G-03_20260621_user-management-impl.txt
+Test: evidence/EP-03/2026-06-21/test/EV-TEST_WP-G-03_20260621_user-management-scenarios.json
+Coverage: evidence/EP-03/2026-06-21/test/EV-TEST_WP-G-03_20260621_coverage.html
+Deployment: evidence/EP-03/2026-06-21/deployment/EV-DEPL_WP-G-03_20260621_build.txt

@@ -26,6 +26,7 @@ export const PERMISSIONS = [
   "article:delete",
   "gap:update",
   "sech:update",
+  "user:delete",
   "user:updateRole",
 ] as const;
 
@@ -41,11 +42,12 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "article:delete",
     "gap:update",
     "sech:update",
+    "user:delete",
     "user:updateRole",
   ],
   editor: ["analytics:read", "article:create", "article:update", "gap:update"],
-  operator: ["gap:update", "sech:update"],
-  viewer: [],
+  operator: ["article:create", "gap:update", "sech:update"],
+  viewer: ["analytics:read"],
   guest: [],
 };
 

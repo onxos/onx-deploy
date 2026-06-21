@@ -9,6 +9,7 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
+import { user } from "./auth";
 
 const createTable = pgTableCreator((name) => `onx_${name}`);
 
@@ -20,6 +21,9 @@ export const knowledgeArticles = createTable(
     slug: varchar("slug", { length: 256 }).notNull().unique(),
     category: varchar("category", { length: 100 }).notNull(),
     content: text("content").notNull(),
+    ownerId: text("owner_id").references(() => user.id, {
+      onDelete: "set null",
+    }),
     documentRef: varchar("document_ref", { length: 50 }),
     importance: varchar("importance", { length: 20 }).default("standard"),
     viewCount: integer("view_count").default(0),
@@ -30,6 +34,7 @@ export const knowledgeArticles = createTable(
     updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
       () => new Date(),
     ),
+    deletedAt: timestamp("deleted_at", { withTimezone: true }),
   },
   (table) => [index("onx_knowledge_article_category_idx").on(table.category)],
 );
