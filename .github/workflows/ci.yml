@@ -14,6 +14,12 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgres://user:password@localhost:5432/onx_ci
+      BETTER_AUTH_SECRET: ci-placeholder-secret-at-least-32-characters
+      BETTER_AUTH_URL: http://localhost:3000
+      ONX_FOUNDER_EMAIL: founder@example.com
+      ONX_FOUNDER_PASSWORD: ci-placeholder-password
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
