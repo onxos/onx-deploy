@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Footer from "@/components/layout/Footer";
+import { AppShell } from "@/components/layout/app-shell";
+import { ThemeProvider } from "@/components/theme/theme-provider";
+import { DialogProvider } from "@/components/ui/dialog-provider";
+import { ToastProvider } from "@/components/ui/toast-provider";
 import { TRPCReactProvider } from "./_providers";
 import "./globals.css";
+import "@/styles/media-queries.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,12 +32,17 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-      style={{ colorScheme: "light" }}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full overflow-hidden">
         <TRPCReactProvider>
-          {children}
-          <Footer />
+          <ThemeProvider>
+            <DialogProvider>
+              <ToastProvider>
+                <AppShell>{children}</AppShell>
+              </ToastProvider>
+            </DialogProvider>
+          </ThemeProvider>
         </TRPCReactProvider>
       </body>
     </html>

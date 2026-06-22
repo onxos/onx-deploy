@@ -1,0 +1,23 @@
+@media (max-width: 767px) {
+  :root {
+    --onx-content-padding: 1rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --onx-content-padding: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --onx-content-padding: 1.5rem;
+  }
+}
+
+@container (min-width: 480px) {
+  .onx-widget-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
