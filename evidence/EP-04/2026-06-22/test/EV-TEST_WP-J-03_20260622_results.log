@@ -1,0 +1,13 @@
+$ bun run scripts/test-wp-j-03.ts
+2026-06-22T20:15:49.122Z PASS AC-J03-01 Dropdown toggles
+2026-06-22T20:15:49.122Z PASS AC-J03-02 Badge unread count
+2026-06-22T20:15:49.123Z PASS AC-J03-03 DataTable notification list
+2026-06-22T20:15:49.123Z PASS AC-J03-04 Read toggle
+2026-06-22T20:15:49.123Z PASS AC-J03-05 Type filter
+2026-06-22T20:15:49.123Z PASS AC-J03-06 Mark all read
+2026-06-22T20:15:49.123Z PASS AC-J03-07 Empty state
+2026-06-22T20:15:49.124Z PASS AC-J03-08 Notifications page
+2026-06-22T20:15:49.124Z PASS AC-J03-09 Escape closes dropdown
+2026-06-22T20:15:49.124Z PASS AC-J03-10 Dark mode aware
+Results: 10 passed, 0 failed
+EXIT_CODE:0

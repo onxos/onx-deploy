@@ -1,0 +1,13 @@
+$ bun run scripts/test-wp-j-02.ts
+2026-06-22T20:15:49.094Z PASS AC-J02-01 Settings page and tabs
+2026-06-22T20:15:49.094Z PASS AC-J02-02 Theme switch
+2026-06-22T20:15:49.095Z PASS AC-J02-03 Theme persistence path
+2026-06-22T20:15:49.095Z PASS AC-J02-04 Notification toggles save state
+2026-06-22T20:15:49.095Z PASS AC-J02-05 Password validation
+2026-06-22T20:15:49.095Z PASS AC-J02-06 Sessions list
+2026-06-22T20:15:49.095Z PASS AC-J02-07 Revoke session
+2026-06-22T20:15:49.095Z PASS AC-J02-08 Danger confirm dialog
+2026-06-22T20:15:49.096Z PASS AC-J02-09 ARIA live form errors
+2026-06-22T20:15:49.096Z PASS AC-J02-10 Dark mode page
+Results: 10 passed, 0 failed
+EXIT_CODE:0

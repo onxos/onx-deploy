@@ -1,0 +1,13 @@
+$ bun run scripts/test-wp-j-05.ts
+2026-06-22T20:15:49.199Z PASS AC-J05-01 Companion page
+2026-06-22T20:15:49.199Z PASS AC-J05-02 Message history
+2026-06-22T20:15:49.200Z PASS AC-J05-03 Send on enter or click
+2026-06-22T20:15:49.200Z PASS AC-J05-04 Scrolls new messages
+2026-06-22T20:15:49.200Z PASS AC-J05-05 Avatar status
+2026-06-22T20:15:49.201Z PASS AC-J05-06 Settings dialog
+2026-06-22T20:15:49.201Z PASS AC-J05-07 Guidance history
+2026-06-22T20:15:49.201Z PASS AC-J05-08 Responsive layout
+2026-06-22T20:15:49.201Z PASS AC-J05-09 Dark mode
+2026-06-22T20:15:49.201Z PASS AC-J05-10 No console error path
+Results: 10 passed, 0 failed
+EXIT_CODE:0

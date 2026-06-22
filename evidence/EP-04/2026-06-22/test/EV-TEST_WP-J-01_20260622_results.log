@@ -1,0 +1,13 @@
+$ bun run scripts/test-wp-j-01.ts
+2026-06-22T20:15:49.066Z PASS AC-J01-01 Profile page renders
+2026-06-22T20:15:49.067Z PASS AC-J01-02 Avatar fallback initials
+2026-06-22T20:15:49.067Z PASS AC-J01-03 Role badge color map
+2026-06-22T20:15:49.067Z PASS AC-J01-04 Member since date
+2026-06-22T20:15:49.067Z PASS AC-J01-05 Edit mode toggles
+2026-06-22T20:15:49.067Z PASS AC-J01-06 Zod profile validation
+2026-06-22T20:15:49.067Z PASS AC-J01-07 Save mutation hook
+2026-06-22T20:15:49.068Z PASS AC-J01-08 Cancel reverts
+2026-06-22T20:15:49.068Z PASS AC-J01-09 Dark mode aware
+2026-06-22T20:15:49.068Z PASS AC-J01-10 Responsive layout
+Results: 10 passed, 0 failed
+EXIT_CODE:0
