@@ -1,0 +1,52 @@
+▲ Next.js 16.2.9 (Turbopack)
+- Environments: .env.local, .env
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 4.2s
+  Running TypeScript ...
+  Finished TypeScript in 2.8s ...
+  Collecting page data using 9 workers ...
+  Generating static pages using 9 workers (0/26) ...
+  Generating static pages using 9 workers (6/26) 
+  Generating static pages using 9 workers (12/26) 
+  Generating static pages using 9 workers (19/26) 
+✓ Generating static pages using 9 workers (26/26) in 136ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /admin
+├ ƒ /admin/civilization
+├ ƒ /admin/titans
+├ ƒ /api/auth/[...all]
+├ ƒ /api/health
+├ ƒ /api/health/db
+├ ƒ /api/health/ready
+├ ƒ /api/metrics
+├ ƒ /api/trpc/[trpc]
+├ ○ /ask
+├ ○ /components
+├ ○ /constitution
+├ ○ /dashboard
+├ ○ /forbidden
+├ ○ /forgot-password
+├ ƒ /gaps
+├ ○ /knowledge
+├ ○ /login
+├ ○ /memory
+├ ƒ /pulse
+├ ƒ /registry
+├ ○ /reset-password
+├ ○ /titan-conclave
+└ ○ /va-capabilities
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+EXIT_CODE:0
+
+Code commit: 4219f347108b31ee2d65fcb1344bce86489b0945

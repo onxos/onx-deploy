@@ -1,0 +1,10 @@
+2026-06-21T20:01:13.390Z PASS 01 Global CSS defines custom color properties
+2026-06-21T20:01:13.390Z PASS 02 Theme toggle switches light and dark
+2026-06-21T20:01:13.390Z PASS 03 Theme preference persists in localStorage
+2026-06-21T20:01:13.390Z PASS 04 System preference is detected
+2026-06-21T20:01:13.390Z PASS 05 Shell colors use token classes
+2026-06-21T20:01:13.390Z PASS 06 Foreground and muted colors use contrast tokens
+2026-06-21T20:01:13.390Z PASS 07 Wrong-theme flash prevention is wired
+2026-06-21T20:01:13.390Z PASS 08 Design tokens are available from TypeScript
+2026-06-21T20:01:13.390Z PASS 09 Tailwind config maps token colors
+2026-06-21T20:01:13.390Z PASS 10 Theme transitions are configured

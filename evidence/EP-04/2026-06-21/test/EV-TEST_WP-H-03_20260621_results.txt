@@ -1,0 +1,10 @@
+2026-06-21T20:01:13.322Z PASS 01 Breakpoint helper returns named breakpoints
+2026-06-21T20:01:13.322Z PASS 02 Sidebar collapses at tablet width
+2026-06-21T20:01:13.322Z PASS 03 Sidebar hidden and drawer available on mobile
+2026-06-21T20:01:13.322Z PASS 04 Touch targets use minimum 44px height
+2026-06-21T20:01:13.322Z PASS 05 Grid adapts 1/2/3/4 columns
+2026-06-21T20:01:13.322Z PASS 06 Shell prevents horizontal viewport overflow
+2026-06-21T20:01:13.322Z PASS 07 Font size scales through responsive classes
+2026-06-21T20:01:13.322Z PASS 08 Content max width is enforced
+2026-06-21T20:01:13.322Z PASS 09 Media query stylesheet exists
+2026-06-21T20:01:13.322Z PASS 10 Generic media query hook exists

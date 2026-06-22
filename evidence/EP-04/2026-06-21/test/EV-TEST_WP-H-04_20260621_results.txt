@@ -1,0 +1,10 @@
+2026-06-21T20:01:13.355Z PASS 01 Dashboard route exists
+2026-06-21T20:01:13.355Z PASS 02 Stat cards read real tRPC data
+2026-06-21T20:01:13.355Z PASS 03 Change indicator colors positive and negative
+2026-06-21T20:01:13.355Z PASS 04 Activity feed shows timestamped events
+2026-06-21T20:01:13.355Z PASS 05 Quick actions link to feature pages
+2026-06-21T20:01:13.355Z PASS 06 Dashboard skeleton exists
+2026-06-21T20:01:13.355Z PASS 07 Empty state exists
+2026-06-21T20:01:13.355Z PASS 08 Widget grid is responsive
+2026-06-21T20:01:13.355Z PASS 09 Dashboard handles partial tRPC errors
+2026-06-21T20:01:13.355Z PASS 10 Root route redirects to dashboard

@@ -1,0 +1,10 @@
+2026-06-21T20:01:13.262Z PASS 01 AppShell component exists
+2026-06-21T20:01:13.262Z PASS 02 Root layout wraps children with AppShell
+2026-06-21T20:01:13.262Z PASS 03 Sidebar visible on desktop via md:flex
+2026-06-21T20:01:13.262Z PASS 04 Topbar is sticky
+2026-06-21T20:01:13.262Z PASS 05 Content area scrolls independently
+2026-06-21T20:01:13.262Z PASS 06 Mobile drawer exists
+2026-06-21T20:01:13.262Z PASS 07 Error boundary fallback exists
+2026-06-21T20:01:13.262Z PASS 08 Global loading route exists
+2026-06-21T20:01:13.262Z PASS 09 404 page exists
+2026-06-21T20:01:13.262Z PASS 10 PageWrapper supports actions

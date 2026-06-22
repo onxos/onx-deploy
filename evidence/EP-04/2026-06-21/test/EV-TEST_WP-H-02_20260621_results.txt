@@ -1,0 +1,10 @@
+2026-06-21T20:01:13.294Z PASS 01 Route config is present
+2026-06-21T20:01:13.294Z PASS 02 Nav menu renders route groups
+2026-06-21T20:01:13.294Z PASS 03 Permission hook filters nav items
+2026-06-21T20:01:13.294Z PASS 04 Mobile drawer has overlay
+2026-06-21T20:01:13.294Z PASS 05 Breadcrumb derives pathname
+2026-06-21T20:01:13.294Z PASS 06 User menu exposes role and logout
+2026-06-21T20:01:13.294Z PASS 07 Collapsed sidebar passes icon-only state
+2026-06-21T20:01:13.294Z PASS 08 External route target behavior is supported
+2026-06-21T20:01:13.294Z PASS 09 Nav sections collapse and expand
+2026-06-21T20:01:13.294Z PASS 10 Keyboard escape closes drawer
