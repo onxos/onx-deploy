@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { NotificationDropdown } from "@/components/notifications/notification-dropdown";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Breadcrumb } from "./breadcrumb";
 import { MobileDrawer } from "./mobile-drawer";
@@ -17,6 +18,7 @@ export function Topbar() {
         <Breadcrumb />
       </div>
       <div className="flex items-center gap-3">
+        <NotificationDropdown />
         <ThemeToggle />
         <UserMenu />
       </div>
