@@ -1,0 +1,79 @@
+{
+  "suite": "ATLAS-V5 package validation and verification",
+  "timestamp": "2026-06-23T09:15:22.823Z",
+  "deliverable": "docs/ONX_ATLAS_V5_COMPLETE_EXECUTION_PACKAGE_v1.0.docx",
+  "builder": "scripts/build_onx_atlas_v5.py",
+  "expected": {
+    "trains": 15,
+    "workPackages": 75,
+    "acceptanceCriteria": 750,
+    "trainRange": "L-Z"
+  },
+  "results": [
+    {
+      "id": "ATLAS-V5-VERIFY-01",
+      "name": "DOCX deliverable exists",
+      "pass": true,
+      "detail": "docs/ONX_ATLAS_V5_COMPLETE_EXECUTION_PACKAGE_v1.0.docx"
+    },
+    {
+      "id": "ATLAS-V5-VERIFY-02",
+      "name": "Deterministic builder exists",
+      "pass": true,
+      "detail": "scripts/build_onx_atlas_v5.py"
+    },
+    {
+      "id": "ATLAS-V5-VERIFY-03",
+      "name": "DOCX file is non-empty",
+      "pass": true,
+      "detail": "ONX_ATLAS_V5_COMPLETE_EXECUTION_PACKAGE_v1.0.docx size=52151 bytes"
+    },
+    {
+      "id": "ATLAS-V5-VERIFY-04",
+      "name": "15 train headings exist from L through Z",
+      "pass": true,
+      "detail": "found=L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z"
+    },
+    {
+      "id": "ATLAS-V5-VERIFY-05",
+      "name": "75 unique work package IDs exist",
+      "pass": true,
+      "detail": "found=75"
+    },
+    {
+      "id": "ATLAS-V5-VERIFY-06",
+      "name": "750 unique acceptance criterion IDs exist",
+      "pass": true,
+      "detail": "found=750"
+    },
+    {
+      "id": "ATLAS-V5-VERIFY-07",
+      "name": "Each train has exactly five WPs",
+      "pass": true,
+      "detail": "{\"L\":5,\"M\":5,\"N\":5,\"O\":5,\"P\":5,\"Q\":5,\"R\":5,\"S\":5,\"T\":5,\"U\":5,\"V\":5,\"W\":5,\"X\":5,\"Y\":5,\"Z\":5}"
+    },
+    {
+      "id": "ATLAS-V5-VERIFY-08",
+      "name": "Each train has exactly 50 criteria",
+      "pass": true,
+      "detail": "{\"L\":50,\"M\":50,\"N\":50,\"O\":50,\"P\":50,\"Q\":50,\"R\":50,\"S\":50,\"T\":50,\"U\":50,\"V\":50,\"W\":50,\"X\":50,\"Y\":50,\"Z\":50}"
+    },
+    {
+      "id": "ATLAS-V5-VERIFY-09",
+      "name": "Master acceptance and evidence sections exist",
+      "pass": true,
+      "detail": "checked Parts 5, 6, 9, and 10"
+    },
+    {
+      "id": "ATLAS-V5-VERIFY-10",
+      "name": "Founder target language states 750/750 PASS",
+      "pass": true,
+      "detail": "requires exact final acceptance target"
+    }
+  ],
+  "summary": {
+    "pass": 10,
+    "fail": 0,
+    "exitCode": 0
+  }
+}

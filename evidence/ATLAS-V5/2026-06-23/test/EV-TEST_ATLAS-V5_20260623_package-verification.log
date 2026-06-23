@@ -1,0 +1,13 @@
+$ bun run test:atlas-v5
+2026-06-23T09:15:22.823Z PASS ATLAS-V5-VERIFY-01 DOCX deliverable exists - docs/ONX_ATLAS_V5_COMPLETE_EXECUTION_PACKAGE_v1.0.docx
+2026-06-23T09:15:22.823Z PASS ATLAS-V5-VERIFY-02 Deterministic builder exists - scripts/build_onx_atlas_v5.py
+2026-06-23T09:15:22.823Z PASS ATLAS-V5-VERIFY-03 DOCX file is non-empty - ONX_ATLAS_V5_COMPLETE_EXECUTION_PACKAGE_v1.0.docx size=52151 bytes
+2026-06-23T09:15:22.823Z PASS ATLAS-V5-VERIFY-04 15 train headings exist from L through Z - found=L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z
+2026-06-23T09:15:22.823Z PASS ATLAS-V5-VERIFY-05 75 unique work package IDs exist - found=75
+2026-06-23T09:15:22.823Z PASS ATLAS-V5-VERIFY-06 750 unique acceptance criterion IDs exist - found=750
+2026-06-23T09:15:22.823Z PASS ATLAS-V5-VERIFY-07 Each train has exactly five WPs - {"L":5,"M":5,"N":5,"O":5,"P":5,"Q":5,"R":5,"S":5,"T":5,"U":5,"V":5,"W":5,"X":5,"Y":5,"Z":5}
+2026-06-23T09:15:22.823Z PASS ATLAS-V5-VERIFY-08 Each train has exactly 50 criteria - {"L":50,"M":50,"N":50,"O":50,"P":50,"Q":50,"R":50,"S":50,"T":50,"U":50,"V":50,"W":50,"X":50,"Y":50,"Z":50}
+2026-06-23T09:15:22.823Z PASS ATLAS-V5-VERIFY-09 Master acceptance and evidence sections exist - checked Parts 5, 6, 9, and 10
+2026-06-23T09:15:22.823Z PASS ATLAS-V5-VERIFY-10 Founder target language states 750/750 PASS - requires exact final acceptance target
+Results: 10 passed, 0 failed
+EXIT_CODE:0

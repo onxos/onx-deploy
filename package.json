@@ -36,6 +36,7 @@
     "test:wp-k-03": "bun run scripts/test-wp-k-03.ts",
     "test:wp-k-04": "bun run scripts/test-wp-k-04.ts",
     "test:wp-k-05": "bun run scripts/test-wp-k-05.ts",
+    "test:atlas-v5": "bun run scripts/verify-atlas-v5-package.ts",
     "db:push": "drizzle-kit push",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
