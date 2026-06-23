@@ -1,0 +1,13 @@
+$ bun run scripts/test-wp-k-02.ts
+2026-06-23T07:46:41.414Z PASS AC-K02-01 Potential list page renders
+2026-06-23T07:46:41.414Z PASS AC-K02-02 DataTable displays potentials
+2026-06-23T07:46:41.414Z PASS AC-K02-03 Parent dream title
+2026-06-23T07:46:41.414Z PASS AC-K02-04 Feasibility badge colors
+2026-06-23T07:46:41.414Z PASS AC-K02-05 Assessment score
+2026-06-23T07:46:41.414Z PASS AC-K02-06 Creation form validates
+2026-06-23T07:46:41.414Z PASS AC-K02-07 Mark conversion
+2026-06-23T07:46:41.414Z PASS AC-K02-08 Feasibility filter
+2026-06-23T07:46:41.414Z PASS AC-K02-09 Potential detail route
+2026-06-23T07:46:41.414Z PASS AC-K02-10 Empty state
+Results: 10 passed, 0 failed
+EXIT_CODE:0

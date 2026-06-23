@@ -1,0 +1,13 @@
+$ bun run scripts/test-wp-k-01.ts
+2026-06-23T07:46:41.390Z PASS AC-K01-01 Dream list page renders
+2026-06-23T07:46:41.390Z PASS AC-K01-02 DataTable displays dreams
+2026-06-23T07:46:41.390Z PASS AC-K01-03 Title validation
+2026-06-23T07:46:41.390Z PASS AC-K01-04 Description validation
+2026-06-23T07:46:41.390Z PASS AC-K01-05 New dream appears
+2026-06-23T07:46:41.390Z PASS AC-K01-06 Dream detail page
+2026-06-23T07:46:41.390Z PASS AC-K01-07 Status badge colors
+2026-06-23T07:46:41.390Z PASS AC-K01-08 Category filters
+2026-06-23T07:46:41.390Z PASS AC-K01-09 Search filters
+2026-06-23T07:46:41.391Z PASS AC-K01-10 Empty state
+Results: 10 passed, 0 failed
+EXIT_CODE:0

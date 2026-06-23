@@ -1,0 +1,13 @@
+$ bun run scripts/test-wp-k-03.ts
+2026-06-23T07:46:41.437Z PASS AC-K03-01 Goal list page renders
+2026-06-23T07:46:41.438Z PASS AC-K03-02 Potential prefill
+2026-06-23T07:46:41.438Z PASS AC-K03-03 Milestone list
+2026-06-23T07:46:41.438Z PASS AC-K03-04 Progress indicator
+2026-06-23T07:46:41.438Z PASS AC-K03-05 Goal status badge
+2026-06-23T07:46:41.438Z PASS AC-K03-06 Overdue warning
+2026-06-23T07:46:41.438Z PASS AC-K03-07 Hierarchy
+2026-06-23T07:46:41.438Z PASS AC-K03-08 Status filter
+2026-06-23T07:46:41.438Z PASS AC-K03-09 Zod validation
+2026-06-23T07:46:41.438Z PASS AC-K03-10 Empty state and detail route
+Results: 10 passed, 0 failed
+EXIT_CODE:0

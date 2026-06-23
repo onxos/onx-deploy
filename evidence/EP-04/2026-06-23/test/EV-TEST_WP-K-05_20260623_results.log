@@ -1,0 +1,13 @@
+$ bun run scripts/test-wp-k-05.ts
+2026-06-23T07:46:41.485Z PASS AC-K05-01 Execution page renders
+2026-06-23T07:46:41.486Z PASS AC-K05-02 Task DataTable
+2026-06-23T07:46:41.486Z PASS AC-K05-03 Task status badge
+2026-06-23T07:46:41.486Z PASS AC-K05-04 Status toggle
+2026-06-23T07:46:41.486Z PASS AC-K05-05 Timeline ordered
+2026-06-23T07:46:41.486Z PASS AC-K05-06 Progress summary
+2026-06-23T07:46:41.486Z PASS AC-K05-07 Outcome form
+2026-06-23T07:46:41.486Z PASS AC-K05-08 Overdue warning
+2026-06-23T07:46:41.486Z PASS AC-K05-09 Status filter
+2026-06-23T07:46:41.486Z PASS AC-K05-10 Empty state
+Results: 10 passed, 0 failed
+EXIT_CODE:0

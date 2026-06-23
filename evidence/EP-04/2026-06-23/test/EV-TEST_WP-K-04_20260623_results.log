@@ -1,0 +1,13 @@
+$ bun run scripts/test-wp-k-04.ts
+2026-06-23T07:46:41.461Z PASS AC-K04-01 Workspace tabs
+2026-06-23T07:46:41.461Z PASS AC-K04-02 Understanding cards
+2026-06-23T07:46:41.461Z PASS AC-K04-03 Judgment cards
+2026-06-23T07:46:41.461Z PASS AC-K04-04 Understanding validation
+2026-06-23T07:46:41.461Z PASS AC-K04-05 Judgment validation
+2026-06-23T07:46:41.461Z PASS AC-K04-06 Confidence badge
+2026-06-23T07:46:41.461Z PASS AC-K04-07 Parent links
+2026-06-23T07:46:41.461Z PASS AC-K04-08 Type filter
+2026-06-23T07:46:41.461Z PASS AC-K04-09 Confidence filter
+2026-06-23T07:46:41.461Z PASS AC-K04-10 Empty state
+Results: 10 passed, 0 failed
+EXIT_CODE:0
