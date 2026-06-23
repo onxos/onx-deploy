@@ -1,0 +1,12 @@
+WP-M-03 Achievement Badges implementation evidence
+
+Implementation commit: enclosing git commit containing this evidence
+
+Primary files:
+- src/lib/outcomes/outcome-records.ts
+- src/app/(dashboard)/recognition/page.tsx
+- src/components/outcomes/recognition-view.tsx
+
+Review notes:
+- Recognition badges include recipient, award date, reason, and signal.
+- Leadership review metrics summarize recognition count and quality.

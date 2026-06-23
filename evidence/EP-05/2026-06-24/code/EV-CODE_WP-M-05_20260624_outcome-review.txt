@@ -1,0 +1,12 @@
+WP-M-05 Outcome Review Dashboard implementation evidence
+
+Implementation commit: enclosing git commit containing this evidence
+
+Primary files:
+- src/components/outcomes/recognition-view.tsx
+- src/lib/outcomes/outcome-records.ts
+- src/config/routes.ts
+
+Review notes:
+- Recognition view includes leadership metrics for outcomes, lessons, badges, and quality.
+- Outcomes, flourishing, and recognition routes are available in navigation.

@@ -77,6 +77,24 @@ export const mainRoutes: RouteConfig[] = [
     icon: "execution",
     group: "Dream to Goal",
   },
+  {
+    path: "/outcomes",
+    label: "Outcomes",
+    icon: "goal",
+    group: "Dream to Goal",
+  },
+  {
+    path: "/flourishing",
+    label: "Flourishing",
+    icon: "spark",
+    group: "Dream to Goal",
+  },
+  {
+    path: "/recognition",
+    label: "Recognition",
+    icon: "shield",
+    group: "Dream to Goal",
+  },
   { path: "/pulse", label: "Pulse", icon: "activity", group: "Overview" },
   {
     path: "/knowledge",

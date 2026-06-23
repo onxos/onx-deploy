@@ -1,0 +1,15 @@
+WP-M-04 deployment verification evidence
+
+Implementation commit: enclosing git commit containing this evidence
+
+Commands:
+- bun run lint
+- bun run build
+
+Captured output:
+- evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-M-05_20260624_lint.log
+- evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-M-05_20260624_build.log
+
+Result:
+- PASS lint
+- PASS build

@@ -7,6 +7,7 @@ import { dreamRouter } from "./routers/dream";
 import { gapRouter } from "./routers/gap";
 import { goalRouter } from "./routers/goal";
 import { judgmentRouter } from "./routers/judgment";
+import { outcomeRouter } from "./routers/outcome";
 import { potentialRouter } from "./routers/potential";
 import { sechRouter } from "./routers/sech";
 import { taskRouter } from "./routers/task";
@@ -29,6 +30,7 @@ export const appRouter = createTRPCRouter({
   understanding: understandingRouter,
   judgment: judgmentRouter,
   task: taskRouter,
+  outcome: outcomeRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -1,0 +1,11 @@
+WP-M-02 Lessons Learned implementation evidence
+
+Implementation commit: enclosing git commit containing this evidence
+
+Primary files:
+- src/lib/outcomes/outcome-records.ts
+- src/components/outcomes/outcomes-view.tsx
+
+Review notes:
+- Lessons are linked to completed outcomes and include decision, note, and improvement fields.
+- Lessons render beside the outcome record for review.
