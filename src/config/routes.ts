@@ -6,12 +6,17 @@ export type RouteIcon =
   | "book"
   | "chart"
   | "dashboard"
+  | "dream"
+  | "execution"
   | "gaps"
+  | "goal"
   | "memory"
+  | "potential"
   | "shield"
   | "spark"
   | "titan"
-  | "users";
+  | "users"
+  | "workspace";
 
 export interface RouteConfig {
   path: string;
@@ -49,6 +54,26 @@ export const mainRoutes: RouteConfig[] = [
     label: "Companion",
     icon: "spark",
     group: "Gate 6",
+  },
+  { path: "/dreams", label: "Dreams", icon: "dream", group: "Dream to Goal" },
+  {
+    path: "/potential",
+    label: "Potential",
+    icon: "potential",
+    group: "Dream to Goal",
+  },
+  { path: "/goals", label: "Goals", icon: "goal", group: "Dream to Goal" },
+  {
+    path: "/workspace",
+    label: "Workspace",
+    icon: "workspace",
+    group: "Dream to Goal",
+  },
+  {
+    path: "/execution",
+    label: "Execution",
+    icon: "execution",
+    group: "Dream to Goal",
   },
   { path: "/pulse", label: "Pulse", icon: "activity", group: "Overview" },
   {

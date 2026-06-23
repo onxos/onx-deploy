@@ -6,12 +6,17 @@ const icons: Record<RouteIcon, string> = {
   book: "□",
   chart: "▥",
   dashboard: "⌂",
+  dream: "◇",
+  execution: "✓",
   gaps: "◇",
+  goal: "◎",
   memory: "◫",
+  potential: "◌",
   shield: "◈",
   spark: "✦",
   titan: "△",
   users: "◉",
+  workspace: "▣",
 };
 
 export function RouteIconMark({ icon }: { icon: RouteIcon }) {
