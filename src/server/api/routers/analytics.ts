@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { and, asc, desc, eq, gte, lte, sql } from "drizzle-orm";
 import { z } from "zod";
+import { getLifecycleAnalyticsSummary } from "@/lib/analytics/lifecycle-analytics";
 import { requirePermission } from "@/server/api/middleware/rbac";
 import {
   analyticsQueryInputSchema,
@@ -26,6 +27,10 @@ const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const trackRateLimits = new Map<string, { count: number; resetAt: number }>();
 
 export const analyticsRouter = createTRPCRouter({
+  getLifecycleSummary: protectedProcedure
+    .use(requirePermission("analytics:read"))
+    .query(() => getLifecycleAnalyticsSummary()),
+
   query: protectedProcedure
     .use(requirePermission("analytics:read"))
     .input(analyticsQueryInputSchema.optional())

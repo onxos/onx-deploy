@@ -41,13 +41,23 @@ export default function DashboardPage() {
   const titans = api.titan.listTitans.useQuery(undefined, {
     placeholderData: [],
   });
+  const lifecycle = api.analytics.getLifecycleSummary.useQuery(undefined);
   const sech = api.sech.getCurrentStatus.useQuery(undefined, {
     placeholderData: sechFallback,
   });
 
   const isLoading =
-    articles.isLoading || gaps.isLoading || titans.isLoading || sech.isLoading;
-  const hasError = articles.error || gaps.error || titans.error || sech.error;
+    articles.isLoading ||
+    gaps.isLoading ||
+    titans.isLoading ||
+    lifecycle.isLoading ||
+    sech.isLoading;
+  const hasError =
+    articles.error ||
+    gaps.error ||
+    titans.error ||
+    lifecycle.error ||
+    sech.error;
 
   if (isLoading) return <DashboardSkeleton />;
 
@@ -81,26 +91,31 @@ export default function DashboardPage() {
 
       <WidgetGrid>
         <StatCard
-          label="Knowledge articles"
-          value={articles.data?.length ?? 0}
-          change={articles.data && articles.data.length > 0 ? 100 : 0}
-          icon="book"
+          label="Dreams"
+          value={lifecycle.data?.kpis.dreams ?? 0}
+          change={lifecycle.data?.kpis.dreams ? 100 : 0}
+          icon="dream"
         />
         <StatCard
-          label="Gap items"
-          value={gaps.data?.total ?? 0}
-          change={gaps.data && gaps.data.total > 0 ? 54 : 0}
-          icon="gaps"
+          label="Potentials"
+          value={lifecycle.data?.kpis.potentials ?? 0}
+          change={lifecycle.data?.kpis.potentials ? 100 : 0}
+          icon="potential"
         />
         <StatCard
-          label="Registered titans"
-          value={titans.data?.length ?? 0}
-          icon="titan"
+          label="Goals"
+          value={lifecycle.data?.kpis.goals ?? 0}
+          icon="goal"
         />
         <StatCard
-          label="SECH layers"
-          value={sech.data?.length ?? 0}
-          icon="shield"
+          label="Active execution"
+          value={lifecycle.data?.kpis.activeExecution ?? 0}
+          icon="execution"
+        />
+        <StatCard
+          label="Completion velocity"
+          value={lifecycle.data?.kpis.completionVelocity ?? 0}
+          icon="chart"
         />
       </WidgetGrid>
 

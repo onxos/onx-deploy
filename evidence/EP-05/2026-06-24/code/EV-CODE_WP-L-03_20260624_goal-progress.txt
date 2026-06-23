@@ -1,0 +1,13 @@
+WP-L-03 Goal Progress Charts implementation evidence
+
+Implementation commit: enclosing git commit containing this evidence
+
+Primary files:
+- src/components/analytics/lifecycle-analytics-view.tsx
+- src/lib/analytics/lifecycle-analytics.ts
+- src/server/api/routers/goal.ts
+
+Review notes:
+- `/analytics` renders goal progress bars with completed milestone counts.
+- `milestoneProgress` is calculated from shared Train K goal records.
+- The existing goal router continues to use the shared lifecycle record source.

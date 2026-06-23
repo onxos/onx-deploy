@@ -1,30 +1,11 @@
 import { z } from "zod";
+import { goals } from "@/lib/civilization/lifecycle-records";
 import {
   goalSchema,
   milestoneSchema,
   updateGoalSchema,
 } from "@/lib/validations/goal";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-
-const goals = [
-  {
-    childGoals: ["Instrument evidence automation"],
-    deadline: "2026-06-30",
-    description: "Convert Train K into a complete operating layer.",
-    id: "goal-1",
-    milestones: [
-      {
-        completed: true,
-        dueDate: "2026-06-23",
-        id: "m1",
-        title: "Model dream",
-      },
-    ],
-    priority: "Critical",
-    status: "Active",
-    title: "Close Train K with 50/50 certification",
-  },
-] as const;
 
 export const goalRouter = createTRPCRouter({
   addMilestone: protectedProcedure

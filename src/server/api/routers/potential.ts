@@ -1,23 +1,10 @@
 import { z } from "zod";
+import { potentials } from "@/lib/civilization/lifecycle-records";
 import {
   potentialSchema,
   updatePotentialSchema,
 } from "@/lib/validations/potential";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-
-const potentials = [
-  {
-    assessmentScore: 92,
-    category: "Creation",
-    conversionReady: true,
-    description:
-      "Ship the Dream Center first, then convert pathways into goals.",
-    dreamId: "dream-1",
-    feasibility: "High",
-    id: "potential-1",
-    parentDreamTitle: "Build the ONX core experience",
-  },
-] as const;
 
 export const potentialRouter = createTRPCRouter({
   byId: protectedProcedure

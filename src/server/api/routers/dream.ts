@@ -1,19 +1,7 @@
 import { z } from "zod";
+import { dreams } from "@/lib/civilization/lifecycle-records";
 import { dreamSchema, updateDreamSchema } from "@/lib/validations/dream";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-
-const dreams = [
-  {
-    category: "Professional",
-    createdAt: "2026-06-22",
-    description: "Create the ONX Dream-to-Goal operating layer.",
-    id: "dream-1",
-    priority: "Critical",
-    status: "Active",
-    title: "Build the ONX core experience",
-    updatedAt: "2026-06-22",
-  },
-] as const;
 
 export const dreamRouter = createTRPCRouter({
   archive: protectedProcedure

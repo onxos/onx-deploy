@@ -35,6 +35,8 @@ export const mainRoutes: RouteConfig[] = [
     icon: "dashboard",
     group: "Overview",
   },
+  { path: "/analytics", label: "Analytics", icon: "chart", group: "Overview" },
+  { path: "/reports", label: "Reports", icon: "book", group: "Overview" },
   { path: "/profile", label: "Profile", icon: "users", group: "Overview" },
   { path: "/settings", label: "Settings", icon: "shield", group: "Overview" },
   {

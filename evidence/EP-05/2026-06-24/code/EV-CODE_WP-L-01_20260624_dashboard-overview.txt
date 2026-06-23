@@ -1,0 +1,14 @@
+WP-L-01 Dashboard Overview implementation evidence
+
+Implementation commit: enclosing git commit containing this evidence
+
+Primary files:
+- src/app/dashboard/page.tsx
+- src/lib/analytics/lifecycle-analytics.ts
+- src/server/api/routers/analytics.ts
+- src/lib/civilization/lifecycle-records.ts
+
+Review notes:
+- Dashboard now renders Dream-to-Evolution KPI cards for dreams, potentials, goals, active execution, and completion velocity.
+- KPI data is sourced from the protected `analytics.getLifecycleSummary` tRPC procedure.
+- Loading and failure behavior remain present through existing dashboard skeleton and error banner.
