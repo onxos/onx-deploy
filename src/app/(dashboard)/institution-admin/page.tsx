@@ -9,7 +9,8 @@ export default function institutionPage() {
 
   const institutionSettingQuery = api.institution.institutionSettingList.useQuery();
   const institutionSettingCount = api.institution.institutionSettingCount.useQuery();
-  const institutionSettingDelete = api.institution.institutionSettingDelete.useMutation({
+  const institutionSettingDelete =
+      api.institution.institutionSettingDelete.useMutation({
     onSuccess: () => {
       utils.institution.institutionSettingList.invalidate();
       utils.institution.institutionSettingCount.invalidate();
@@ -18,7 +19,8 @@ export default function institutionPage() {
 
   const memberManagementQuery = api.institution.memberManagementList.useQuery();
   const memberManagementCount = api.institution.memberManagementCount.useQuery();
-  const memberManagementDelete = api.institution.memberManagementDelete.useMutation({
+  const memberManagementDelete =
+      api.institution.memberManagementDelete.useMutation({
     onSuccess: () => {
       utils.institution.memberManagementList.invalidate();
       utils.institution.memberManagementCount.invalidate();
@@ -29,7 +31,9 @@ export default function institutionPage() {
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">Institution Management</h1>
-        <p className="text-muted-foreground">Institution settings and member management</p>
+        <p className="text-muted-foreground">
+          Institution settings and member management
+        </p>
       </div>
 
       <Tabs defaultValue="institutionSetting" className="px-6">

@@ -9,7 +9,8 @@ export default function dataGovernancePage() {
 
   const dataGovernanceRuleQuery = api.dataGovernance.dataGovernanceRuleList.useQuery();
   const dataGovernanceRuleCount = api.dataGovernance.dataGovernanceRuleCount.useQuery();
-  const dataGovernanceRuleDelete = api.dataGovernance.dataGovernanceRuleDelete.useMutation({
+  const dataGovernanceRuleDelete =
+      api.dataGovernance.dataGovernanceRuleDelete.useMutation({
     onSuccess: () => {
       utils.dataGovernance.dataGovernanceRuleList.invalidate();
       utils.dataGovernance.dataGovernanceRuleCount.invalidate();
@@ -18,7 +19,8 @@ export default function dataGovernancePage() {
 
   const dataQualityCheckQuery = api.dataGovernance.dataQualityCheckList.useQuery();
   const dataQualityCheckCount = api.dataGovernance.dataQualityCheckCount.useQuery();
-  const dataQualityCheckDelete = api.dataGovernance.dataQualityCheckDelete.useMutation({
+  const dataQualityCheckDelete =
+      api.dataGovernance.dataQualityCheckDelete.useMutation({
     onSuccess: () => {
       utils.dataGovernance.dataQualityCheckList.invalidate();
       utils.dataGovernance.dataQualityCheckCount.invalidate();
@@ -29,7 +31,9 @@ export default function dataGovernancePage() {
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">Data Governance</h1>
-        <p className="text-muted-foreground">Data governance rules and quality checks</p>
+        <p className="text-muted-foreground">
+          Data governance rules and quality checks
+        </p>
       </div>
 
       <Tabs defaultValue="dataGovernanceRule" className="px-6">

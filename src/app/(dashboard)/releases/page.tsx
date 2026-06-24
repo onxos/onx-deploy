@@ -9,7 +9,8 @@ export default function releaseMgmtPage() {
 
   const releaseRecordQuery = api.releaseMgmt.releaseRecordList.useQuery();
   const releaseRecordCount = api.releaseMgmt.releaseRecordCount.useQuery();
-  const releaseRecordDelete = api.releaseMgmt.releaseRecordDelete.useMutation({
+  const releaseRecordDelete =
+      api.releaseMgmt.releaseRecordDelete.useMutation({
     onSuccess: () => {
       utils.releaseMgmt.releaseRecordList.invalidate();
       utils.releaseMgmt.releaseRecordCount.invalidate();
@@ -18,7 +19,8 @@ export default function releaseMgmtPage() {
 
   const deploymentTrackingQuery = api.releaseMgmt.deploymentTrackingList.useQuery();
   const deploymentTrackingCount = api.releaseMgmt.deploymentTrackingCount.useQuery();
-  const deploymentTrackingDelete = api.releaseMgmt.deploymentTrackingDelete.useMutation({
+  const deploymentTrackingDelete =
+      api.releaseMgmt.deploymentTrackingDelete.useMutation({
     onSuccess: () => {
       utils.releaseMgmt.deploymentTrackingList.invalidate();
       utils.releaseMgmt.deploymentTrackingCount.invalidate();
@@ -29,7 +31,9 @@ export default function releaseMgmtPage() {
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">Release Management</h1>
-        <p className="text-muted-foreground">Release records and deployment tracking</p>
+        <p className="text-muted-foreground">
+          Release records and deployment tracking
+        </p>
       </div>
 
       <Tabs defaultValue="releaseRecord" className="px-6">

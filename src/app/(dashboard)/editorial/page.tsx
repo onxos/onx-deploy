@@ -9,7 +9,8 @@ export default function editorialPage() {
 
   const editorialPolicyQuery = api.editorial.editorialPolicyList.useQuery();
   const editorialPolicyCount = api.editorial.editorialPolicyCount.useQuery();
-  const editorialPolicyDelete = api.editorial.editorialPolicyDelete.useMutation({
+  const editorialPolicyDelete =
+      api.editorial.editorialPolicyDelete.useMutation({
     onSuccess: () => {
       utils.editorial.editorialPolicyList.invalidate();
       utils.editorial.editorialPolicyCount.invalidate();
@@ -18,7 +19,8 @@ export default function editorialPage() {
 
   const contentReviewQuery = api.editorial.contentReviewList.useQuery();
   const contentReviewCount = api.editorial.contentReviewCount.useQuery();
-  const contentReviewDelete = api.editorial.contentReviewDelete.useMutation({
+  const contentReviewDelete =
+      api.editorial.contentReviewDelete.useMutation({
     onSuccess: () => {
       utils.editorial.contentReviewList.invalidate();
       utils.editorial.contentReviewCount.invalidate();
@@ -27,7 +29,8 @@ export default function editorialPage() {
 
   const publicationScheduleQuery = api.editorial.publicationScheduleList.useQuery();
   const publicationScheduleCount = api.editorial.publicationScheduleCount.useQuery();
-  const publicationScheduleDelete = api.editorial.publicationScheduleDelete.useMutation({
+  const publicationScheduleDelete =
+      api.editorial.publicationScheduleDelete.useMutation({
     onSuccess: () => {
       utils.editorial.publicationScheduleList.invalidate();
       utils.editorial.publicationScheduleCount.invalidate();
@@ -38,7 +41,9 @@ export default function editorialPage() {
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">Editorial Governance</h1>
-        <p className="text-muted-foreground">Editorial policies, content reviews, and publication schedules</p>
+        <p className="text-muted-foreground">
+          Editorial policies, content reviews, and publication schedules
+        </p>
       </div>
 
       <Tabs defaultValue="editorialPolicy" className="px-6">

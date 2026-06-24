@@ -9,7 +9,8 @@ export default function securityReviewPage() {
 
   const securityAuditQuery = api.securityReview.securityAuditList.useQuery();
   const securityAuditCount = api.securityReview.securityAuditCount.useQuery();
-  const securityAuditDelete = api.securityReview.securityAuditDelete.useMutation({
+  const securityAuditDelete =
+      api.securityReview.securityAuditDelete.useMutation({
     onSuccess: () => {
       utils.securityReview.securityAuditList.invalidate();
       utils.securityReview.securityAuditCount.invalidate();
@@ -18,7 +19,8 @@ export default function securityReviewPage() {
 
   const vulnerabilityTrackingQuery = api.securityReview.vulnerabilityTrackingList.useQuery();
   const vulnerabilityTrackingCount = api.securityReview.vulnerabilityTrackingCount.useQuery();
-  const vulnerabilityTrackingDelete = api.securityReview.vulnerabilityTrackingDelete.useMutation({
+  const vulnerabilityTrackingDelete =
+      api.securityReview.vulnerabilityTrackingDelete.useMutation({
     onSuccess: () => {
       utils.securityReview.vulnerabilityTrackingList.invalidate();
       utils.securityReview.vulnerabilityTrackingCount.invalidate();
@@ -29,7 +31,9 @@ export default function securityReviewPage() {
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">Security Review</h1>
-        <p className="text-muted-foreground">Security audits and vulnerability tracking</p>
+        <p className="text-muted-foreground">
+          Security audits and vulnerability tracking
+        </p>
       </div>
 
       <Tabs defaultValue="securityAudit" className="px-6">

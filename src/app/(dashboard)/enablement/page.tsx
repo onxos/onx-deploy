@@ -9,7 +9,8 @@ export default function enablementPage() {
 
   const trainingMaterialQuery = api.enablement.trainingMaterialList.useQuery();
   const trainingMaterialCount = api.enablement.trainingMaterialCount.useQuery();
-  const trainingMaterialDelete = api.enablement.trainingMaterialDelete.useMutation({
+  const trainingMaterialDelete =
+      api.enablement.trainingMaterialDelete.useMutation({
     onSuccess: () => {
       utils.enablement.trainingMaterialList.invalidate();
       utils.enablement.trainingMaterialCount.invalidate();
@@ -18,7 +19,8 @@ export default function enablementPage() {
 
   const onboardingFlowQuery = api.enablement.onboardingFlowList.useQuery();
   const onboardingFlowCount = api.enablement.onboardingFlowCount.useQuery();
-  const onboardingFlowDelete = api.enablement.onboardingFlowDelete.useMutation({
+  const onboardingFlowDelete =
+      api.enablement.onboardingFlowDelete.useMutation({
     onSuccess: () => {
       utils.enablement.onboardingFlowList.invalidate();
       utils.enablement.onboardingFlowCount.invalidate();
@@ -29,7 +31,9 @@ export default function enablementPage() {
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">User Enablement</h1>
-        <p className="text-muted-foreground">Training materials and onboarding flows</p>
+        <p className="text-muted-foreground">
+          Training materials and onboarding flows
+        </p>
       </div>
 
       <Tabs defaultValue="trainingMaterial" className="px-6">

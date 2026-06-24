@@ -9,7 +9,8 @@ export default function launchPage() {
 
   const launchChecklistQuery = api.launch.launchChecklistList.useQuery();
   const launchChecklistCount = api.launch.launchChecklistCount.useQuery();
-  const launchChecklistDelete = api.launch.launchChecklistDelete.useMutation({
+  const launchChecklistDelete =
+      api.launch.launchChecklistDelete.useMutation({
     onSuccess: () => {
       utils.launch.launchChecklistList.invalidate();
       utils.launch.launchChecklistCount.invalidate();
@@ -18,7 +19,8 @@ export default function launchPage() {
 
   const postLaunchMonitoringQuery = api.launch.postLaunchMonitoringList.useQuery();
   const postLaunchMonitoringCount = api.launch.postLaunchMonitoringCount.useQuery();
-  const postLaunchMonitoringDelete = api.launch.postLaunchMonitoringDelete.useMutation({
+  const postLaunchMonitoringDelete =
+      api.launch.postLaunchMonitoringDelete.useMutation({
     onSuccess: () => {
       utils.launch.postLaunchMonitoringList.invalidate();
       utils.launch.postLaunchMonitoringCount.invalidate();
@@ -29,7 +31,9 @@ export default function launchPage() {
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">Launch Readiness</h1>
-        <p className="text-muted-foreground">Launch checklists and post-launch monitoring</p>
+        <p className="text-muted-foreground">
+          Launch checklists and post-launch monitoring
+        </p>
       </div>
 
       <Tabs defaultValue="launchChecklist" className="px-6">

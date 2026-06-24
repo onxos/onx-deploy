@@ -9,7 +9,8 @@ export default function auditReviewPage() {
 
   const auditLogQuery = api.auditReview.auditLogList.useQuery();
   const auditLogCount = api.auditReview.auditLogCount.useQuery();
-  const auditLogDelete = api.auditReview.auditLogDelete.useMutation({
+  const auditLogDelete =
+      api.auditReview.auditLogDelete.useMutation({
     onSuccess: () => {
       utils.auditReview.auditLogList.invalidate();
       utils.auditReview.auditLogCount.invalidate();
@@ -18,7 +19,8 @@ export default function auditReviewPage() {
 
   const complianceCheckQuery = api.auditReview.complianceCheckList.useQuery();
   const complianceCheckCount = api.auditReview.complianceCheckCount.useQuery();
-  const complianceCheckDelete = api.auditReview.complianceCheckDelete.useMutation({
+  const complianceCheckDelete =
+      api.auditReview.complianceCheckDelete.useMutation({
     onSuccess: () => {
       utils.auditReview.complianceCheckList.invalidate();
       utils.auditReview.complianceCheckCount.invalidate();
@@ -29,7 +31,9 @@ export default function auditReviewPage() {
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">Audit & Compliance</h1>
-        <p className="text-muted-foreground">Audit logs and compliance checks</p>
+        <p className="text-muted-foreground">
+          Audit logs and compliance checks
+        </p>
       </div>
 
       <Tabs defaultValue="auditLog" className="px-6">

@@ -9,7 +9,8 @@ export default function operationsPage() {
 
   const operationalMetricQuery = api.operations.operationalMetricList.useQuery();
   const operationalMetricCount = api.operations.operationalMetricCount.useQuery();
-  const operationalMetricDelete = api.operations.operationalMetricDelete.useMutation({
+  const operationalMetricDelete =
+      api.operations.operationalMetricDelete.useMutation({
     onSuccess: () => {
       utils.operations.operationalMetricList.invalidate();
       utils.operations.operationalMetricCount.invalidate();
@@ -18,7 +19,8 @@ export default function operationsPage() {
 
   const systemHealthQuery = api.operations.systemHealthList.useQuery();
   const systemHealthCount = api.operations.systemHealthCount.useQuery();
-  const systemHealthDelete = api.operations.systemHealthDelete.useMutation({
+  const systemHealthDelete =
+      api.operations.systemHealthDelete.useMutation({
     onSuccess: () => {
       utils.operations.systemHealthList.invalidate();
       utils.operations.systemHealthCount.invalidate();
@@ -29,7 +31,9 @@ export default function operationsPage() {
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">Operations Center</h1>
-        <p className="text-muted-foreground">Operational metrics and system health monitoring</p>
+        <p className="text-muted-foreground">
+          Operational metrics and system health monitoring
+        </p>
       </div>
 
       <Tabs defaultValue="operationalMetric" className="px-6">

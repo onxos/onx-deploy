@@ -9,7 +9,8 @@ export default function performancePage() {
 
   const performanceMetricQuery = api.performance.performanceMetricList.useQuery();
   const performanceMetricCount = api.performance.performanceMetricCount.useQuery();
-  const performanceMetricDelete = api.performance.performanceMetricDelete.useMutation({
+  const performanceMetricDelete =
+      api.performance.performanceMetricDelete.useMutation({
     onSuccess: () => {
       utils.performance.performanceMetricList.invalidate();
       utils.performance.performanceMetricCount.invalidate();
@@ -18,7 +19,8 @@ export default function performancePage() {
 
   const loadTestResultQuery = api.performance.loadTestResultList.useQuery();
   const loadTestResultCount = api.performance.loadTestResultCount.useQuery();
-  const loadTestResultDelete = api.performance.loadTestResultDelete.useMutation({
+  const loadTestResultDelete =
+      api.performance.loadTestResultDelete.useMutation({
     onSuccess: () => {
       utils.performance.loadTestResultList.invalidate();
       utils.performance.loadTestResultCount.invalidate();
@@ -29,7 +31,9 @@ export default function performancePage() {
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">Performance Monitoring</h1>
-        <p className="text-muted-foreground">Performance metrics and load test results</p>
+        <p className="text-muted-foreground">
+          Performance metrics and load test results
+        </p>
       </div>
 
       <Tabs defaultValue="performanceMetric" className="px-6">

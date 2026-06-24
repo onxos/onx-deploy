@@ -9,7 +9,8 @@ export default function titanOpsPage() {
 
   const titanMonitoringLogQuery = api.titanOps.titanMonitoringLogList.useQuery();
   const titanMonitoringLogCount = api.titanOps.titanMonitoringLogCount.useQuery();
-  const titanMonitoringLogDelete = api.titanOps.titanMonitoringLogDelete.useMutation({
+  const titanMonitoringLogDelete =
+      api.titanOps.titanMonitoringLogDelete.useMutation({
     onSuccess: () => {
       utils.titanOps.titanMonitoringLogList.invalidate();
       utils.titanOps.titanMonitoringLogCount.invalidate();
@@ -18,7 +19,8 @@ export default function titanOpsPage() {
 
   const titanMaintenanceQuery = api.titanOps.titanMaintenanceList.useQuery();
   const titanMaintenanceCount = api.titanOps.titanMaintenanceCount.useQuery();
-  const titanMaintenanceDelete = api.titanOps.titanMaintenanceDelete.useMutation({
+  const titanMaintenanceDelete =
+      api.titanOps.titanMaintenanceDelete.useMutation({
     onSuccess: () => {
       utils.titanOps.titanMaintenanceList.invalidate();
       utils.titanOps.titanMaintenanceCount.invalidate();
@@ -29,7 +31,9 @@ export default function titanOpsPage() {
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">Titan Operations</h1>
-        <p className="text-muted-foreground">Titan monitoring logs and maintenance records</p>
+        <p className="text-muted-foreground">
+          Titan monitoring logs and maintenance records
+        </p>
       </div>
 
       <Tabs defaultValue="titanMonitoringLog" className="px-6">

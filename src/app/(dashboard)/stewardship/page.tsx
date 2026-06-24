@@ -9,7 +9,8 @@ export default function stewardshipPage() {
 
   const stewardshipRecordQuery = api.stewardship.stewardshipRecordList.useQuery();
   const stewardshipRecordCount = api.stewardship.stewardshipRecordCount.useQuery();
-  const stewardshipRecordDelete = api.stewardship.stewardshipRecordDelete.useMutation({
+  const stewardshipRecordDelete =
+      api.stewardship.stewardshipRecordDelete.useMutation({
     onSuccess: () => {
       utils.stewardship.stewardshipRecordList.invalidate();
       utils.stewardship.stewardshipRecordCount.invalidate();
@@ -18,7 +19,8 @@ export default function stewardshipPage() {
 
   const continuityPlanQuery = api.stewardship.continuityPlanList.useQuery();
   const continuityPlanCount = api.stewardship.continuityPlanCount.useQuery();
-  const continuityPlanDelete = api.stewardship.continuityPlanDelete.useMutation({
+  const continuityPlanDelete =
+      api.stewardship.continuityPlanDelete.useMutation({
     onSuccess: () => {
       utils.stewardship.continuityPlanList.invalidate();
       utils.stewardship.continuityPlanCount.invalidate();
@@ -29,7 +31,9 @@ export default function stewardshipPage() {
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">Stewardship & Continuity</h1>
-        <p className="text-muted-foreground">Stewardship records and continuity plans</p>
+        <p className="text-muted-foreground">
+          Stewardship records and continuity plans
+        </p>
       </div>
 
       <Tabs defaultValue="stewardshipRecord" className="px-6">

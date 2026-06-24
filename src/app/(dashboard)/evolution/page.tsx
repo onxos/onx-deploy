@@ -9,7 +9,8 @@ export default function evolutionPage() {
 
   const retrospectiveQuery = api.evolution.retrospectiveList.useQuery();
   const retrospectiveCount = api.evolution.retrospectiveCount.useQuery();
-  const retrospectiveDelete = api.evolution.retrospectiveDelete.useMutation({
+  const retrospectiveDelete =
+      api.evolution.retrospectiveDelete.useMutation({
     onSuccess: () => {
       utils.evolution.retrospectiveList.invalidate();
       utils.evolution.retrospectiveCount.invalidate();
@@ -18,7 +19,8 @@ export default function evolutionPage() {
 
   const improvementBacklogQuery = api.evolution.improvementBacklogList.useQuery();
   const improvementBacklogCount = api.evolution.improvementBacklogCount.useQuery();
-  const improvementBacklogDelete = api.evolution.improvementBacklogDelete.useMutation({
+  const improvementBacklogDelete =
+      api.evolution.improvementBacklogDelete.useMutation({
     onSuccess: () => {
       utils.evolution.improvementBacklogList.invalidate();
       utils.evolution.improvementBacklogCount.invalidate();
@@ -27,7 +29,8 @@ export default function evolutionPage() {
 
   const patternDetectionQuery = api.evolution.patternDetectionList.useQuery();
   const patternDetectionCount = api.evolution.patternDetectionCount.useQuery();
-  const patternDetectionDelete = api.evolution.patternDetectionDelete.useMutation({
+  const patternDetectionDelete =
+      api.evolution.patternDetectionDelete.useMutation({
     onSuccess: () => {
       utils.evolution.patternDetectionList.invalidate();
       utils.evolution.patternDetectionCount.invalidate();
@@ -36,7 +39,8 @@ export default function evolutionPage() {
 
   const recommendationQuery = api.evolution.recommendationList.useQuery();
   const recommendationCount = api.evolution.recommendationCount.useQuery();
-  const recommendationDelete = api.evolution.recommendationDelete.useMutation({
+  const recommendationDelete =
+      api.evolution.recommendationDelete.useMutation({
     onSuccess: () => {
       utils.evolution.recommendationList.invalidate();
       utils.evolution.recommendationCount.invalidate();
@@ -47,7 +51,9 @@ export default function evolutionPage() {
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">Evolution & Continuous Improvement</h1>
-        <p className="text-muted-foreground">Retrospectives, improvement backlog, pattern detection, and recommendations</p>
+        <p className="text-muted-foreground">
+          Retrospectives, improvement backlog, pattern detection, and recommendations
+        </p>
       </div>
 
       <Tabs defaultValue="retrospective" className="px-6">
