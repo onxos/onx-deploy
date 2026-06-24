@@ -1,14 +1,14 @@
 import { eq, desc, and, sql } from "drizzle-orm";
 import { z } from "zod";
 import { requirePermission } from "@/server/api/middleware/rbac";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { db } from "@/server/db";
 import { trainingMaterial, onboardingFlow } from "@/server/db/schema";
 
 export const enablementRouter = createTRPCRouter({
   trainingMaterialList: protectedProcedure
     .use(requirePermission("user:updateRole"))
-    .input(z.object({ status: z.enum(["draft", "published", "archived"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }}).optional())
+    .input(z.object({ status: z.enum(["draft", "published", "archived"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }).optional())
     .query(async ({ input }) => {
       const conditions = [];
       if (input?.status) conditions.push(eq(trainingMaterial.status, input.status));
@@ -38,7 +38,7 @@ export const enablementRouter = createTRPCRouter({
 
   trainingMaterialUpdate: protectedProcedure
     .use(requirePermission("user:updateRole"))
-    .input(z.object({ id: z.number(), status: z.enum(["draft", "published", "archived"]) }}))
+    .input(z.object({ id: z.number(), status: z.enum(["draft", "published", "archived"]) }))
     .mutation(async ({ input }) => {
       const result = await db.update(trainingMaterial).set({ status: input.status }).where(eq(trainingMaterial.id, input.id)).returning();
       return result[0];
@@ -61,7 +61,7 @@ export const enablementRouter = createTRPCRouter({
 
   onboardingFlowList: protectedProcedure
     .use(requirePermission("user:updateRole"))
-    .input(z.object({ status: z.enum(["in_progress", "completed", "abandoned"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }}).optional())
+    .input(z.object({ status: z.enum(["in_progress", "completed", "abandoned"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }).optional())
     .query(async ({ input }) => {
       const conditions = [];
       if (input?.status) conditions.push(eq(onboardingFlow.status, input.status));
@@ -89,7 +89,7 @@ export const enablementRouter = createTRPCRouter({
 
   onboardingFlowUpdate: protectedProcedure
     .use(requirePermission("user:updateRole"))
-    .input(z.object({ id: z.number(), status: z.enum(["in_progress", "completed", "abandoned"]) }}))
+    .input(z.object({ id: z.number(), status: z.enum(["in_progress", "completed", "abandoned"]) }))
     .mutation(async ({ input }) => {
       const result = await db.update(onboardingFlow).set({ status: input.status }).where(eq(onboardingFlow.id, input.id)).returning();
       return result[0];

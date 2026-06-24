@@ -1,14 +1,14 @@
 import { eq, desc, and, sql } from "drizzle-orm";
 import { z } from "zod";
 import { requirePermission } from "@/server/api/middleware/rbac";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { db } from "@/server/db";
 import { editorialPolicy, contentReview, publicationSchedule } from "@/server/db/schema";
 
 export const editorialRouter = createTRPCRouter({
   editorialPolicyList: protectedProcedure
     .use(requirePermission("article:update"))
-    .input(z.object({ status: z.enum(["draft", "under_review", "published", "archived"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }}).optional())
+    .input(z.object({ status: z.enum(["draft", "under_review", "published", "archived"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }).optional())
     .query(async ({ input }) => {
       const conditions = [];
       if (input?.status) conditions.push(eq(editorialPolicy.status, input.status));
@@ -38,7 +38,7 @@ export const editorialRouter = createTRPCRouter({
 
   editorialPolicyUpdate: protectedProcedure
     .use(requirePermission("article:update"))
-    .input(z.object({ id: z.number(), status: z.enum(["draft", "under_review", "published", "archived"]) }}))
+    .input(z.object({ id: z.number(), status: z.enum(["draft", "under_review", "published", "archived"]) }))
     .mutation(async ({ input }) => {
       const result = await db.update(editorialPolicy).set({ status: input.status }).where(eq(editorialPolicy.id, input.id)).returning();
       return result[0];
@@ -61,7 +61,7 @@ export const editorialRouter = createTRPCRouter({
 
   contentReviewList: protectedProcedure
     .use(requirePermission("article:update"))
-    .input(z.object({ status: z.enum(["pending", "approved", "rejected", "needs_revision"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }}).optional())
+    .input(z.object({ status: z.enum(["pending", "approved", "rejected", "needs_revision"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }).optional())
     .query(async ({ input }) => {
       const conditions = [];
       if (input?.status) conditions.push(eq(contentReview.status, input.status));
@@ -91,7 +91,7 @@ export const editorialRouter = createTRPCRouter({
 
   contentReviewUpdate: protectedProcedure
     .use(requirePermission("article:update"))
-    .input(z.object({ id: z.number(), status: z.enum(["pending", "approved", "rejected", "needs_revision"]) }}))
+    .input(z.object({ id: z.number(), status: z.enum(["pending", "approved", "rejected", "needs_revision"]) }))
     .mutation(async ({ input }) => {
       const result = await db.update(contentReview).set({ status: input.status }).where(eq(contentReview.id, input.id)).returning();
       return result[0];
@@ -114,7 +114,7 @@ export const editorialRouter = createTRPCRouter({
 
   publicationScheduleList: protectedProcedure
     .use(requirePermission("article:update"))
-    .input(z.object({ status: z.enum(["scheduled", "published", "cancelled"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }}).optional())
+    .input(z.object({ status: z.enum(["scheduled", "published", "cancelled"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }).optional())
     .query(async ({ input }) => {
       const conditions = [];
       if (input?.status) conditions.push(eq(publicationSchedule.status, input.status));
@@ -143,7 +143,7 @@ export const editorialRouter = createTRPCRouter({
 
   publicationScheduleUpdate: protectedProcedure
     .use(requirePermission("article:update"))
-    .input(z.object({ id: z.number(), status: z.enum(["scheduled", "published", "cancelled"]) }}))
+    .input(z.object({ id: z.number(), status: z.enum(["scheduled", "published", "cancelled"]) }))
     .mutation(async ({ input }) => {
       const result = await db.update(publicationSchedule).set({ status: input.status }).where(eq(publicationSchedule.id, input.id)).returning();
       return result[0];

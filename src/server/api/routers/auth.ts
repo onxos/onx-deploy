@@ -20,7 +20,7 @@ import {
 } from "@/server/auth/session";
 import { db } from "@/server/db";
 import { user } from "@/server/db/schema/auth";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 function getErrorMessage(error: unknown) {
   if (error instanceof Error) return error.message;

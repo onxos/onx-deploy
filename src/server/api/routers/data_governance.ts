@@ -1,14 +1,14 @@
 import { eq, desc, and, sql } from "drizzle-orm";
 import { z } from "zod";
 import { requirePermission } from "@/server/api/middleware/rbac";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { db } from "@/server/db";
 import { dataGovernanceRule, dataQualityCheck } from "@/server/db/schema";
 
 export const data_governanceRouter = createTRPCRouter({
   dataGovernanceRuleList: protectedProcedure
     .use(requirePermission("admin:read"))
-    .input(z.object({ status: z.enum(["active", "draft", "deprecated"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }}).optional())
+    .input(z.object({ status: z.enum(["active", "draft", "deprecated"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }).optional())
     .query(async ({ input }) => {
       const conditions = [];
       if (input?.status) conditions.push(eq(dataGovernanceRule.status, input.status));
@@ -37,7 +37,7 @@ export const data_governanceRouter = createTRPCRouter({
 
   dataGovernanceRuleUpdate: protectedProcedure
     .use(requirePermission("admin:read"))
-    .input(z.object({ id: z.number(), status: z.enum(["active", "draft", "deprecated"]) }}))
+    .input(z.object({ id: z.number(), status: z.enum(["active", "draft", "deprecated"]) }))
     .mutation(async ({ input }) => {
       const result = await db.update(dataGovernanceRule).set({ status: input.status }).where(eq(dataGovernanceRule.id, input.id)).returning();
       return result[0];

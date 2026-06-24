@@ -1,14 +1,14 @@
 import { eq, desc, and, sql } from "drizzle-orm";
 import { z } from "zod";
 import { requirePermission } from "@/server/api/middleware/rbac";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { db } from "@/server/db";
 import { retrospective, improvementBacklog, patternDetection, recommendation } from "@/server/db/schema";
 
 export const evolutionRouter = createTRPCRouter({
   retrospectiveList: protectedProcedure
     .use(requirePermission("gap:update"))
-    .input(z.object({ status: z.enum(["open", "in_progress", "resolved", "closed"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }}).optional())
+    .input(z.object({ status: z.enum(["open", "in_progress", "resolved", "closed"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }).optional())
     .query(async ({ input }) => {
       const conditions = [];
       if (input?.status) conditions.push(eq(retrospective.status, input.status));
@@ -40,7 +40,7 @@ export const evolutionRouter = createTRPCRouter({
 
   retrospectiveUpdate: protectedProcedure
     .use(requirePermission("gap:update"))
-    .input(z.object({ id: z.number(), status: z.enum(["open", "in_progress", "resolved", "closed"]) }}))
+    .input(z.object({ id: z.number(), status: z.enum(["open", "in_progress", "resolved", "closed"]) }))
     .mutation(async ({ input }) => {
       const result = await db.update(retrospective).set({ status: input.status }).where(eq(retrospective.id, input.id)).returning();
       return result[0];
@@ -63,7 +63,7 @@ export const evolutionRouter = createTRPCRouter({
 
   improvementBacklogList: protectedProcedure
     .use(requirePermission("gap:update"))
-    .input(z.object({ status: z.enum(["backlog", "in_progress", "review", "done"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }}).optional())
+    .input(z.object({ status: z.enum(["backlog", "in_progress", "review", "done"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }).optional())
     .query(async ({ input }) => {
       const conditions = [];
       if (input?.status) conditions.push(eq(improvementBacklog.status, input.status));
@@ -95,7 +95,7 @@ export const evolutionRouter = createTRPCRouter({
 
   improvementBacklogUpdate: protectedProcedure
     .use(requirePermission("gap:update"))
-    .input(z.object({ id: z.number(), status: z.enum(["backlog", "in_progress", "review", "done"]) }}))
+    .input(z.object({ id: z.number(), status: z.enum(["backlog", "in_progress", "review", "done"]) }))
     .mutation(async ({ input }) => {
       const result = await db.update(improvementBacklog).set({ status: input.status }).where(eq(improvementBacklog.id, input.id)).returning();
       return result[0];
@@ -163,7 +163,7 @@ export const evolutionRouter = createTRPCRouter({
 
   recommendationList: protectedProcedure
     .use(requirePermission("gap:update"))
-    .input(z.object({ status: z.enum(["proposed", "under_review", "approved", "rejected", "deferred"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }}).optional())
+    .input(z.object({ status: z.enum(["proposed", "under_review", "approved", "rejected", "deferred"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }).optional())
     .query(async ({ input }) => {
       const conditions = [];
       if (input?.status) conditions.push(eq(recommendation.status, input.status));
@@ -193,7 +193,7 @@ export const evolutionRouter = createTRPCRouter({
 
   recommendationUpdate: protectedProcedure
     .use(requirePermission("gap:update"))
-    .input(z.object({ id: z.number(), status: z.enum(["proposed", "under_review", "approved", "rejected", "deferred"]) }}))
+    .input(z.object({ id: z.number(), status: z.enum(["proposed", "under_review", "approved", "rejected", "deferred"]) }))
     .mutation(async ({ input }) => {
       const result = await db.update(recommendation).set({ status: input.status }).where(eq(recommendation.id, input.id)).returning();
       return result[0];

@@ -1,7 +1,7 @@
 import { eq, desc, and, sql } from "drizzle-orm";
 import { z } from "zod";
 import { requirePermission } from "@/server/api/middleware/rbac";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { db } from "@/server/db";
 import { institutionSetting, memberManagement } from "@/server/db/schema";
 
@@ -52,7 +52,7 @@ export const institutionRouter = createTRPCRouter({
 
   memberManagementList: protectedProcedure
     .use(requirePermission("admin:read"))
-    .input(z.object({ status: z.enum(["active", "inactive", "suspended"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }}).optional())
+    .input(z.object({ status: z.enum(["active", "inactive", "suspended"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }).optional())
     .query(async ({ input }) => {
       const conditions = [];
       if (input?.status) conditions.push(eq(memberManagement.status, input.status));
@@ -81,7 +81,7 @@ export const institutionRouter = createTRPCRouter({
 
   memberManagementUpdate: protectedProcedure
     .use(requirePermission("admin:read"))
-    .input(z.object({ id: z.number(), status: z.enum(["active", "inactive", "suspended"]) }}))
+    .input(z.object({ id: z.number(), status: z.enum(["active", "inactive", "suspended"]) }))
     .mutation(async ({ input }) => {
       const result = await db.update(memberManagement).set({ status: input.status }).where(eq(memberManagement.id, input.id)).returning();
       return result[0];

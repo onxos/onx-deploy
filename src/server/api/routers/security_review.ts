@@ -1,14 +1,14 @@
 import { eq, desc, and, sql } from "drizzle-orm";
 import { z } from "zod";
 import { requirePermission } from "@/server/api/middleware/rbac";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { db } from "@/server/db";
 import { securityAudit, vulnerabilityTracking } from "@/server/db/schema";
 
 export const security_reviewRouter = createTRPCRouter({
   securityAuditList: protectedProcedure
     .use(requirePermission("admin:read"))
-    .input(z.object({ status: z.enum(["open", "in_progress", "resolved", "closed"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }}).optional())
+    .input(z.object({ status: z.enum(["open", "in_progress", "resolved", "closed"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }).optional())
     .query(async ({ input }) => {
       const conditions = [];
       if (input?.status) conditions.push(eq(securityAudit.status, input.status));
@@ -38,7 +38,7 @@ export const security_reviewRouter = createTRPCRouter({
 
   securityAuditUpdate: protectedProcedure
     .use(requirePermission("admin:read"))
-    .input(z.object({ id: z.number(), status: z.enum(["open", "in_progress", "resolved", "closed"]) }}))
+    .input(z.object({ id: z.number(), status: z.enum(["open", "in_progress", "resolved", "closed"]) }))
     .mutation(async ({ input }) => {
       const result = await db.update(securityAudit).set({ status: input.status }).where(eq(securityAudit.id, input.id)).returning();
       return result[0];
@@ -61,7 +61,7 @@ export const security_reviewRouter = createTRPCRouter({
 
   vulnerabilityTrackingList: protectedProcedure
     .use(requirePermission("admin:read"))
-    .input(z.object({ status: z.enum(["open", "mitigated", "resolved", "accepted"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }}).optional())
+    .input(z.object({ status: z.enum(["open", "mitigated", "resolved", "accepted"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }).optional())
     .query(async ({ input }) => {
       const conditions = [];
       if (input?.status) conditions.push(eq(vulnerabilityTracking.status, input.status));
@@ -92,7 +92,7 @@ export const security_reviewRouter = createTRPCRouter({
 
   vulnerabilityTrackingUpdate: protectedProcedure
     .use(requirePermission("admin:read"))
-    .input(z.object({ id: z.number(), status: z.enum(["open", "mitigated", "resolved", "accepted"]) }}))
+    .input(z.object({ id: z.number(), status: z.enum(["open", "mitigated", "resolved", "accepted"]) }))
     .mutation(async ({ input }) => {
       const result = await db.update(vulnerabilityTracking).set({ status: input.status }).where(eq(vulnerabilityTracking.id, input.id)).returning();
       return result[0];

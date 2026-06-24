@@ -1,7 +1,7 @@
 import { eq, desc, and, sql } from "drizzle-orm";
 import { z } from "zod";
 import { requirePermission } from "@/server/api/middleware/rbac";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { db } from "@/server/db";
 import { performanceMetric, loadTestResult } from "@/server/db/schema";
 
@@ -52,7 +52,7 @@ export const performanceRouter = createTRPCRouter({
 
   loadTestResultList: protectedProcedure
     .use(requirePermission("analytics:read"))
-    .input(z.object({ status: z.enum(["running", "completed", "failed"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }}).optional())
+    .input(z.object({ status: z.enum(["running", "completed", "failed"]).optional(), limit: z.number().default(50), offset: z.number().default(0) }).optional())
     .query(async ({ input }) => {
       const conditions = [];
       if (input?.status) conditions.push(eq(loadTestResult.status, input.status));
@@ -83,7 +83,7 @@ export const performanceRouter = createTRPCRouter({
 
   loadTestResultUpdate: protectedProcedure
     .use(requirePermission("analytics:read"))
-    .input(z.object({ id: z.number(), status: z.enum(["running", "completed", "failed"]) }}))
+    .input(z.object({ id: z.number(), status: z.enum(["running", "completed", "failed"]) }))
     .mutation(async ({ input }) => {
       const result = await db.update(loadTestResult).set({ status: input.status }).where(eq(loadTestResult.id, input.id)).returning();
       return result[0];
