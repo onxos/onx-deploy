@@ -1,0 +1,12 @@
+$ bun run scripts/test-wp-r-01.ts
+2026-06-24T08:22:37.299Z PASS WP-R-01 train exists
+2026-06-24T08:22:37.299Z PASS WP-R-01 implementation record exists
+2026-06-24T08:22:37.299Z PASS WP-R-01 route is bound
+2026-06-24T08:22:37.299Z PASS WP-R-01 owner is assigned
+2026-06-24T08:22:37.299Z PASS WP-R-01 acceptance count is complete
+2026-06-24T08:22:37.299Z PASS WP-R-01 status is PASS
+2026-06-24T08:22:37.299Z PASS WP-R-01 code evidence exists
+2026-06-24T08:22:37.299Z PASS WP-R-01 acceptance evidence exists
+2026-06-24T08:22:37.299Z PASS WP-R-01 deployment evidence exists
+2026-06-24T08:22:37.299Z PASS WP-R-01 reviewer closure language exists
+WP-R-01 PASS 10/10

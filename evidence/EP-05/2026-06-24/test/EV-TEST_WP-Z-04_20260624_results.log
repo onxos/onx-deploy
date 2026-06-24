@@ -1,0 +1,12 @@
+$ bun run scripts/test-wp-z-04.ts
+2026-06-24T08:22:38.102Z PASS WP-Z-04 train exists
+2026-06-24T08:22:38.102Z PASS WP-Z-04 implementation record exists
+2026-06-24T08:22:38.102Z PASS WP-Z-04 route is bound
+2026-06-24T08:22:38.102Z PASS WP-Z-04 owner is assigned
+2026-06-24T08:22:38.103Z PASS WP-Z-04 acceptance count is complete
+2026-06-24T08:22:38.103Z PASS WP-Z-04 status is PASS
+2026-06-24T08:22:38.103Z PASS WP-Z-04 code evidence exists
+2026-06-24T08:22:38.103Z PASS WP-Z-04 acceptance evidence exists
+2026-06-24T08:22:38.103Z PASS WP-Z-04 deployment evidence exists
+2026-06-24T08:22:38.103Z PASS WP-Z-04 reviewer closure language exists
+WP-Z-04 PASS 10/10

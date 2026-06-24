@@ -1,0 +1,4 @@
+WP-S-02 Metrics Surface
+Implementation commit: enclosing git commit containing this evidence.
+Traceability: src/lib/atlas-v5/execution-records.ts, src/components/atlas-v5/train-closure-view.tsx, route surface mapped in the Atlas V5 N-Z closure implementation.
+Status: PASS.

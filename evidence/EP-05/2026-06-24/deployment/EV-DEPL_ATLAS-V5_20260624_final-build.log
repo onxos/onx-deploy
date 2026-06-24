@@ -1,0 +1,82 @@
+$ next build
+▲ Next.js 16.2.9 (Turbopack)
+- Environments: .env.local, .env
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 5.2s
+  Running TypeScript ...
+  Finished TypeScript in 3.3s ...
+  Collecting page data using 9 workers ...
+  Generating static pages using 9 workers (0/55) ...
+  Generating static pages using 9 workers (13/55) 
+  Generating static pages using 9 workers (27/55) 
+  Generating static pages using 9 workers (41/55) 
+✓ Generating static pages using 9 workers (55/55) in 263ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /admin
+├ ƒ /admin/acceptance
+├ ƒ /admin/civilization
+├ ƒ /admin/closure
+├ ƒ /admin/data
+├ ƒ /admin/handover
+├ ƒ /admin/knowledge
+├ ƒ /admin/launch
+├ ƒ /admin/operations
+├ ƒ /admin/releases
+├ ƒ /admin/security
+├ ƒ /admin/titans
+├ ○ /analytics
+├ ƒ /api/auth/[...all]
+├ ƒ /api/health
+├ ƒ /api/health/db
+├ ƒ /api/health/ready
+├ ƒ /api/metrics
+├ ƒ /api/trpc/[trpc]
+├ ○ /ask
+├ ○ /companion
+├ ○ /components
+├ ○ /constitution
+├ ○ /dashboard
+├ ○ /dreams
+├ ƒ /dreams/[id]
+├ ○ /evolution
+├ ○ /execution
+├ ○ /flourishing
+├ ○ /forbidden
+├ ○ /forgot-password
+├ ƒ /gaps
+├ ○ /goals
+├ ƒ /goals/[id]
+├ ○ /help
+├ ○ /institution
+├ ○ /knowledge
+├ ○ /login
+├ ○ /memory
+├ ○ /notifications
+├ ○ /outcomes
+├ ○ /potential
+├ ƒ /potential/[id]
+├ ○ /profile
+├ ƒ /pulse
+├ ○ /recognition
+├ ƒ /registry
+├ ○ /reports
+├ ○ /reset-password
+├ ○ /retrospectives
+├ ○ /settings
+├ ○ /settings/security
+├ ○ /support
+├ ○ /titan-conclave
+├ ○ /va-capabilities
+└ ○ /workspace
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

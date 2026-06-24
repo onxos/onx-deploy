@@ -1,0 +1,61 @@
+$ bun run test:wp-n-01 && bun run test:wp-n-02 && bun run test:wp-n-03 && bun run test:wp-n-04 && bun run test:wp-n-05
+$ bun run scripts/test-wp-n-01.ts
+2026-06-24T08:22:29.728Z PASS WP-N-01 train exists
+2026-06-24T08:22:29.729Z PASS WP-N-01 implementation record exists
+2026-06-24T08:22:29.729Z PASS WP-N-01 route is bound
+2026-06-24T08:22:29.729Z PASS WP-N-01 owner is assigned
+2026-06-24T08:22:29.729Z PASS WP-N-01 acceptance count is complete
+2026-06-24T08:22:29.729Z PASS WP-N-01 status is PASS
+2026-06-24T08:22:29.729Z PASS WP-N-01 code evidence exists
+2026-06-24T08:22:29.729Z PASS WP-N-01 acceptance evidence exists
+2026-06-24T08:22:29.729Z PASS WP-N-01 deployment evidence exists
+2026-06-24T08:22:29.729Z PASS WP-N-01 reviewer closure language exists
+WP-N-01 PASS 10/10
+$ bun run scripts/test-wp-n-02.ts
+2026-06-24T08:22:29.751Z PASS WP-N-02 train exists
+2026-06-24T08:22:29.751Z PASS WP-N-02 implementation record exists
+2026-06-24T08:22:29.751Z PASS WP-N-02 route is bound
+2026-06-24T08:22:29.751Z PASS WP-N-02 owner is assigned
+2026-06-24T08:22:29.751Z PASS WP-N-02 acceptance count is complete
+2026-06-24T08:22:29.751Z PASS WP-N-02 status is PASS
+2026-06-24T08:22:29.751Z PASS WP-N-02 code evidence exists
+2026-06-24T08:22:29.751Z PASS WP-N-02 acceptance evidence exists
+2026-06-24T08:22:29.751Z PASS WP-N-02 deployment evidence exists
+2026-06-24T08:22:29.751Z PASS WP-N-02 reviewer closure language exists
+WP-N-02 PASS 10/10
+$ bun run scripts/test-wp-n-03.ts
+2026-06-24T08:22:29.773Z PASS WP-N-03 train exists
+2026-06-24T08:22:29.773Z PASS WP-N-03 implementation record exists
+2026-06-24T08:22:29.773Z PASS WP-N-03 route is bound
+2026-06-24T08:22:29.773Z PASS WP-N-03 owner is assigned
+2026-06-24T08:22:29.773Z PASS WP-N-03 acceptance count is complete
+2026-06-24T08:22:29.773Z PASS WP-N-03 status is PASS
+2026-06-24T08:22:29.773Z PASS WP-N-03 code evidence exists
+2026-06-24T08:22:29.773Z PASS WP-N-03 acceptance evidence exists
+2026-06-24T08:22:29.773Z PASS WP-N-03 deployment evidence exists
+2026-06-24T08:22:29.773Z PASS WP-N-03 reviewer closure language exists
+WP-N-03 PASS 10/10
+$ bun run scripts/test-wp-n-04.ts
+2026-06-24T08:22:29.791Z PASS WP-N-04 train exists
+2026-06-24T08:22:29.792Z PASS WP-N-04 implementation record exists
+2026-06-24T08:22:29.792Z PASS WP-N-04 route is bound
+2026-06-24T08:22:29.792Z PASS WP-N-04 owner is assigned
+2026-06-24T08:22:29.792Z PASS WP-N-04 acceptance count is complete
+2026-06-24T08:22:29.792Z PASS WP-N-04 status is PASS
+2026-06-24T08:22:29.792Z PASS WP-N-04 code evidence exists
+2026-06-24T08:22:29.792Z PASS WP-N-04 acceptance evidence exists
+2026-06-24T08:22:29.792Z PASS WP-N-04 deployment evidence exists
+2026-06-24T08:22:29.792Z PASS WP-N-04 reviewer closure language exists
+WP-N-04 PASS 10/10
+$ bun run scripts/test-wp-n-05.ts
+2026-06-24T08:22:29.810Z PASS WP-N-05 train exists
+2026-06-24T08:22:29.810Z PASS WP-N-05 implementation record exists
+2026-06-24T08:22:29.810Z PASS WP-N-05 route is bound
+2026-06-24T08:22:29.810Z PASS WP-N-05 owner is assigned
+2026-06-24T08:22:29.810Z PASS WP-N-05 acceptance count is complete
+2026-06-24T08:22:29.810Z PASS WP-N-05 status is PASS
+2026-06-24T08:22:29.810Z PASS WP-N-05 code evidence exists
+2026-06-24T08:22:29.810Z PASS WP-N-05 acceptance evidence exists
+2026-06-24T08:22:29.810Z PASS WP-N-05 deployment evidence exists
+2026-06-24T08:22:29.810Z PASS WP-N-05 reviewer closure language exists
+WP-N-05 PASS 10/10
