@@ -31,7 +31,7 @@ export const titan_opsRouter = createTRPCRouter({
       message: z.string().optional(),
       metadata: z.string().optional(),
     }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ _ctx, input }) => {
       const result = await db.insert(titanMonitoringLog).values(input).returning();
       return result[0];
     }),
@@ -75,7 +75,7 @@ export const titan_opsRouter = createTRPCRouter({
       type: z.string().min(1).max(50),
       description: z.string().optional(),
     }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ _ctx, input }) => {
       const result = await db.insert(titanMaintenance).values(input).returning();
       return result[0];
     }),

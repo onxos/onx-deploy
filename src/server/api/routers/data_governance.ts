@@ -30,7 +30,7 @@ export const data_governanceRouter = createTRPCRouter({
       scope: z.string().min(1).max(100),
       rule: z.string().min(1),
     }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ _ctx, input }) => {
       const result = await db.insert(dataGovernanceRule).values(input).returning();
       return result[0];
     }),
@@ -82,7 +82,7 @@ export const data_governanceRouter = createTRPCRouter({
       passed: z.boolean(),
       details: z.string().optional(),
     }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ _ctx, input }) => {
       const result = await db.insert(dataQualityCheck).values(input).returning();
       return result[0];
     }),

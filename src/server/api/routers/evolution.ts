@@ -33,7 +33,7 @@ export const evolutionRouter = createTRPCRouter({
       priority: z.enum(["low", "medium", "high", "critical"]).optional(),
       category: z.string().optional(),
     }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ _ctx, input }) => {
       const result = await db.insert(retrospective).values(input).returning();
       return result[0];
     }),
@@ -88,7 +88,7 @@ export const evolutionRouter = createTRPCRouter({
       effort: z.string().optional(),
       targetGate: z.string().optional(),
     }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ _ctx, input }) => {
       const result = await db.insert(improvementBacklog).values(input).returning();
       return result[0];
     }),
@@ -141,7 +141,7 @@ export const evolutionRouter = createTRPCRouter({
       recommendation: z.string().optional(),
       confidence: z.string().optional(),
     }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ _ctx, input }) => {
       const result = await db.insert(patternDetection).values(input).returning();
       return result[0];
     }),
@@ -186,7 +186,7 @@ export const evolutionRouter = createTRPCRouter({
       cycle: z.string().optional(),
       reviewNotes: z.string().optional(),
     }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ _ctx, input }) => {
       const result = await db.insert(recommendation).values(input).returning();
       return result[0];
     }),

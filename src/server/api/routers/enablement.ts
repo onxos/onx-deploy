@@ -31,7 +31,7 @@ export const enablementRouter = createTRPCRouter({
       category: z.string().optional(),
       difficulty: z.string().optional(),
     }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ _ctx, input }) => {
       const result = await db.insert(trainingMaterial).values(input).returning();
       return result[0];
     }),
@@ -82,7 +82,7 @@ export const enablementRouter = createTRPCRouter({
       userId: z.string().min(1),
       totalSteps: z.number().optional(),
     }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ _ctx, input }) => {
       const result = await db.insert(onboardingFlow).values(input).returning();
       return result[0];
     }),

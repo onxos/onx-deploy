@@ -31,7 +31,7 @@ export const release_mgmtRouter = createTRPCRouter({
       description: z.string().optional(),
       rollbackVersion: z.string().optional(),
     }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ _ctx, input }) => {
       const result = await db.insert(releaseRecord).values(input).returning();
       return result[0];
     }),
@@ -83,7 +83,7 @@ export const release_mgmtRouter = createTRPCRouter({
       environment: z.string().min(1).max(50),
       logs: z.string().optional(),
     }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ _ctx, input }) => {
       const result = await db.insert(deploymentTracking).values(input).returning();
       return result[0];
     }),

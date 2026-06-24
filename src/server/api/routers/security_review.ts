@@ -31,7 +31,7 @@ export const security_reviewRouter = createTRPCRouter({
       findings: z.string().optional(),
       severity: z.string().optional(),
     }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ _ctx, input }) => {
       const result = await db.insert(securityAudit).values(input).returning();
       return result[0];
     }),
@@ -85,7 +85,7 @@ export const security_reviewRouter = createTRPCRouter({
       severity: z.enum(["low", "medium", "high", "critical"]).optional(),
       remediation: z.string().optional(),
     }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ _ctx, input }) => {
       const result = await db.insert(vulnerabilityTracking).values(input).returning();
       return result[0];
     }),

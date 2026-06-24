@@ -30,7 +30,7 @@ export const operationsRouter = createTRPCRouter({
       unit: z.string().optional(),
       source: z.string().optional(),
     }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ _ctx, input }) => {
       const result = await db.insert(operationalMetric).values(input).returning();
       return result[0];
     }),
@@ -75,7 +75,7 @@ export const operationsRouter = createTRPCRouter({
       latency: z.number().optional(),
       errorRate: z.number().optional(),
     }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ _ctx, input }) => {
       const result = await db.insert(systemHealth).values(input).returning();
       return result[0];
     }),
