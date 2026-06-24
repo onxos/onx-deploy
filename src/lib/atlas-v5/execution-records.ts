@@ -685,7 +685,7 @@ const trainDefinitions: Array<
  * against itself. Now we check for actual router and page files.
  */
 export function verifyTrainStatus(
-  trainId: AtlasTrainId,
+  _trainId: AtlasTrainId,
 ): { hasRouter: boolean; hasPages: boolean; status: TrainStatus } {
   // In a real runtime environment, this would check file system
   // For the type system, we return a proper status enum
@@ -726,7 +726,7 @@ export function getTrainRecords(): AtlasTrainRecord[] {
 /**
  * Get a single train record by ID.
  */
-export function getTrainRecord(trainId: AtlasTrainId): AtlasTrainRecord | undefined {
+export function getTrainRecord(_trainId: AtlasTrainId): AtlasTrainRecord | undefined {
   return getTrainRecords().find((r) => r.id === trainId);
 }
 
@@ -741,7 +741,7 @@ export function getAllWorkPackages(): AtlasWorkPackage[] {
  * Get work packages for a specific train.
  */
 export function getWorkPackagesForTrain(
-  trainId: AtlasTrainId,
+  _trainId: AtlasTrainId,
 ): AtlasWorkPackage[] {
   const train = getTrainRecord(trainId);
   return train?.workPackages ?? [];

@@ -29,6 +29,8 @@ import { understandingRouter } from "./routers/understanding";
 import { userRouter } from "./routers/user";
 
 export const appRouter = createTRPCRouter({
+  admin: adminRouter,
+  analytics: analyticsRouter,
   auditReview: auditReviewRouter,
   auth: authRouter,
   civilization: civilizationRouter,
@@ -55,8 +57,7 @@ export const appRouter = createTRPCRouter({
   titanOps: titanOpsRouter,
   understanding: understandingRouter,
   user: userRouter,
-  admin: adminRouter,
-  analytics: analyticsRouter,
 });
 
 export type AppRouter = typeof appRouter;
+
