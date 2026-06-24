@@ -134,7 +134,8 @@
     "test:wp-z-04": "bun run scripts/test-wp-z-04.ts",
     "test:wp-z-05": "bun run scripts/test-wp-z-05.ts",
     "test:train-z": "bun run test:wp-z-01 && bun run test:wp-z-02 && bun run test:wp-z-03 && bun run test:wp-z-04 && bun run test:wp-z-05",
-    "test:atlas-v5-program": "bun run test:train-l && bun run test:train-m && bun run test:train-n && bun run test:train-o && bun run test:train-p && bun run test:train-q && bun run test:train-r && bun run test:train-s && bun run test:train-t && bun run test:train-u && bun run test:train-v && bun run test:train-w && bun run test:train-x && bun run test:train-y && bun run test:train-z"
+    "test:atlas-v5-program": "bun run test:train-l && bun run test:train-m && bun run test:train-n && bun run test:train-o && bun run test:train-p && bun run test:train-q && bun run test:train-r && bun run test:train-s && bun run test:train-t && bun run test:train-u && bun run test:train-v && bun run test:train-w && bun run test:train-x && bun run test:train-y && bun run test:train-z",
+    "test:atlas-v5-evidence": "bun run scripts/verify-atlas-v5-evidence.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",

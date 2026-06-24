@@ -1,0 +1,6 @@
+$ bun run scripts/verify-atlas-v5-evidence.ts
+PASS Atlas V5 evidence completeness
+PASS categories 8/8
+PASS work packages 75/75
+PASS acceptance criteria 750/750
+PASS trains 15/15
