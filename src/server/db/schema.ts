@@ -1,3 +1,4 @@
+export * from "./schema/atlas-v5-trains";
 export * from "./schema/auth";
 export * from "./schema/civilization";
 export * from "./schema/knowledge-synthesis";
