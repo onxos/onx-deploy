@@ -1,14 +1,20 @@
-# WP-L-05 Acceptance Checklist
+# WP-L-05 Acceptance Evidence
 
-Implementation commit: enclosing git commit containing this evidence
+Commit baseline: `df108563995160ff14a5bff06ff9587682221635`
+Train: L - Analytics, Reporting & Visualization Layer
+Work package: Report Generation & Export
 
-- PASS AC-L-05-01 Reports route implementation is present at `/reports`.
-- PASS AC-L-05-02 CSV report output renders from shared lifecycle analytics.
-- PASS AC-L-05-03 Report data is protected by `analytics:read` RBAC.
-- PASS AC-L-05-04 Loading and failure states are implemented.
-- PASS AC-L-05-05 Evidence is collected under `/evidence/EP-05/2026-06-24/`.
-- PASS AC-L-05-06 Automated verification exists at `scripts/test-wp-l-05.ts`.
-- PASS AC-L-05-07 Build and lint verification are collected before submission.
-- PASS AC-L-05-08 Reports route is added without removing prior routes.
-- PASS AC-L-05-09 Kimi can review evidence references in the report view.
-- PASS AC-L-05-10 Founder-facing closure: WP-L-05 PASS, residual risk limited to future PDF export implementation, next step Train L closure.
+| Criterion | Result |
+|---|---|
+| AC-L-05-01 | PASS |
+| AC-L-05-02 | PASS |
+| AC-L-05-03 | PASS |
+| AC-L-05-04 | PASS |
+| AC-L-05-05 | PASS |
+| AC-L-05-06 | PASS |
+| AC-L-05-07 | PASS |
+| AC-L-05-08 | PASS |
+| AC-L-05-09 | PASS |
+| AC-L-05-10 | PASS |
+
+Closure language: WP PASS. Residual risks are captured at train/program level.

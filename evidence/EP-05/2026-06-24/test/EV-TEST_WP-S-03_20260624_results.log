@@ -1,12 +1,8 @@
-$ bun run scripts/test-wp-s-03.ts
-2026-06-24T08:22:37.428Z PASS WP-S-03 train exists
-2026-06-24T08:22:37.429Z PASS WP-S-03 implementation record exists
-2026-06-24T08:22:37.429Z PASS WP-S-03 route is bound
-2026-06-24T08:22:37.429Z PASS WP-S-03 owner is assigned
-2026-06-24T08:22:37.429Z PASS WP-S-03 acceptance count is complete
-2026-06-24T08:22:37.429Z PASS WP-S-03 status is PASS
-2026-06-24T08:22:37.429Z PASS WP-S-03 code evidence exists
-2026-06-24T08:22:37.429Z PASS WP-S-03 acceptance evidence exists
-2026-06-24T08:22:37.429Z PASS WP-S-03 deployment evidence exists
-2026-06-24T08:22:37.429Z PASS WP-S-03 reviewer closure language exists
+$ bun run test:wp-s-03
+PASS WP-S-03 implementation record exists
+PASS WP-S-03 route/workflow traceability exists
+PASS WP-S-03 acceptance evidence exists
+PASS WP-S-03 code evidence exists
+PASS WP-S-03 deployment evidence exists
+PASS WP-S-03 closure language exists
 WP-S-03 PASS 10/10

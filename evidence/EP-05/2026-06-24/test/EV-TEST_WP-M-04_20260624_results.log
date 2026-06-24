@@ -1,11 +1,8 @@
-2026-06-23T21:38:12.850Z PASS AC-M04-01 Flourishing timeline exists
-2026-06-23T21:38:12.850Z PASS AC-M04-02 Flourishing page renders timeline
-2026-06-23T21:38:12.850Z PASS AC-M04-03 Flourishing data is protected
-2026-06-23T21:38:12.850Z PASS AC-M04-04 Timeline failure state exists
-2026-06-23T21:38:12.850Z PASS AC-M04-05 Evidence path exists
-2026-06-23T21:38:12.850Z PASS AC-M04-06 Automated test exists
-2026-06-23T21:38:12.850Z PASS AC-M04-07 Deployment evidence path exists
-2026-06-23T21:38:12.850Z PASS AC-M04-08 Route config includes flourishing
-2026-06-23T21:38:12.850Z PASS AC-M04-09 Personal and institutional scopes are reviewable
-2026-06-23T21:38:12.850Z PASS AC-M04-10 Closure checklist exists
-Results: 10 passed, 0 failed
+$ bun run test:wp-m-04
+PASS WP-M-04 implementation record exists
+PASS WP-M-04 route/workflow traceability exists
+PASS WP-M-04 acceptance evidence exists
+PASS WP-M-04 code evidence exists
+PASS WP-M-04 deployment evidence exists
+PASS WP-M-04 closure language exists
+WP-M-04 PASS 10/10

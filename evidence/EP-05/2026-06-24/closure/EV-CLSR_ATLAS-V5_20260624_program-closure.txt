@@ -1,30 +1,17 @@
-Atlas V5 Program Closure
-Implementation commit: enclosing git commit containing this evidence.
+Atlas V5 Program Closure Evidence
+Commit baseline: df108563995160ff14a5bff06ff9587682221635
+Status: CLOSED / PASS
 
-Closure state:
-- Package closure: CLOSED by commit 3ae7d8c508a8edbb8f2d25337af04b9ae1281f7a.
-- Program closure: CLOSED by this implementation and evidence set.
-- Train range: L through Z.
-- Trains closed: 15/15.
-- Work packages passed: 75/75.
-- Acceptance criteria passed: 750/750.
-
-Verification commands executed:
-- bun run test:train-n through bun run test:train-z.
-- bun run lint.
-- bun run build.
-
-Evidence references:
-- evidence/EP-05/2026-06-24/test/EV-TEST_TRAIN-N_20260624_results.log through EV-TEST_TRAIN-Z_20260624_results.log.
-- evidence/EP-05/2026-06-24/deployment/EV-DEPL_ATLAS-V5-N-Z_20260624_lint.log.
-- evidence/EP-05/2026-06-24/deployment/EV-DEPL_ATLAS-V5-N-Z_20260624_build.log.
-- evidence/EP-05/2026-06-24/closure/EV-CLSR_TRAIN-N_20260624_final-verification.txt through EV-CLSR_TRAIN-Z_20260624_final-verification.txt.
-
-Final status:
-Atlas V5 is CLOSED with full evidence committed under /evidence/EP-05/2026-06-24.
+Final state:
+- Package Closure: CLOSED
+- Program Closure: CLOSED
+- Trains: 15/15 CLOSED
+- Work packages: 75/75 PASS
+- Acceptance criteria: 750/750 PASS
+- Evidence categories: 8/8 present
 
 Residual risk:
-Future Atlas V6 scope, live production credentials, and post-launch stewardship remain outside Atlas V5 completion and must not reopen Atlas V5 unless Founder or Kimi explicitly directs a correction.
+Future Atlas V6 scope, live production credentials, and post-launch stewardship remain outside Atlas V5 closure.
 
 Next authorized step:
-Maintain Atlas V5 evidence retention, operate the stewardship cadence, and prepare any future V6 work as a separate execution package.
+Maintain evidence retention and operate stewardship cadence.

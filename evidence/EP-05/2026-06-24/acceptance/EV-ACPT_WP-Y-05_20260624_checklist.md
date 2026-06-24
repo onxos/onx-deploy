@@ -1,17 +1,20 @@
-# WP-Y-05 Acceptance Checklist
+# WP-Y-05 Acceptance Evidence
 
+Commit baseline: `df108563995160ff14a5bff06ff9587682221635`
+Train: Y - Production Launch, Monitoring & Closure
 Work package: Atlas V5 Closure
-Implementation commit: enclosing git commit containing this evidence.
 
-- PASS AC-Y-05-01 verified for WP-Y-05.
-- PASS AC-Y-05-02 verified for WP-Y-05.
-- PASS AC-Y-05-03 verified for WP-Y-05.
-- PASS AC-Y-05-04 verified for WP-Y-05.
-- PASS AC-Y-05-05 verified for WP-Y-05.
-- PASS AC-Y-05-06 verified for WP-Y-05.
-- PASS AC-Y-05-07 verified for WP-Y-05.
-- PASS AC-Y-05-08 verified for WP-Y-05.
-- PASS AC-Y-05-09 verified for WP-Y-05.
-- PASS AC-Y-05-10 verified for WP-Y-05.
+| Criterion | Result |
+|---|---|
+| AC-Y-05-01 | PASS |
+| AC-Y-05-02 | PASS |
+| AC-Y-05-03 | PASS |
+| AC-Y-05-04 | PASS |
+| AC-Y-05-05 | PASS |
+| AC-Y-05-06 | PASS |
+| AC-Y-05-07 | PASS |
+| AC-Y-05-08 | PASS |
+| AC-Y-05-09 | PASS |
+| AC-Y-05-10 | PASS |
 
-Closure: WP-Y-05 PASS. Residual risk is captured at train level. Next authorized step follows sequential train closure.
+Closure language: WP PASS. Residual risks are captured at train/program level.

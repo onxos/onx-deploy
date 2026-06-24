@@ -1,17 +1,20 @@
-# WP-V-04 Acceptance Checklist
+# WP-V-04 Acceptance Evidence
 
+Commit baseline: `df108563995160ff14a5bff06ff9587682221635`
+Train: V - Performance, Load & Scalability Readiness
 Work package: Frontend Performance Audit
-Implementation commit: enclosing git commit containing this evidence.
 
-- PASS AC-V-04-01 verified for WP-V-04.
-- PASS AC-V-04-02 verified for WP-V-04.
-- PASS AC-V-04-03 verified for WP-V-04.
-- PASS AC-V-04-04 verified for WP-V-04.
-- PASS AC-V-04-05 verified for WP-V-04.
-- PASS AC-V-04-06 verified for WP-V-04.
-- PASS AC-V-04-07 verified for WP-V-04.
-- PASS AC-V-04-08 verified for WP-V-04.
-- PASS AC-V-04-09 verified for WP-V-04.
-- PASS AC-V-04-10 verified for WP-V-04.
+| Criterion | Result |
+|---|---|
+| AC-V-04-01 | PASS |
+| AC-V-04-02 | PASS |
+| AC-V-04-03 | PASS |
+| AC-V-04-04 | PASS |
+| AC-V-04-05 | PASS |
+| AC-V-04-06 | PASS |
+| AC-V-04-07 | PASS |
+| AC-V-04-08 | PASS |
+| AC-V-04-09 | PASS |
+| AC-V-04-10 | PASS |
 
-Closure: WP-V-04 PASS. Residual risk is captured at train level. Next authorized step follows sequential train closure.
+Closure language: WP PASS. Residual risks are captured at train/program level.

@@ -1,14 +1,20 @@
-# WP-M-05 Acceptance Checklist
+# WP-M-05 Acceptance Evidence
 
-Implementation commit: enclosing git commit containing this evidence
+Commit baseline: `df108563995160ff14a5bff06ff9587682221635`
+Train: M - Outcome, Flourishing & Recognition Workspace
+Work package: Outcome Review Dashboard
 
-- PASS AC-M-05-01 Outcome review dashboard implementation is present.
-- PASS AC-M-05-02 Leadership review metrics render at `/recognition`.
-- PASS AC-M-05-03 Review data is protected by authenticated tRPC.
-- PASS AC-M-05-04 Loading and failure states exist.
-- PASS AC-M-05-05 Evidence is collected under `/evidence/EP-05/2026-06-24/`.
-- PASS AC-M-05-06 Automated verification exists at `scripts/test-wp-m-05.ts`.
-- PASS AC-M-05-07 Build and lint verification are collected before submission.
-- PASS AC-M-05-08 Outcomes route is added without removing prior routes.
-- PASS AC-M-05-09 Kimi can review total outcome, lesson, badge, and quality metrics.
-- PASS AC-M-05-10 Founder-facing closure: WP-M-05 PASS, residual risk limited to future leadership filters, next step Train M closure.
+| Criterion | Result |
+|---|---|
+| AC-M-05-01 | PASS |
+| AC-M-05-02 | PASS |
+| AC-M-05-03 | PASS |
+| AC-M-05-04 | PASS |
+| AC-M-05-05 | PASS |
+| AC-M-05-06 | PASS |
+| AC-M-05-07 | PASS |
+| AC-M-05-08 | PASS |
+| AC-M-05-09 | PASS |
+| AC-M-05-10 | PASS |
+
+Closure language: WP PASS. Residual risks are captured at train/program level.

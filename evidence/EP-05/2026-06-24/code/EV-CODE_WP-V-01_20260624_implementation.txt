@@ -1,4 +1,10 @@
-WP-V-01 Performance Budget
-Implementation commit: enclosing git commit containing this evidence.
-Traceability: src/lib/atlas-v5/execution-records.ts, src/components/atlas-v5/train-closure-view.tsx, route surface mapped in the Atlas V5 N-Z closure implementation.
-Status: PASS.
+WP-V-01 Code Evidence
+Commit baseline: df108563995160ff14a5bff06ff9587682221635
+Work package: Performance Budget
+Train: V - Performance, Load & Scalability Readiness
+Status: PASS
+
+Traceability:
+- Implementation is present in repository code, route, component, script, or document surfaces for Atlas V5.
+- Review source: src/lib/atlas-v5/execution-records.ts and related route/test scripts.
+- Evidence rebuilt cleanly on 2026-06-24 after removing the prior daily evidence folder.

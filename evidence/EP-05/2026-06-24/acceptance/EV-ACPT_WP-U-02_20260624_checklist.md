@@ -1,17 +1,20 @@
-# WP-U-02 Acceptance Checklist
+# WP-U-02 Acceptance Evidence
 
+Commit baseline: `df108563995160ff14a5bff06ff9587682221635`
+Train: U - Data Integrity, Migration & Backup Assurance
 Work package: Migration Discipline
-Implementation commit: enclosing git commit containing this evidence.
 
-- PASS AC-U-02-01 verified for WP-U-02.
-- PASS AC-U-02-02 verified for WP-U-02.
-- PASS AC-U-02-03 verified for WP-U-02.
-- PASS AC-U-02-04 verified for WP-U-02.
-- PASS AC-U-02-05 verified for WP-U-02.
-- PASS AC-U-02-06 verified for WP-U-02.
-- PASS AC-U-02-07 verified for WP-U-02.
-- PASS AC-U-02-08 verified for WP-U-02.
-- PASS AC-U-02-09 verified for WP-U-02.
-- PASS AC-U-02-10 verified for WP-U-02.
+| Criterion | Result |
+|---|---|
+| AC-U-02-01 | PASS |
+| AC-U-02-02 | PASS |
+| AC-U-02-03 | PASS |
+| AC-U-02-04 | PASS |
+| AC-U-02-05 | PASS |
+| AC-U-02-06 | PASS |
+| AC-U-02-07 | PASS |
+| AC-U-02-08 | PASS |
+| AC-U-02-09 | PASS |
+| AC-U-02-10 | PASS |
 
-Closure: WP-U-02 PASS. Residual risk is captured at train level. Next authorized step follows sequential train closure.
+Closure language: WP PASS. Residual risks are captured at train/program level.

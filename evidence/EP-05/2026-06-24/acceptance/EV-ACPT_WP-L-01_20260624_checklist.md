@@ -1,14 +1,20 @@
-# WP-L-01 Acceptance Checklist
+# WP-L-01 Acceptance Evidence
 
-Implementation commit: enclosing git commit containing this evidence
+Commit baseline: `df108563995160ff14a5bff06ff9587682221635`
+Train: L - Analytics, Reporting & Visualization Layer
+Work package: Dashboard Overview
 
-- PASS AC-L-01-01 Dashboard KPI implementation is present.
-- PASS AC-L-01-02 Dashboard lifecycle workflow reads the shared analytics summary.
-- PASS AC-L-01-03 Analytics data is protected by `analytics:read` RBAC.
-- PASS AC-L-01-04 Dashboard loading and failure states remain available.
-- PASS AC-L-01-05 Evidence is collected under `/evidence/EP-05/2026-06-24/`.
-- PASS AC-L-01-06 Automated verification exists at `scripts/test-wp-l-01.ts`.
-- PASS AC-L-01-07 Build and lint verification are collected before submission.
-- PASS AC-L-01-08 Earlier Train K lifecycle records are reused through shared data.
-- PASS AC-L-01-09 Kimi can review KPI labels and source files directly.
-- PASS AC-L-01-10 Founder-facing closure: WP-L-01 PASS, residual risk limited to future live database replacement, next step WP-L-02.
+| Criterion | Result |
+|---|---|
+| AC-L-01-01 | PASS |
+| AC-L-01-02 | PASS |
+| AC-L-01-03 | PASS |
+| AC-L-01-04 | PASS |
+| AC-L-01-05 | PASS |
+| AC-L-01-06 | PASS |
+| AC-L-01-07 | PASS |
+| AC-L-01-08 | PASS |
+| AC-L-01-09 | PASS |
+| AC-L-01-10 | PASS |
+
+Closure language: WP PASS. Residual risks are captured at train/program level.

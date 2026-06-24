@@ -1,17 +1,20 @@
-# WP-P-03 Acceptance Checklist
+# WP-P-03 Acceptance Evidence
 
+Commit baseline: `df108563995160ff14a5bff06ff9587682221635`
+Train: P - Titan Persona Governance & Conversational Operations
 Work package: Conversation Audit Trail
-Implementation commit: enclosing git commit containing this evidence.
 
-- PASS AC-P-03-01 verified for WP-P-03.
-- PASS AC-P-03-02 verified for WP-P-03.
-- PASS AC-P-03-03 verified for WP-P-03.
-- PASS AC-P-03-04 verified for WP-P-03.
-- PASS AC-P-03-05 verified for WP-P-03.
-- PASS AC-P-03-06 verified for WP-P-03.
-- PASS AC-P-03-07 verified for WP-P-03.
-- PASS AC-P-03-08 verified for WP-P-03.
-- PASS AC-P-03-09 verified for WP-P-03.
-- PASS AC-P-03-10 verified for WP-P-03.
+| Criterion | Result |
+|---|---|
+| AC-P-03-01 | PASS |
+| AC-P-03-02 | PASS |
+| AC-P-03-03 | PASS |
+| AC-P-03-04 | PASS |
+| AC-P-03-05 | PASS |
+| AC-P-03-06 | PASS |
+| AC-P-03-07 | PASS |
+| AC-P-03-08 | PASS |
+| AC-P-03-09 | PASS |
+| AC-P-03-10 | PASS |
 
-Closure: WP-P-03 PASS. Residual risk is captured at train level. Next authorized step follows sequential train closure.
+Closure language: WP PASS. Residual risks are captured at train/program level.

@@ -1,17 +1,20 @@
-# WP-Z-01 Acceptance Checklist
+# WP-Z-01 Acceptance Evidence
 
+Commit baseline: `df108563995160ff14a5bff06ff9587682221635`
+Train: Z - Atlas V5 Completion Assurance & Handover
 Work package: Completion Integrity Audit
-Implementation commit: enclosing git commit containing this evidence.
 
-- PASS AC-Z-01-01 verified for WP-Z-01.
-- PASS AC-Z-01-02 verified for WP-Z-01.
-- PASS AC-Z-01-03 verified for WP-Z-01.
-- PASS AC-Z-01-04 verified for WP-Z-01.
-- PASS AC-Z-01-05 verified for WP-Z-01.
-- PASS AC-Z-01-06 verified for WP-Z-01.
-- PASS AC-Z-01-07 verified for WP-Z-01.
-- PASS AC-Z-01-08 verified for WP-Z-01.
-- PASS AC-Z-01-09 verified for WP-Z-01.
-- PASS AC-Z-01-10 verified for WP-Z-01.
+| Criterion | Result |
+|---|---|
+| AC-Z-01-01 | PASS |
+| AC-Z-01-02 | PASS |
+| AC-Z-01-03 | PASS |
+| AC-Z-01-04 | PASS |
+| AC-Z-01-05 | PASS |
+| AC-Z-01-06 | PASS |
+| AC-Z-01-07 | PASS |
+| AC-Z-01-08 | PASS |
+| AC-Z-01-09 | PASS |
+| AC-Z-01-10 | PASS |
 
-Closure: WP-Z-01 PASS. Residual risk is captured at train level. Next authorized step follows sequential train closure.
+Closure language: WP PASS. Residual risks are captured at train/program level.

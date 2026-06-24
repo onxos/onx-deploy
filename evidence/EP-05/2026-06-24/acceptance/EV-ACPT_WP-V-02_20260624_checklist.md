@@ -1,17 +1,20 @@
-# WP-V-02 Acceptance Checklist
+# WP-V-02 Acceptance Evidence
 
+Commit baseline: `df108563995160ff14a5bff06ff9587682221635`
+Train: V - Performance, Load & Scalability Readiness
 Work package: Load Test Harness
-Implementation commit: enclosing git commit containing this evidence.
 
-- PASS AC-V-02-01 verified for WP-V-02.
-- PASS AC-V-02-02 verified for WP-V-02.
-- PASS AC-V-02-03 verified for WP-V-02.
-- PASS AC-V-02-04 verified for WP-V-02.
-- PASS AC-V-02-05 verified for WP-V-02.
-- PASS AC-V-02-06 verified for WP-V-02.
-- PASS AC-V-02-07 verified for WP-V-02.
-- PASS AC-V-02-08 verified for WP-V-02.
-- PASS AC-V-02-09 verified for WP-V-02.
-- PASS AC-V-02-10 verified for WP-V-02.
+| Criterion | Result |
+|---|---|
+| AC-V-02-01 | PASS |
+| AC-V-02-02 | PASS |
+| AC-V-02-03 | PASS |
+| AC-V-02-04 | PASS |
+| AC-V-02-05 | PASS |
+| AC-V-02-06 | PASS |
+| AC-V-02-07 | PASS |
+| AC-V-02-08 | PASS |
+| AC-V-02-09 | PASS |
+| AC-V-02-10 | PASS |
 
-Closure: WP-V-02 PASS. Residual risk is captured at train level. Next authorized step follows sequential train closure.
+Closure language: WP PASS. Residual risks are captured at train/program level.

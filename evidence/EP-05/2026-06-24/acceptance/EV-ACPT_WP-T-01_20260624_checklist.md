@@ -1,17 +1,20 @@
-# WP-T-01 Acceptance Checklist
+# WP-T-01 Acceptance Evidence
 
+Commit baseline: `df108563995160ff14a5bff06ff9587682221635`
+Train: T - Staging, Deployment & Release Governance
 Work package: Release Checklist
-Implementation commit: enclosing git commit containing this evidence.
 
-- PASS AC-T-01-01 verified for WP-T-01.
-- PASS AC-T-01-02 verified for WP-T-01.
-- PASS AC-T-01-03 verified for WP-T-01.
-- PASS AC-T-01-04 verified for WP-T-01.
-- PASS AC-T-01-05 verified for WP-T-01.
-- PASS AC-T-01-06 verified for WP-T-01.
-- PASS AC-T-01-07 verified for WP-T-01.
-- PASS AC-T-01-08 verified for WP-T-01.
-- PASS AC-T-01-09 verified for WP-T-01.
-- PASS AC-T-01-10 verified for WP-T-01.
+| Criterion | Result |
+|---|---|
+| AC-T-01-01 | PASS |
+| AC-T-01-02 | PASS |
+| AC-T-01-03 | PASS |
+| AC-T-01-04 | PASS |
+| AC-T-01-05 | PASS |
+| AC-T-01-06 | PASS |
+| AC-T-01-07 | PASS |
+| AC-T-01-08 | PASS |
+| AC-T-01-09 | PASS |
+| AC-T-01-10 | PASS |
 
-Closure: WP-T-01 PASS. Residual risk is captured at train level. Next authorized step follows sequential train closure.
+Closure language: WP PASS. Residual risks are captured at train/program level.

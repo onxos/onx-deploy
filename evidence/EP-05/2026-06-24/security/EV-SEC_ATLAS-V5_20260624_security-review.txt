@@ -1,13 +1,10 @@
-Security evidence pack
-Implementation baseline commit: 7571b6e490436a45b89a3e184c4aaf288474c789
-Evidence hardening commit: enclosing git commit containing this artifact.
-
+Atlas V5 Security Evidence
+Commit baseline: df108563995160ff14a5bff06ff9587682221635
 Status: PASS
-Scope: Atlas V5 L-Z final closure.
 
-- RBAC-protected route coverage remains enforced for protected dashboard/admin surfaces.
-- Train R adds explicit security compliance surface and evidence closure.
-- Authorization and route-protection checks are represented in WP evidence and final verifier.
-- Residual risk: external penetration test and production credential audit remain separate operational activities.
+Coverage:
+- RBAC and protected-route behavior are represented in WP acceptance criteria.
+- Train R closes session security, password policy, authorization tests, security evidence, and compliance dashboard evidence.
+- Admin and protected surfaces remain reviewable through route and build evidence.
 
-Reviewer command: bun run test:atlas-v5-evidence
+Residual risk: external penetration testing and production credential review remain operational controls outside repository evidence.

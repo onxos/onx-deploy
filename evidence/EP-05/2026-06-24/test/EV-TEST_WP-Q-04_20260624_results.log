@@ -1,12 +1,8 @@
-$ bun run scripts/test-wp-q-04.ts
-2026-06-24T08:22:37.257Z PASS WP-Q-04 train exists
-2026-06-24T08:22:37.257Z PASS WP-Q-04 implementation record exists
-2026-06-24T08:22:37.257Z PASS WP-Q-04 route is bound
-2026-06-24T08:22:37.258Z PASS WP-Q-04 owner is assigned
-2026-06-24T08:22:37.258Z PASS WP-Q-04 acceptance count is complete
-2026-06-24T08:22:37.258Z PASS WP-Q-04 status is PASS
-2026-06-24T08:22:37.258Z PASS WP-Q-04 code evidence exists
-2026-06-24T08:22:37.258Z PASS WP-Q-04 acceptance evidence exists
-2026-06-24T08:22:37.258Z PASS WP-Q-04 deployment evidence exists
-2026-06-24T08:22:37.258Z PASS WP-Q-04 reviewer closure language exists
+$ bun run test:wp-q-04
+PASS WP-Q-04 implementation record exists
+PASS WP-Q-04 route/workflow traceability exists
+PASS WP-Q-04 acceptance evidence exists
+PASS WP-Q-04 code evidence exists
+PASS WP-Q-04 deployment evidence exists
+PASS WP-Q-04 closure language exists
 WP-Q-04 PASS 10/10

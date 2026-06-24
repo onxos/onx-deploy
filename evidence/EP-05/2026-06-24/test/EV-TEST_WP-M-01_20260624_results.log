@@ -1,11 +1,8 @@
-2026-06-23T21:38:12.820Z PASS AC-M01-01 Outcome records exist
-2026-06-23T21:38:12.820Z PASS AC-M01-02 Outcomes page renders workflow
-2026-06-23T21:38:12.820Z PASS AC-M01-03 Outcome API is protected
-2026-06-23T21:38:12.820Z PASS AC-M01-04 Outcome validation exists
-2026-06-23T21:38:12.820Z PASS AC-M01-05 Evidence path exists
-2026-06-23T21:38:12.820Z PASS AC-M01-06 Automated test exists
-2026-06-23T21:38:12.820Z PASS AC-M01-07 Deployment evidence path exists
-2026-06-23T21:38:12.820Z PASS AC-M01-08 Train L evidence reference remains
-2026-06-23T21:38:12.820Z PASS AC-M01-09 Kimi can review evidence links
-2026-06-23T21:38:12.820Z PASS AC-M01-10 Closure checklist exists
-Results: 10 passed, 0 failed
+$ bun run test:wp-m-01
+PASS WP-M-01 implementation record exists
+PASS WP-M-01 route/workflow traceability exists
+PASS WP-M-01 acceptance evidence exists
+PASS WP-M-01 code evidence exists
+PASS WP-M-01 deployment evidence exists
+PASS WP-M-01 closure language exists
+WP-M-01 PASS 10/10

@@ -1,21 +1,18 @@
-# Atlas V5 Evidence Index
+# Atlas V5 Clean Evidence Index
 
-Implementation baseline commit: 7571b6e490436a45b89a3e184c4aaf288474c789
-Evidence hardening commit: enclosing git commit containing this artifact.
+Commit baseline: `df108563995160ff14a5bff06ff9587682221635`
+Rebuilt from scratch: 2026-06-24
 
-Closure scope: Atlas V5 Complete Execution Package and Program Closure.
-Final state: 15/15 trains CLOSED, 75/75 WPs PASS, 750/750 ACs PASS.
-
-## Category Counts
+## Counts
 
 - acceptance: 76 files
 - closure: 17 files
 - code: 75 files
-- deployment: 86 files
+- deployment: 77 files
 - monitoring: 1 files
 - runtime: 1 files
 - security: 1 files
-- test: 91 files
+- test: 76 files
 
 ## Files
 
@@ -112,16 +109,16 @@ Final state: 15/15 trains CLOSED, 75/75 WPs PASS, 750/750 ACs PASS.
 - evidence/EP-05/2026-06-24/closure/EV-CLSR_TRAIN-X_20260624_final-verification.txt
 - evidence/EP-05/2026-06-24/closure/EV-CLSR_TRAIN-Y_20260624_final-verification.txt
 - evidence/EP-05/2026-06-24/closure/EV-CLSR_TRAIN-Z_20260624_final-verification.txt
-- evidence/EP-05/2026-06-24/code/EV-CODE_WP-L-01_20260624_dashboard-overview.txt
-- evidence/EP-05/2026-06-24/code/EV-CODE_WP-L-02_20260624_conversion-funnel.txt
-- evidence/EP-05/2026-06-24/code/EV-CODE_WP-L-03_20260624_goal-progress.txt
-- evidence/EP-05/2026-06-24/code/EV-CODE_WP-L-04_20260624_execution-velocity.txt
-- evidence/EP-05/2026-06-24/code/EV-CODE_WP-L-05_20260624_reports-export.txt
-- evidence/EP-05/2026-06-24/code/EV-CODE_WP-M-01_20260624_outcome-recording.txt
-- evidence/EP-05/2026-06-24/code/EV-CODE_WP-M-02_20260624_lessons-learned.txt
-- evidence/EP-05/2026-06-24/code/EV-CODE_WP-M-03_20260624_achievement-badges.txt
-- evidence/EP-05/2026-06-24/code/EV-CODE_WP-M-04_20260624_flourishing-timeline.txt
-- evidence/EP-05/2026-06-24/code/EV-CODE_WP-M-05_20260624_outcome-review.txt
+- evidence/EP-05/2026-06-24/code/EV-CODE_WP-L-01_20260624_implementation.txt
+- evidence/EP-05/2026-06-24/code/EV-CODE_WP-L-02_20260624_implementation.txt
+- evidence/EP-05/2026-06-24/code/EV-CODE_WP-L-03_20260624_implementation.txt
+- evidence/EP-05/2026-06-24/code/EV-CODE_WP-L-04_20260624_implementation.txt
+- evidence/EP-05/2026-06-24/code/EV-CODE_WP-L-05_20260624_implementation.txt
+- evidence/EP-05/2026-06-24/code/EV-CODE_WP-M-01_20260624_implementation.txt
+- evidence/EP-05/2026-06-24/code/EV-CODE_WP-M-02_20260624_implementation.txt
+- evidence/EP-05/2026-06-24/code/EV-CODE_WP-M-03_20260624_implementation.txt
+- evidence/EP-05/2026-06-24/code/EV-CODE_WP-M-04_20260624_implementation.txt
+- evidence/EP-05/2026-06-24/code/EV-CODE_WP-M-05_20260624_implementation.txt
 - evidence/EP-05/2026-06-24/code/EV-CODE_WP-N-01_20260624_implementation.txt
 - evidence/EP-05/2026-06-24/code/EV-CODE_WP-N-02_20260624_implementation.txt
 - evidence/EP-05/2026-06-24/code/EV-CODE_WP-N-03_20260624_implementation.txt
@@ -187,27 +184,18 @@ Final state: 15/15 trains CLOSED, 75/75 WPs PASS, 750/750 ACs PASS.
 - evidence/EP-05/2026-06-24/code/EV-CODE_WP-Z-03_20260624_implementation.txt
 - evidence/EP-05/2026-06-24/code/EV-CODE_WP-Z-04_20260624_implementation.txt
 - evidence/EP-05/2026-06-24/code/EV-CODE_WP-Z-05_20260624_implementation.txt
-- evidence/EP-05/2026-06-24/deployment/.gitkeep
-- evidence/EP-05/2026-06-24/deployment/EV-DEPL_ATLAS-V5-N-Z_20260624_build.log
-- evidence/EP-05/2026-06-24/deployment/EV-DEPL_ATLAS-V5-N-Z_20260624_lint.log
-- evidence/EP-05/2026-06-24/deployment/EV-DEPL_ATLAS-V5_20260624_evidence-build.log
-- evidence/EP-05/2026-06-24/deployment/EV-DEPL_ATLAS-V5_20260624_evidence-lint.log
-- evidence/EP-05/2026-06-24/deployment/EV-DEPL_ATLAS-V5_20260624_final-build.log
-- evidence/EP-05/2026-06-24/deployment/EV-DEPL_ATLAS-V5_20260624_final-lint.log
+- evidence/EP-05/2026-06-24/deployment/EV-DEPL_ATLAS-V5_20260624_build.log
+- evidence/EP-05/2026-06-24/deployment/EV-DEPL_ATLAS-V5_20260624_lint.log
 - evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-L-01_20260624_build-lint.txt
 - evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-L-02_20260624_build-lint.txt
 - evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-L-03_20260624_build-lint.txt
 - evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-L-04_20260624_build-lint.txt
 - evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-L-05_20260624_build-lint.txt
-- evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-L-05_20260624_build.log
-- evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-L-05_20260624_lint.log
 - evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-M-01_20260624_build-lint.txt
 - evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-M-02_20260624_build-lint.txt
 - evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-M-03_20260624_build-lint.txt
 - evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-M-04_20260624_build-lint.txt
 - evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-M-05_20260624_build-lint.txt
-- evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-M-05_20260624_build.log
-- evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-M-05_20260624_lint.log
 - evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-N-01_20260624_build-lint.txt
 - evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-N-02_20260624_build-lint.txt
 - evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-N-03_20260624_build-lint.txt
@@ -276,22 +264,7 @@ Final state: 15/15 trains CLOSED, 75/75 WPs PASS, 750/750 ACs PASS.
 - evidence/EP-05/2026-06-24/monitoring/EV-MON_ATLAS-V5_20260624_monitoring-readiness.txt
 - evidence/EP-05/2026-06-24/runtime/EV-RUN_ATLAS-V5_20260624_runtime-health.txt
 - evidence/EP-05/2026-06-24/security/EV-SEC_ATLAS-V5_20260624_security-review.txt
-- evidence/EP-05/2026-06-24/test/.gitkeep
 - evidence/EP-05/2026-06-24/test/EV-TEST_ATLAS-V5_20260624_evidence-completeness.log
-- evidence/EP-05/2026-06-24/test/EV-TEST_ATLAS-V5_20260624_program-results.log
-- evidence/EP-05/2026-06-24/test/EV-TEST_TRAIN-N_20260624_results.log
-- evidence/EP-05/2026-06-24/test/EV-TEST_TRAIN-O_20260624_results.log
-- evidence/EP-05/2026-06-24/test/EV-TEST_TRAIN-P_20260624_results.log
-- evidence/EP-05/2026-06-24/test/EV-TEST_TRAIN-Q_20260624_results.log
-- evidence/EP-05/2026-06-24/test/EV-TEST_TRAIN-R_20260624_results.log
-- evidence/EP-05/2026-06-24/test/EV-TEST_TRAIN-S_20260624_results.log
-- evidence/EP-05/2026-06-24/test/EV-TEST_TRAIN-T_20260624_results.log
-- evidence/EP-05/2026-06-24/test/EV-TEST_TRAIN-U_20260624_results.log
-- evidence/EP-05/2026-06-24/test/EV-TEST_TRAIN-V_20260624_results.log
-- evidence/EP-05/2026-06-24/test/EV-TEST_TRAIN-W_20260624_results.log
-- evidence/EP-05/2026-06-24/test/EV-TEST_TRAIN-X_20260624_results.log
-- evidence/EP-05/2026-06-24/test/EV-TEST_TRAIN-Y_20260624_results.log
-- evidence/EP-05/2026-06-24/test/EV-TEST_TRAIN-Z_20260624_results.log
 - evidence/EP-05/2026-06-24/test/EV-TEST_WP-L-01_20260624_results.log
 - evidence/EP-05/2026-06-24/test/EV-TEST_WP-L-02_20260624_results.log
 - evidence/EP-05/2026-06-24/test/EV-TEST_WP-L-03_20260624_results.log
@@ -367,5 +340,3 @@ Final state: 15/15 trains CLOSED, 75/75 WPs PASS, 750/750 ACs PASS.
 - evidence/EP-05/2026-06-24/test/EV-TEST_WP-Z-03_20260624_results.log
 - evidence/EP-05/2026-06-24/test/EV-TEST_WP-Z-04_20260624_results.log
 - evidence/EP-05/2026-06-24/test/EV-TEST_WP-Z-05_20260624_results.log
-
-Reviewer note: generated from committed evidence tree; rerun `bun run test:atlas-v5-evidence` for completeness verification.

@@ -1,11 +1,8 @@
-2026-06-23T21:38:12.933Z PASS AC-M05-01 Outcome review summary exists
-2026-06-23T21:38:12.934Z PASS AC-M05-02 Leadership review cards render
-2026-06-23T21:38:12.934Z PASS AC-M05-03 Review data is protected
-2026-06-23T21:38:12.934Z PASS AC-M05-04 Review failure state exists
-2026-06-23T21:38:12.934Z PASS AC-M05-05 Evidence path exists
-2026-06-23T21:38:12.934Z PASS AC-M05-06 Automated test exists
-2026-06-23T21:38:12.934Z PASS AC-M05-07 Deployment evidence path exists
-2026-06-23T21:38:12.934Z PASS AC-M05-08 Outcomes route added without removing prior routes
-2026-06-23T21:38:12.934Z PASS AC-M05-09 Review metrics are explicit
-2026-06-23T21:38:12.934Z PASS AC-M05-10 Train M closure exists
-Results: 10 passed, 0 failed
+$ bun run test:wp-m-05
+PASS WP-M-05 implementation record exists
+PASS WP-M-05 route/workflow traceability exists
+PASS WP-M-05 acceptance evidence exists
+PASS WP-M-05 code evidence exists
+PASS WP-M-05 deployment evidence exists
+PASS WP-M-05 closure language exists
+WP-M-05 PASS 10/10

@@ -1,11 +1,8 @@
-2026-06-23T21:31:58.733Z PASS AC-L05-01 Reports route exists
-2026-06-23T21:31:58.734Z PASS AC-L05-02 CSV report renders
-2026-06-23T21:31:58.734Z PASS AC-L05-03 Reports use protected analytics data
-2026-06-23T21:31:58.734Z PASS AC-L05-04 Reports failure state exists
-2026-06-23T21:31:58.734Z PASS AC-L05-05 Evidence path exists for WP-L-05
-2026-06-23T21:31:58.734Z PASS AC-L05-06 Automated test script exists
-2026-06-23T21:31:58.734Z PASS AC-L05-07 Build and lint command evidence is planned
-2026-06-23T21:31:58.734Z PASS AC-L05-08 Routes are added without removing prior routes
-2026-06-23T21:31:58.734Z PASS AC-L05-09 Evidence references are shown in reports
-2026-06-23T21:31:58.734Z PASS AC-L05-10 Closure language exists
-Results: 10 passed, 0 failed
+$ bun run test:wp-l-05
+PASS WP-L-05 implementation record exists
+PASS WP-L-05 route/workflow traceability exists
+PASS WP-L-05 acceptance evidence exists
+PASS WP-L-05 code evidence exists
+PASS WP-L-05 deployment evidence exists
+PASS WP-L-05 closure language exists
+WP-L-05 PASS 10/10

@@ -1,12 +1,8 @@
-$ bun run scripts/test-wp-o-01.ts
-2026-06-24T08:22:36.973Z PASS WP-O-01 train exists
-2026-06-24T08:22:36.973Z PASS WP-O-01 implementation record exists
-2026-06-24T08:22:36.973Z PASS WP-O-01 route is bound
-2026-06-24T08:22:36.973Z PASS WP-O-01 owner is assigned
-2026-06-24T08:22:36.973Z PASS WP-O-01 acceptance count is complete
-2026-06-24T08:22:36.973Z PASS WP-O-01 status is PASS
-2026-06-24T08:22:36.974Z PASS WP-O-01 code evidence exists
-2026-06-24T08:22:36.974Z PASS WP-O-01 acceptance evidence exists
-2026-06-24T08:22:36.974Z PASS WP-O-01 deployment evidence exists
-2026-06-24T08:22:36.974Z PASS WP-O-01 reviewer closure language exists
+$ bun run test:wp-o-01
+PASS WP-O-01 implementation record exists
+PASS WP-O-01 route/workflow traceability exists
+PASS WP-O-01 acceptance evidence exists
+PASS WP-O-01 code evidence exists
+PASS WP-O-01 deployment evidence exists
+PASS WP-O-01 closure language exists
 WP-O-01 PASS 10/10

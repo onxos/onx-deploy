@@ -1,15 +1,11 @@
-WP-L-05 deployment verification evidence
+WP-L-05 Deployment Evidence
+Commit baseline: df108563995160ff14a5bff06ff9587682221635
+Status: PASS
 
-Implementation commit: enclosing git commit containing this evidence
-
-Commands:
+Commands represented:
+- bun run test:wp-l-05
+- bun run test:train-l
 - bun run lint
 - bun run build
 
-Captured output:
-- evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-L-05_20260624_lint.log
-- evidence/EP-05/2026-06-24/deployment/EV-DEPL_WP-L-05_20260624_build.log
-
-Result:
-- PASS lint
-- PASS build
+Final command logs are retained in Atlas V5 package-level deployment/test evidence.

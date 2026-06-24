@@ -1,17 +1,20 @@
-# WP-Q-05 Acceptance Checklist
+# WP-Q-05 Acceptance Evidence
 
+Commit baseline: `df108563995160ff14a5bff06ff9587682221635`
+Train: Q - Institution Administration & Role Operations
 Work package: Institution Settings
-Implementation commit: enclosing git commit containing this evidence.
 
-- PASS AC-Q-05-01 verified for WP-Q-05.
-- PASS AC-Q-05-02 verified for WP-Q-05.
-- PASS AC-Q-05-03 verified for WP-Q-05.
-- PASS AC-Q-05-04 verified for WP-Q-05.
-- PASS AC-Q-05-05 verified for WP-Q-05.
-- PASS AC-Q-05-06 verified for WP-Q-05.
-- PASS AC-Q-05-07 verified for WP-Q-05.
-- PASS AC-Q-05-08 verified for WP-Q-05.
-- PASS AC-Q-05-09 verified for WP-Q-05.
-- PASS AC-Q-05-10 verified for WP-Q-05.
+| Criterion | Result |
+|---|---|
+| AC-Q-05-01 | PASS |
+| AC-Q-05-02 | PASS |
+| AC-Q-05-03 | PASS |
+| AC-Q-05-04 | PASS |
+| AC-Q-05-05 | PASS |
+| AC-Q-05-06 | PASS |
+| AC-Q-05-07 | PASS |
+| AC-Q-05-08 | PASS |
+| AC-Q-05-09 | PASS |
+| AC-Q-05-10 | PASS |
 
-Closure: WP-Q-05 PASS. Residual risk is captured at train level. Next authorized step follows sequential train closure.
+Closure language: WP PASS. Residual risks are captured at train/program level.

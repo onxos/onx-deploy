@@ -1,12 +1,8 @@
-$ bun run scripts/test-wp-u-05.ts
-2026-06-24T08:22:37.670Z PASS WP-U-05 train exists
-2026-06-24T08:22:37.670Z PASS WP-U-05 implementation record exists
-2026-06-24T08:22:37.670Z PASS WP-U-05 route is bound
-2026-06-24T08:22:37.670Z PASS WP-U-05 owner is assigned
-2026-06-24T08:22:37.670Z PASS WP-U-05 acceptance count is complete
-2026-06-24T08:22:37.670Z PASS WP-U-05 status is PASS
-2026-06-24T08:22:37.670Z PASS WP-U-05 code evidence exists
-2026-06-24T08:22:37.670Z PASS WP-U-05 acceptance evidence exists
-2026-06-24T08:22:37.670Z PASS WP-U-05 deployment evidence exists
-2026-06-24T08:22:37.670Z PASS WP-U-05 reviewer closure language exists
+$ bun run test:wp-u-05
+PASS WP-U-05 implementation record exists
+PASS WP-U-05 route/workflow traceability exists
+PASS WP-U-05 acceptance evidence exists
+PASS WP-U-05 code evidence exists
+PASS WP-U-05 deployment evidence exists
+PASS WP-U-05 closure language exists
 WP-U-05 PASS 10/10

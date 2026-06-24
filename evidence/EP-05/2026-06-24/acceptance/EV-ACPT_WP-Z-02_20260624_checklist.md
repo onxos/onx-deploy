@@ -1,17 +1,20 @@
-# WP-Z-02 Acceptance Checklist
+# WP-Z-02 Acceptance Evidence
 
+Commit baseline: `df108563995160ff14a5bff06ff9587682221635`
+Train: Z - Atlas V5 Completion Assurance & Handover
 Work package: Operational Handover
-Implementation commit: enclosing git commit containing this evidence.
 
-- PASS AC-Z-02-01 verified for WP-Z-02.
-- PASS AC-Z-02-02 verified for WP-Z-02.
-- PASS AC-Z-02-03 verified for WP-Z-02.
-- PASS AC-Z-02-04 verified for WP-Z-02.
-- PASS AC-Z-02-05 verified for WP-Z-02.
-- PASS AC-Z-02-06 verified for WP-Z-02.
-- PASS AC-Z-02-07 verified for WP-Z-02.
-- PASS AC-Z-02-08 verified for WP-Z-02.
-- PASS AC-Z-02-09 verified for WP-Z-02.
-- PASS AC-Z-02-10 verified for WP-Z-02.
+| Criterion | Result |
+|---|---|
+| AC-Z-02-01 | PASS |
+| AC-Z-02-02 | PASS |
+| AC-Z-02-03 | PASS |
+| AC-Z-02-04 | PASS |
+| AC-Z-02-05 | PASS |
+| AC-Z-02-06 | PASS |
+| AC-Z-02-07 | PASS |
+| AC-Z-02-08 | PASS |
+| AC-Z-02-09 | PASS |
+| AC-Z-02-10 | PASS |
 
-Closure: WP-Z-02 PASS. Residual risk is captured at train level. Next authorized step follows sequential train closure.
+Closure language: WP PASS. Residual risks are captured at train/program level.
