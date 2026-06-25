@@ -153,13 +153,13 @@ export const editorialRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.number(),
-        status: z.enum(["pending", "approved", "rejected", "needs_revision"]),
+        verdict: z.enum(["pending", "approved", "rejected", "needs_revision"]),
       }),
     )
     .mutation(async ({ input }) => {
       const result = await db
         .update(contentReview)
-        .set({ status: input.status })
+        .set({ verdict: input.verdict })
         .where(eq(contentReview.id, input.id))
         .returning();
       return result[0];

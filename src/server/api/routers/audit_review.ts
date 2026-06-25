@@ -128,13 +128,13 @@ export const audit_reviewRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.number(),
-        status: z.enum(["pass", "fail", "partial", "not_applicable"]),
+        result: z.enum(["pass", "fail", "partial", "not_applicable"]),
       }),
     )
     .mutation(async ({ input }) => {
       const result = await db
         .update(complianceCheck)
-        .set({ status: input.status })
+        .set({ result: input.result })
         .where(eq(complianceCheck.id, input.id))
         .returning();
       return result[0];
