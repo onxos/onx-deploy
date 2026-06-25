@@ -23,8 +23,8 @@ import { sechRouter } from "./routers/sech";
 import { securityReviewRouter } from "./routers/security_review";
 import { stewardshipRouter } from "./routers/stewardship";
 import { taskRouter } from "./routers/task";
-import { titanOpsRouter } from "./routers/titan_ops";
 import { titanRouter } from "./routers/titan";
+import { titanOpsRouter } from "./routers/titan_ops";
 import { understandingRouter } from "./routers/understanding";
 import { userRouter } from "./routers/user";
 
@@ -60,4 +60,3 @@ export const appRouter = createTRPCRouter({
 });
 
 export type AppRouter = typeof appRouter;
-

@@ -116,7 +116,8 @@ const trainDefinitions: Array<
       "Establish editorial standards, content review workflows, and publication governance.",
     routes: ["/editorial"],
     dependencies: "Train N recommendations, Train K understanding",
-    residualRisk: "Editorial decisions remain subjective without full automation.",
+    residualRisk:
+      "Editorial decisions remain subjective without full automation.",
     nextStep: "Proceed to Train P titan operations.",
     workPackages: [
       [
@@ -633,7 +634,8 @@ const trainDefinitions: Array<
       "Ensure platform stewardship, plan for continuity, and manage succession.",
     routes: ["/stewardship"],
     dependencies: "Train Y launch readiness, all prior trains",
-    residualRisk: "Succession planning requires ongoing organizational commitment.",
+    residualRisk:
+      "Succession planning requires ongoing organizational commitment.",
     nextStep: "Atlas V5 complete. Proceed to Atlas V6 authorization.",
     workPackages: [
       [
@@ -684,14 +686,16 @@ const trainDefinitions: Array<
  * This replaces the circular verification that checked a data file
  * against itself. Now we check for actual router and page files.
  */
-export function verifyTrainStatus(
-  _trainId: AtlasTrainId,
-): { hasRouter: boolean; hasPages: boolean; status: TrainStatus } {
+export function verifyTrainStatus(_trainId: AtlasTrainId): {
+  hasRouter: boolean;
+  hasPages: boolean;
+  status: TrainStatus;
+} {
   // In a real runtime environment, this would check file system
   // For the type system, we return a proper status enum
   return {
-    hasRouter: true,  // All N-Z routers now implemented
-    hasPages: true,   // All N-Z pages now implemented
+    hasRouter: true, // All N-Z routers now implemented
+    hasPages: true, // All N-Z pages now implemented
     status: "CLOSED", // Verified through actual implementation
   };
 }
@@ -726,8 +730,10 @@ export function getTrainRecords(): AtlasTrainRecord[] {
 /**
  * Get a single train record by ID.
  */
-export function getTrainRecord(_trainId: AtlasTrainId): AtlasTrainRecord | undefined {
-  return getTrainRecords().find((r) => r.id === trainId);
+export function getTrainRecord(
+  _trainId: AtlasTrainId,
+): AtlasTrainRecord | undefined {
+  return getTrainRecords().find((r) => r.id === _trainId);
 }
 
 /**
@@ -743,7 +749,7 @@ export function getAllWorkPackages(): AtlasWorkPackage[] {
 export function getWorkPackagesForTrain(
   _trainId: AtlasTrainId,
 ): AtlasWorkPackage[] {
-  const train = getTrainRecord(trainId);
+  const train = getTrainRecord(_trainId);
   return train?.workPackages ?? [];
 }
 
