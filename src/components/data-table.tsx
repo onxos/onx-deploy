@@ -1,6 +1,5 @@
 "use client";
 
-import { Plus, RefreshCw, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { ModalDialog } from "@/components/ui/modal-dialog";
 import { SearchInput } from "@/components/ui/search-input";
@@ -93,8 +92,7 @@ export function DataTable<T extends { id: number; status?: string | null }>({
             onClick={onRefresh}
             type="button"
           >
-            <RefreshCw className="h-4 w-4" />
-            Refresh
+            &#x21bb; Refresh
           </button>
           {createForm && (
             <>
@@ -103,8 +101,7 @@ export function DataTable<T extends { id: number; status?: string | null }>({
                 onClick={() => setDialogOpen(true)}
                 type="button"
               >
-                <Plus className="h-4 w-4" />
-                Add
+                + Add
               </button>
               <ModalDialog
                 footer={
@@ -200,7 +197,7 @@ export function DataTable<T extends { id: number; status?: string | null }>({
                         onClick={() => onDelete(row.id)}
                         type="button"
                       >
-                        <Trash2 className="h-4 w-4" />
+                        &#x2715;
                       </button>
                     </TableCell>
                   )}
