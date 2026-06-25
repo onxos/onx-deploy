@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
+
 import { DataTable } from "@/components/data-table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/react";
 
 export default function TitanOpsPage() {
@@ -28,6 +29,7 @@ export default function TitanOpsPage() {
         utils.titanOps.titanMaintenanceCount.invalidate();
       },
     });
+  const [activeTab, setActiveTab] = useState("titanMonitoringLog");
 
   return (
     <div className="space-y-6">
@@ -38,46 +40,61 @@ export default function TitanOpsPage() {
         </p>
       </div>
 
-      <Tabs defaultValue="titanMonitoringLog" className="px-6">
-        <TabsList>
-          <TabsTrigger value="titanMonitoringLog">Monitoring Logs</TabsTrigger>
-          <TabsTrigger value="titanMaintenance">Maintenance</TabsTrigger>
-        </TabsList>
+      <div className="px-6 space-y-4">
+        <div className="flex gap-4 border-b">
+          <button
+            className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === "titanMonitoringLog" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+            onClick={() => setActiveTab("titanMonitoringLog")}
+            type="button"
+          >
+            Monitoring Logs
+          </button>
+          <button
+            className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === "titanMaintenance" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+            onClick={() => setActiveTab("titanMaintenance")}
+            type="button"
+          >
+            Maintenance
+          </button>
+        </div>
 
-        <TabsContent value="titanMonitoringLog">
-          <DataTable
-            title="Monitoring Logs"
-            description="Manage monitoring logs records"
-            data={titanMonitoringLogQuery.data}
-            isLoading={titanMonitoringLogQuery.isLoading}
-            count={titanMonitoringLogCount.data}
-            onRefresh={() => titanMonitoringLogQuery.refetch()}
-            onDelete={(id) => titanMonitoringLogDelete.mutate({ id })}
-            columns={[
-              { key: "titanId", label: "Titan Id" },
-              { key: "event", label: "Event" },
-              { key: "severity", label: "Severity" },
-            ]}
-          />
-        </TabsContent>
-
-        <TabsContent value="titanMaintenance">
-          <DataTable
-            title="Maintenance"
-            description="Manage maintenance records"
-            data={titanMaintenanceQuery.data}
-            isLoading={titanMaintenanceQuery.isLoading}
-            count={titanMaintenanceCount.data}
-            onRefresh={() => titanMaintenanceQuery.refetch()}
-            onDelete={(id) => titanMaintenanceDelete.mutate({ id })}
-            columns={[
-              { key: "titanId", label: "Titan Id" },
-              { key: "type", label: "Type" },
-              { key: "status", label: "Status" },
-            ]}
-          />
-        </TabsContent>
-      </Tabs>
+        {activeTab === "titanMonitoringLog" && (
+          <div>
+            <DataTable
+              title="Monitoring Logs"
+              description="Manage monitoring logs records"
+              data={titanMonitoringLogQuery.data}
+              isLoading={titanMonitoringLogQuery.isLoading}
+              count={titanMonitoringLogCount.data}
+              onRefresh={() => titanMonitoringLogQuery.refetch()}
+              onDelete={(id) => titanMonitoringLogDelete.mutate({ id })}
+              columns={[
+                { key: "titanId", label: "Titan Id" },
+                { key: "event", label: "Event" },
+                { key: "severity", label: "Severity" },
+              ]}
+            />
+          </div>
+        )}
+        {activeTab === "titanMaintenance" && (
+          <div>
+            <DataTable
+              title="Maintenance"
+              description="Manage maintenance records"
+              data={titanMaintenanceQuery.data}
+              isLoading={titanMaintenanceQuery.isLoading}
+              count={titanMaintenanceCount.data}
+              onRefresh={() => titanMaintenanceQuery.refetch()}
+              onDelete={(id) => titanMaintenanceDelete.mutate({ id })}
+              columns={[
+                { key: "titanId", label: "Titan Id" },
+                { key: "type", label: "Type" },
+                { key: "status", label: "Status" },
+              ]}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

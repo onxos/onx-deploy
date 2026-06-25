@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
+
 import { DataTable } from "@/components/data-table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/react";
 
 export default function EnablementPage() {
@@ -25,6 +26,7 @@ export default function EnablementPage() {
       utils.enablement.onboardingFlowCount.invalidate();
     },
   });
+  const [activeTab, setActiveTab] = useState("trainingMaterial");
 
   return (
     <div className="space-y-6">
@@ -35,48 +37,63 @@ export default function EnablementPage() {
         </p>
       </div>
 
-      <Tabs defaultValue="trainingMaterial" className="px-6">
-        <TabsList>
-          <TabsTrigger value="trainingMaterial">Training Materials</TabsTrigger>
-          <TabsTrigger value="onboardingFlow">Onboarding Flows</TabsTrigger>
-        </TabsList>
+      <div className="px-6 space-y-4">
+        <div className="flex gap-4 border-b">
+          <button
+            className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === "trainingMaterial" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+            onClick={() => setActiveTab("trainingMaterial")}
+            type="button"
+          >
+            Training Materials
+          </button>
+          <button
+            className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === "onboardingFlow" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+            onClick={() => setActiveTab("onboardingFlow")}
+            type="button"
+          >
+            Onboarding Flows
+          </button>
+        </div>
 
-        <TabsContent value="trainingMaterial">
-          <DataTable
-            title="Training Materials"
-            description="Manage training materials records"
-            data={trainingMaterialQuery.data}
-            isLoading={trainingMaterialQuery.isLoading}
-            count={trainingMaterialCount.data}
-            onRefresh={() => trainingMaterialQuery.refetch()}
-            onDelete={(id) => trainingMaterialDelete.mutate({ id })}
-            columns={[
-              { key: "title", label: "Title" },
-              { key: "category", label: "Category" },
-              { key: "difficulty", label: "Difficulty" },
-              { key: "status", label: "Status" },
-            ]}
-          />
-        </TabsContent>
-
-        <TabsContent value="onboardingFlow">
-          <DataTable
-            title="Onboarding Flows"
-            description="Manage onboarding flows records"
-            data={onboardingFlowQuery.data}
-            isLoading={onboardingFlowQuery.isLoading}
-            count={onboardingFlowCount.data}
-            onRefresh={() => onboardingFlowQuery.refetch()}
-            onDelete={(id) => onboardingFlowDelete.mutate({ id })}
-            columns={[
-              { key: "userId", label: "User Id" },
-              { key: "currentStep", label: "Current Step" },
-              { key: "totalSteps", label: "Total Steps" },
-              { key: "status", label: "Status" },
-            ]}
-          />
-        </TabsContent>
-      </Tabs>
+        {activeTab === "trainingMaterial" && (
+          <div>
+            <DataTable
+              title="Training Materials"
+              description="Manage training materials records"
+              data={trainingMaterialQuery.data}
+              isLoading={trainingMaterialQuery.isLoading}
+              count={trainingMaterialCount.data}
+              onRefresh={() => trainingMaterialQuery.refetch()}
+              onDelete={(id) => trainingMaterialDelete.mutate({ id })}
+              columns={[
+                { key: "title", label: "Title" },
+                { key: "category", label: "Category" },
+                { key: "difficulty", label: "Difficulty" },
+                { key: "status", label: "Status" },
+              ]}
+            />
+          </div>
+        )}
+        {activeTab === "onboardingFlow" && (
+          <div>
+            <DataTable
+              title="Onboarding Flows"
+              description="Manage onboarding flows records"
+              data={onboardingFlowQuery.data}
+              isLoading={onboardingFlowQuery.isLoading}
+              count={onboardingFlowCount.data}
+              onRefresh={() => onboardingFlowQuery.refetch()}
+              onDelete={(id) => onboardingFlowDelete.mutate({ id })}
+              columns={[
+                { key: "userId", label: "User Id" },
+                { key: "currentStep", label: "Current Step" },
+                { key: "totalSteps", label: "Total Steps" },
+                { key: "status", label: "Status" },
+              ]}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
+
 import { DataTable } from "@/components/data-table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/react";
 
 export default function OperationsPage() {
@@ -27,60 +28,74 @@ export default function OperationsPage() {
       utils.operations.systemHealthCount.invalidate();
     },
   });
+  const [activeTab, setActiveTab] = useState("operationalMetric");
 
   return (
     <div className="space-y-6">
       <div className="px-6 pt-8">
-        <h1 className="text-3xl font-semibold">Operations Center</h1>
+        <h1 className="text-3xl font-semibold">Operations</h1>
         <p className="text-muted-foreground">
-          Operational metrics and system health monitoring
+          Operational metrics and system health
         </p>
       </div>
 
-      <Tabs defaultValue="operationalMetric" className="px-6">
-        <TabsList>
-          <TabsTrigger value="operationalMetric">
+      <div className="px-6 space-y-4">
+        <div className="flex gap-4 border-b">
+          <button
+            className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === "operationalMetric" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+            onClick={() => setActiveTab("operationalMetric")}
+            type="button"
+          >
             Operational Metrics
-          </TabsTrigger>
-          <TabsTrigger value="systemHealth">System Health</TabsTrigger>
-        </TabsList>
+          </button>
+          <button
+            className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === "systemHealth" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+            onClick={() => setActiveTab("systemHealth")}
+            type="button"
+          >
+            System Health
+          </button>
+        </div>
 
-        <TabsContent value="operationalMetric">
-          <DataTable
-            title="Operational Metrics"
-            description="Manage operational metrics records"
-            data={operationalMetricQuery.data}
-            isLoading={operationalMetricQuery.isLoading}
-            count={operationalMetricCount.data}
-            onRefresh={() => operationalMetricQuery.refetch()}
-            onDelete={(id) => operationalMetricDelete.mutate({ id })}
-            columns={[
-              { key: "name", label: "Name" },
-              { key: "value", label: "Value" },
-              { key: "unit", label: "Unit" },
-              { key: "source", label: "Source" },
-            ]}
-          />
-        </TabsContent>
-
-        <TabsContent value="systemHealth">
-          <DataTable
-            title="System Health"
-            description="Manage system health records"
-            data={systemHealthQuery.data}
-            isLoading={systemHealthQuery.isLoading}
-            count={systemHealthCount.data}
-            onRefresh={() => systemHealthQuery.refetch()}
-            onDelete={(id) => systemHealthDelete.mutate({ id })}
-            columns={[
-              { key: "component", label: "Component" },
-              { key: "status", label: "Status" },
-              { key: "latency", label: "Latency" },
-              { key: "errorRate", label: "Error Rate" },
-            ]}
-          />
-        </TabsContent>
-      </Tabs>
+        {activeTab === "operationalMetric" && (
+          <div>
+            <DataTable
+              title="Operational Metrics"
+              description="Manage operational metrics records"
+              data={operationalMetricQuery.data}
+              isLoading={operationalMetricQuery.isLoading}
+              count={operationalMetricCount.data}
+              onRefresh={() => operationalMetricQuery.refetch()}
+              onDelete={(id) => operationalMetricDelete.mutate({ id })}
+              columns={[
+                { key: "name", label: "Name" },
+                { key: "value", label: "Value" },
+                { key: "unit", label: "Unit" },
+                { key: "source", label: "Source" },
+              ]}
+            />
+          </div>
+        )}
+        {activeTab === "systemHealth" && (
+          <div>
+            <DataTable
+              title="System Health"
+              description="Manage system health records"
+              data={systemHealthQuery.data}
+              isLoading={systemHealthQuery.isLoading}
+              count={systemHealthCount.data}
+              onRefresh={() => systemHealthQuery.refetch()}
+              onDelete={(id) => systemHealthDelete.mutate({ id })}
+              columns={[
+                { key: "component", label: "Component" },
+                { key: "status", label: "Status" },
+                { key: "latency", label: "Latency" },
+                { key: "errorRate", label: "Error Rate" },
+              ]}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

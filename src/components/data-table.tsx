@@ -2,16 +2,9 @@
 
 import { Plus, RefreshCw, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+import { ModalDialog } from "@/components/ui/modal-dialog";
+import { SearchInput } from "@/components/ui/search-input";
+import { StatusBadge } from "@/components/ui/status-badge";
 import {
   Table,
   TableBody,
@@ -32,7 +25,6 @@ interface DataTableProps<T> {
     format?: (value: unknown) => string;
   }[];
   statusField?: string;
-  statusColors?: Record<string, string>;
   onRefresh: () => void;
   onDelete?: (id: number) => void;
   createForm?: React.ReactNode;
@@ -46,13 +38,13 @@ export function DataTable<T extends { id: number; status?: string | null }>({
   isLoading,
   columns,
   statusField = "status",
-  statusColors,
   onRefresh,
   onDelete,
   createForm,
   count,
 }: DataTableProps<T>) {
   const [search, setSearch] = useState("");
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const filtered = data?.filter((row) => {
     if (!search) return true;
@@ -63,31 +55,29 @@ export function DataTable<T extends { id: number; status?: string | null }>({
     });
   });
 
-  const getStatusColor = (status: string | null | undefined) => {
-    if (!status) return "secondary";
-    if (statusColors?.[status]) return statusColors[status];
-    const colors: Record<string, string> = {
-      active: "bg-green-100 text-green-800",
-      open: "bg-blue-100 text-blue-800",
-      closed: "bg-gray-100 text-gray-800",
-      resolved: "bg-green-100 text-green-800",
-      draft: "bg-yellow-100 text-yellow-800",
-      published: "bg-green-100 text-green-800",
-      pending: "bg-orange-100 text-orange-800",
-      completed: "bg-green-100 text-green-800",
-      in_progress: "bg-blue-100 text-blue-800",
-      approved: "bg-green-100 text-green-800",
-      rejected: "bg-red-100 text-red-800",
-      healthy: "bg-green-100 text-green-800",
-      degraded: "bg-yellow-100 text-yellow-800",
-      unhealthy: "bg-red-100 text-red-800",
-      pass: "bg-green-100 text-green-800",
-      fail: "bg-red-100 text-red-800",
-      done: "bg-green-100 text-green-800",
-      backlog: "bg-gray-100 text-gray-800",
-      proposed: "bg-purple-100 text-purple-800",
-    };
-    return colors[status] || "secondary";
+  const getStatusVariant = (
+    status: string | null | undefined,
+  ): "default" | "success" | "error" | "warning" | "info" => {
+    if (!status) return "default";
+    const s = status.toLowerCase();
+    if (
+      [
+        "active",
+        "resolved",
+        "published",
+        "completed",
+        "approved",
+        "healthy",
+        "pass",
+        "done",
+        "closed",
+      ].includes(s)
+    )
+      return "success";
+    if (["fail", "rejected", "unhealthy"].includes(s)) return "error";
+    if (["draft", "pending", "degraded", "open"].includes(s)) return "warning";
+    if (["in_progress", "backlog", "proposed"].includes(s)) return "info";
+    return "default";
   };
 
   return (
@@ -98,36 +88,55 @@ export function DataTable<T extends { id: number; status?: string | null }>({
           <p className="text-muted-foreground">{description}</p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={onRefresh}>
-            <RefreshCw className="mr-1 h-4 w-4" />
+          <button
+            className="inline-flex items-center gap-1 rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
+            onClick={onRefresh}
+            type="button"
+          >
+            <RefreshCw className="h-4 w-4" />
             Refresh
-          </Button>
+          </button>
           {createForm && (
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button size="sm">
-                  <Plus className="mr-1 h-4 w-4" />
-                  Add
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-lg">
-                <DialogHeader>
-                  <DialogTitle>Create New</DialogTitle>
-                </DialogHeader>
+            <>
+              <button
+                className="inline-flex items-center gap-1 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90"
+                onClick={() => setDialogOpen(true)}
+                type="button"
+              >
+                <Plus className="h-4 w-4" />
+                Add
+              </button>
+              <ModalDialog
+                footer={
+                  <div className="flex justify-end gap-2">
+                    <button
+                      className="rounded-md border border-input bg-background px-3 py-1.5 text-sm shadow-sm hover:bg-accent"
+                      onClick={() => setDialogOpen(false)}
+                      type="button"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                }
+                onOpenChange={setDialogOpen}
+                open={dialogOpen}
+                title={`Create New ${title}`}
+              >
                 {createForm}
-              </DialogContent>
-            </Dialog>
+              </ModalDialog>
+            </>
           )}
         </div>
       </div>
 
       <div className="flex items-center justify-between">
-        <Input
-          placeholder="Search..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="max-w-sm"
-        />
+        <div className="max-w-sm flex-1">
+          <SearchInput
+            onChange={setSearch}
+            placeholder="Search..."
+            value={search}
+          />
+        </div>
         <p className="text-sm text-muted-foreground">
           {count !== undefined
             ? `${count} total`
@@ -149,8 +158,8 @@ export function DataTable<T extends { id: number; status?: string | null }>({
             {isLoading ? (
               <TableRow>
                 <TableCell
+                  className="py-8 text-center"
                   colSpan={columns.length + (onDelete ? 1 : 0)}
-                  className="text-center py-8"
                 >
                   Loading...
                 </TableCell>
@@ -158,8 +167,8 @@ export function DataTable<T extends { id: number; status?: string | null }>({
             ) : filtered?.length === 0 ? (
               <TableRow>
                 <TableCell
+                  className="py-8 text-center text-muted-foreground"
                   colSpan={columns.length + (onDelete ? 1 : 0)}
-                  className="text-center py-8 text-muted-foreground"
                 >
                   No records found
                 </TableCell>
@@ -175,12 +184,9 @@ export function DataTable<T extends { id: number; status?: string | null }>({
                     return (
                       <TableCell key={col.key}>
                         {col.key === statusField && val ? (
-                          <Badge
-                            className={getStatusColor(String(val))}
-                            variant="secondary"
-                          >
+                          <StatusBadge variant={getStatusVariant(String(val))}>
                             {String(val)}
-                          </Badge>
+                          </StatusBadge>
                         ) : (
                           <span className="text-sm">{display}</span>
                         )}
@@ -189,14 +195,13 @@ export function DataTable<T extends { id: number; status?: string | null }>({
                   })}
                   {onDelete && (
                     <TableCell>
-                      <Button
-                        variant="ghost"
-                        size="sm"
+                      <button
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-md text-red-500 transition-colors hover:bg-red-50 hover:text-red-700"
                         onClick={() => onDelete(row.id)}
-                        className="text-red-500 hover:text-red-700"
+                        type="button"
                       >
                         <Trash2 className="h-4 w-4" />
-                      </Button>
+                      </button>
                     </TableCell>
                   )}
                 </TableRow>

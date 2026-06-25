@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
+
 import { DataTable } from "@/components/data-table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/react";
 
 export default function LaunchPage() {
@@ -27,6 +28,7 @@ export default function LaunchPage() {
         utils.launch.postLaunchMonitoringCount.invalidate();
       },
     });
+  const [activeTab, setActiveTab] = useState("launchChecklist");
 
   return (
     <div className="space-y-6">
@@ -37,48 +39,61 @@ export default function LaunchPage() {
         </p>
       </div>
 
-      <Tabs defaultValue="launchChecklist" className="px-6">
-        <TabsList>
-          <TabsTrigger value="launchChecklist">Launch Checklist</TabsTrigger>
-          <TabsTrigger value="postLaunchMonitoring">
+      <div className="px-6 space-y-4">
+        <div className="flex gap-4 border-b">
+          <button
+            className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === "launchChecklist" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+            onClick={() => setActiveTab("launchChecklist")}
+            type="button"
+          >
+            Launch Checklist
+          </button>
+          <button
+            className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === "postLaunchMonitoring" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+            onClick={() => setActiveTab("postLaunchMonitoring")}
+            type="button"
+          >
             Post-Launch Monitoring
-          </TabsTrigger>
-        </TabsList>
+          </button>
+        </div>
 
-        <TabsContent value="launchChecklist">
-          <DataTable
-            title="Launch Checklist"
-            description="Manage launch checklist records"
-            data={launchChecklistQuery.data}
-            isLoading={launchChecklistQuery.isLoading}
-            count={launchChecklistCount.data}
-            onRefresh={() => launchChecklistQuery.refetch()}
-            onDelete={(id) => launchChecklistDelete.mutate({ id })}
-            columns={[
-              { key: "item", label: "Item" },
-              { key: "category", label: "Category" },
-              { key: "completed", label: "Completed" },
-            ]}
-          />
-        </TabsContent>
-
-        <TabsContent value="postLaunchMonitoring">
-          <DataTable
-            title="Post-Launch Monitoring"
-            description="Manage post-launch monitoring records"
-            data={postLaunchMonitoringQuery.data}
-            isLoading={postLaunchMonitoringQuery.isLoading}
-            count={postLaunchMonitoringCount.data}
-            onRefresh={() => postLaunchMonitoringQuery.refetch()}
-            onDelete={(id) => postLaunchMonitoringDelete.mutate({ id })}
-            columns={[
-              { key: "metric", label: "Metric" },
-              { key: "value", label: "Value" },
-              { key: "isHealthy", label: "Is Healthy" },
-            ]}
-          />
-        </TabsContent>
-      </Tabs>
+        {activeTab === "launchChecklist" && (
+          <div>
+            <DataTable
+              title="Launch Checklist"
+              description="Manage launch checklist records"
+              data={launchChecklistQuery.data}
+              isLoading={launchChecklistQuery.isLoading}
+              count={launchChecklistCount.data}
+              onRefresh={() => launchChecklistQuery.refetch()}
+              onDelete={(id) => launchChecklistDelete.mutate({ id })}
+              columns={[
+                { key: "item", label: "Item" },
+                { key: "category", label: "Category" },
+                { key: "completed", label: "Completed" },
+              ]}
+            />
+          </div>
+        )}
+        {activeTab === "postLaunchMonitoring" && (
+          <div>
+            <DataTable
+              title="Post-Launch Monitoring"
+              description="Manage post-launch monitoring records"
+              data={postLaunchMonitoringQuery.data}
+              isLoading={postLaunchMonitoringQuery.isLoading}
+              count={postLaunchMonitoringCount.data}
+              onRefresh={() => postLaunchMonitoringQuery.refetch()}
+              onDelete={(id) => postLaunchMonitoringDelete.mutate({ id })}
+              columns={[
+                { key: "metric", label: "Metric" },
+                { key: "value", label: "Value" },
+                { key: "isHealthy", label: "Is Healthy" },
+              ]}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

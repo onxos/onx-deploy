@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
+
 import { DataTable } from "@/components/data-table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/react";
 
 export default function ReleaseMgmtPage() {
@@ -27,6 +28,7 @@ export default function ReleaseMgmtPage() {
         utils.releaseMgmt.deploymentTrackingCount.invalidate();
       },
     });
+  const [activeTab, setActiveTab] = useState("releaseRecord");
 
   return (
     <div className="space-y-6">
@@ -37,46 +39,61 @@ export default function ReleaseMgmtPage() {
         </p>
       </div>
 
-      <Tabs defaultValue="releaseRecord" className="px-6">
-        <TabsList>
-          <TabsTrigger value="releaseRecord">Releases</TabsTrigger>
-          <TabsTrigger value="deploymentTracking">Deployments</TabsTrigger>
-        </TabsList>
+      <div className="px-6 space-y-4">
+        <div className="flex gap-4 border-b">
+          <button
+            className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === "releaseRecord" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+            onClick={() => setActiveTab("releaseRecord")}
+            type="button"
+          >
+            Releases
+          </button>
+          <button
+            className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === "deploymentTracking" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+            onClick={() => setActiveTab("deploymentTracking")}
+            type="button"
+          >
+            Deployments
+          </button>
+        </div>
 
-        <TabsContent value="releaseRecord">
-          <DataTable
-            title="Releases"
-            description="Manage releases records"
-            data={releaseRecordQuery.data}
-            isLoading={releaseRecordQuery.isLoading}
-            count={releaseRecordCount.data}
-            onRefresh={() => releaseRecordQuery.refetch()}
-            onDelete={(id) => releaseRecordDelete.mutate({ id })}
-            columns={[
-              { key: "version", label: "Version" },
-              { key: "name", label: "Name" },
-              { key: "status", label: "Status" },
-            ]}
-          />
-        </TabsContent>
-
-        <TabsContent value="deploymentTracking">
-          <DataTable
-            title="Deployments"
-            description="Manage deployments records"
-            data={deploymentTrackingQuery.data}
-            isLoading={deploymentTrackingQuery.isLoading}
-            count={deploymentTrackingCount.data}
-            onRefresh={() => deploymentTrackingQuery.refetch()}
-            onDelete={(id) => deploymentTrackingDelete.mutate({ id })}
-            columns={[
-              { key: "releaseId", label: "Release Id" },
-              { key: "environment", label: "Environment" },
-              { key: "status", label: "Status" },
-            ]}
-          />
-        </TabsContent>
-      </Tabs>
+        {activeTab === "releaseRecord" && (
+          <div>
+            <DataTable
+              title="Releases"
+              description="Manage releases records"
+              data={releaseRecordQuery.data}
+              isLoading={releaseRecordQuery.isLoading}
+              count={releaseRecordCount.data}
+              onRefresh={() => releaseRecordQuery.refetch()}
+              onDelete={(id) => releaseRecordDelete.mutate({ id })}
+              columns={[
+                { key: "version", label: "Version" },
+                { key: "name", label: "Name" },
+                { key: "status", label: "Status" },
+              ]}
+            />
+          </div>
+        )}
+        {activeTab === "deploymentTracking" && (
+          <div>
+            <DataTable
+              title="Deployments"
+              description="Manage deployments records"
+              data={deploymentTrackingQuery.data}
+              isLoading={deploymentTrackingQuery.isLoading}
+              count={deploymentTrackingCount.data}
+              onRefresh={() => deploymentTrackingQuery.refetch()}
+              onDelete={(id) => deploymentTrackingDelete.mutate({ id })}
+              columns={[
+                { key: "releaseId", label: "Release Id" },
+                { key: "environment", label: "Environment" },
+                { key: "status", label: "Status" },
+              ]}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
