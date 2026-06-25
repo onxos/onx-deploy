@@ -87,7 +87,7 @@ export const audit_reviewRouter = createTRPCRouter({
     .query(async ({ input }) => {
       const conditions: SQL[] = [];
       if (input?.status)
-        conditions.push(eq(complianceCheck.status, input.status));
+        conditions.push(eq(complianceCheck.result, input.status));
       return db
         .select()
         .from(complianceCheck)

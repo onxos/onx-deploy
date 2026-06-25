@@ -112,7 +112,7 @@ export const editorialRouter = createTRPCRouter({
     .query(async ({ input }) => {
       const conditions: SQL[] = [];
       if (input?.status)
-        conditions.push(eq(contentReview.status, input.status));
+        conditions.push(eq(contentReview.verdict, input.status));
       return db
         .select()
         .from(contentReview)
