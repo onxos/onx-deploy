@@ -4,28 +4,31 @@ import { DataTable } from "@/components/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/react";
 
-export default function performancePage() {
+export default function PerformancePage() {
   const utils = api.useUtils();
 
-  const performanceMetricQuery = api.performance.performanceMetricList.useQuery();
-  const performanceMetricCount = api.performance.performanceMetricCount.useQuery();
+  const performanceMetricQuery =
+    api.performance.performanceMetricList.useQuery();
+  const performanceMetricCount =
+    api.performance.performanceMetricCount.useQuery();
   const performanceMetricDelete =
-      api.performance.performanceMetricDelete.useMutation({
-    onSuccess: () => {
-      utils.performance.performanceMetricList.invalidate();
-      utils.performance.performanceMetricCount.invalidate();
-    },
-  });
+    api.performance.performanceMetricDelete.useMutation({
+      onSuccess: () => {
+        utils.performance.performanceMetricList.invalidate();
+        utils.performance.performanceMetricCount.invalidate();
+      },
+    });
 
   const loadTestResultQuery = api.performance.loadTestResultList.useQuery();
   const loadTestResultCount = api.performance.loadTestResultCount.useQuery();
-  const loadTestResultDelete =
-      api.performance.loadTestResultDelete.useMutation({
-    onSuccess: () => {
-      utils.performance.loadTestResultList.invalidate();
-      utils.performance.loadTestResultCount.invalidate();
+  const loadTestResultDelete = api.performance.loadTestResultDelete.useMutation(
+    {
+      onSuccess: () => {
+        utils.performance.loadTestResultList.invalidate();
+        utils.performance.loadTestResultCount.invalidate();
+      },
     },
-  });
+  );
 
   return (
     <div className="space-y-6">
@@ -38,7 +41,9 @@ export default function performancePage() {
 
       <Tabs defaultValue="performanceMetric" className="px-6">
         <TabsList>
-          <TabsTrigger value="performanceMetric">Performance Metrics</TabsTrigger>
+          <TabsTrigger value="performanceMetric">
+            Performance Metrics
+          </TabsTrigger>
           <TabsTrigger value="loadTestResult">Load Tests</TabsTrigger>
         </TabsList>
 
@@ -51,7 +56,12 @@ export default function performancePage() {
             count={performanceMetricCount.data}
             onRefresh={() => performanceMetricQuery.refetch()}
             onDelete={(id) => performanceMetricDelete.mutate({ id })}
-            columns={[{ key: 'name', label: 'Name' }, { key: 'value', label: 'Value' }, { key: 'unit', label: 'Unit' }, { key: 'isAlert', label: 'Is Alert' }]}
+            columns={[
+              { key: "name", label: "Name" },
+              { key: "value", label: "Value" },
+              { key: "unit", label: "Unit" },
+              { key: "isAlert", label: "Is Alert" },
+            ]}
           />
         </TabsContent>
 
@@ -64,10 +74,14 @@ export default function performancePage() {
             count={loadTestResultCount.data}
             onRefresh={() => loadTestResultQuery.refetch()}
             onDelete={(id) => loadTestResultDelete.mutate({ id })}
-            columns={[{ key: 'scenario', label: 'Scenario' }, { key: 'concurrentUsers', label: 'Concurrent Users' }, { key: 'avgResponseTime', label: 'Avg Response Time' }, { key: 'status', label: 'Status' }]}
+            columns={[
+              { key: "scenario", label: "Scenario" },
+              { key: "concurrentUsers", label: "Concurrent Users" },
+              { key: "avgResponseTime", label: "Avg Response Time" },
+              { key: "status", label: "Status" },
+            ]}
           />
         </TabsContent>
-
       </Tabs>
     </div>
   );

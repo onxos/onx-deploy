@@ -4,28 +4,32 @@ import { DataTable } from "@/components/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/react";
 
-export default function dataGovernancePage() {
+export default function DataGovernancePage() {
   const utils = api.useUtils();
 
-  const dataGovernanceRuleQuery = api.dataGovernance.dataGovernanceRuleList.useQuery();
-  const dataGovernanceRuleCount = api.dataGovernance.dataGovernanceRuleCount.useQuery();
+  const dataGovernanceRuleQuery =
+    api.dataGovernance.dataGovernanceRuleList.useQuery();
+  const dataGovernanceRuleCount =
+    api.dataGovernance.dataGovernanceRuleCount.useQuery();
   const dataGovernanceRuleDelete =
-      api.dataGovernance.dataGovernanceRuleDelete.useMutation({
-    onSuccess: () => {
-      utils.dataGovernance.dataGovernanceRuleList.invalidate();
-      utils.dataGovernance.dataGovernanceRuleCount.invalidate();
-    },
-  });
+    api.dataGovernance.dataGovernanceRuleDelete.useMutation({
+      onSuccess: () => {
+        utils.dataGovernance.dataGovernanceRuleList.invalidate();
+        utils.dataGovernance.dataGovernanceRuleCount.invalidate();
+      },
+    });
 
-  const dataQualityCheckQuery = api.dataGovernance.dataQualityCheckList.useQuery();
-  const dataQualityCheckCount = api.dataGovernance.dataQualityCheckCount.useQuery();
+  const dataQualityCheckQuery =
+    api.dataGovernance.dataQualityCheckList.useQuery();
+  const dataQualityCheckCount =
+    api.dataGovernance.dataQualityCheckCount.useQuery();
   const dataQualityCheckDelete =
-      api.dataGovernance.dataQualityCheckDelete.useMutation({
-    onSuccess: () => {
-      utils.dataGovernance.dataQualityCheckList.invalidate();
-      utils.dataGovernance.dataQualityCheckCount.invalidate();
-    },
-  });
+    api.dataGovernance.dataQualityCheckDelete.useMutation({
+      onSuccess: () => {
+        utils.dataGovernance.dataQualityCheckList.invalidate();
+        utils.dataGovernance.dataQualityCheckCount.invalidate();
+      },
+    });
 
   return (
     <div className="space-y-6">
@@ -51,7 +55,11 @@ export default function dataGovernancePage() {
             count={dataGovernanceRuleCount.data}
             onRefresh={() => dataGovernanceRuleQuery.refetch()}
             onDelete={(id) => dataGovernanceRuleDelete.mutate({ id })}
-            columns={[{ key: 'name', label: 'Name' }, { key: 'scope', label: 'Scope' }, { key: 'status', label: 'Status' }]}
+            columns={[
+              { key: "name", label: "Name" },
+              { key: "scope", label: "Scope" },
+              { key: "status", label: "Status" },
+            ]}
           />
         </TabsContent>
 
@@ -64,10 +72,13 @@ export default function dataGovernancePage() {
             count={dataQualityCheckCount.data}
             onRefresh={() => dataQualityCheckQuery.refetch()}
             onDelete={(id) => dataQualityCheckDelete.mutate({ id })}
-            columns={[{ key: 'tableName', label: 'Table Name' }, { key: 'checkType', label: 'Check Type' }, { key: 'passed', label: 'Passed' }]}
+            columns={[
+              { key: "tableName", label: "Table Name" },
+              { key: "checkType", label: "Check Type" },
+              { key: "passed", label: "Passed" },
+            ]}
           />
         </TabsContent>
-
       </Tabs>
     </div>
   );

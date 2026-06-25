@@ -4,23 +4,22 @@ import { DataTable } from "@/components/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/react";
 
-export default function enablementPage() {
+export default function EnablementPage() {
   const utils = api.useUtils();
 
   const trainingMaterialQuery = api.enablement.trainingMaterialList.useQuery();
   const trainingMaterialCount = api.enablement.trainingMaterialCount.useQuery();
   const trainingMaterialDelete =
-      api.enablement.trainingMaterialDelete.useMutation({
-    onSuccess: () => {
-      utils.enablement.trainingMaterialList.invalidate();
-      utils.enablement.trainingMaterialCount.invalidate();
-    },
-  });
+    api.enablement.trainingMaterialDelete.useMutation({
+      onSuccess: () => {
+        utils.enablement.trainingMaterialList.invalidate();
+        utils.enablement.trainingMaterialCount.invalidate();
+      },
+    });
 
   const onboardingFlowQuery = api.enablement.onboardingFlowList.useQuery();
   const onboardingFlowCount = api.enablement.onboardingFlowCount.useQuery();
-  const onboardingFlowDelete =
-      api.enablement.onboardingFlowDelete.useMutation({
+  const onboardingFlowDelete = api.enablement.onboardingFlowDelete.useMutation({
     onSuccess: () => {
       utils.enablement.onboardingFlowList.invalidate();
       utils.enablement.onboardingFlowCount.invalidate();
@@ -51,7 +50,12 @@ export default function enablementPage() {
             count={trainingMaterialCount.data}
             onRefresh={() => trainingMaterialQuery.refetch()}
             onDelete={(id) => trainingMaterialDelete.mutate({ id })}
-            columns={[{ key: 'title', label: 'Title' }, { key: 'category', label: 'Category' }, { key: 'difficulty', label: 'Difficulty' }, { key: 'status', label: 'Status' }]}
+            columns={[
+              { key: "title", label: "Title" },
+              { key: "category", label: "Category" },
+              { key: "difficulty", label: "Difficulty" },
+              { key: "status", label: "Status" },
+            ]}
           />
         </TabsContent>
 
@@ -64,10 +68,14 @@ export default function enablementPage() {
             count={onboardingFlowCount.data}
             onRefresh={() => onboardingFlowQuery.refetch()}
             onDelete={(id) => onboardingFlowDelete.mutate({ id })}
-            columns={[{ key: 'userId', label: 'User Id' }, { key: 'currentStep', label: 'Current Step' }, { key: 'totalSteps', label: 'Total Steps' }, { key: 'status', label: 'Status' }]}
+            columns={[
+              { key: "userId", label: "User Id" },
+              { key: "currentStep", label: "Current Step" },
+              { key: "totalSteps", label: "Total Steps" },
+              { key: "status", label: "Status" },
+            ]}
           />
         </TabsContent>
-
       </Tabs>
     </div>
   );

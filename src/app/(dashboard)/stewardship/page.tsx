@@ -4,28 +4,31 @@ import { DataTable } from "@/components/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/react";
 
-export default function stewardshipPage() {
+export default function StewardshipPage() {
   const utils = api.useUtils();
 
-  const stewardshipRecordQuery = api.stewardship.stewardshipRecordList.useQuery();
-  const stewardshipRecordCount = api.stewardship.stewardshipRecordCount.useQuery();
+  const stewardshipRecordQuery =
+    api.stewardship.stewardshipRecordList.useQuery();
+  const stewardshipRecordCount =
+    api.stewardship.stewardshipRecordCount.useQuery();
   const stewardshipRecordDelete =
-      api.stewardship.stewardshipRecordDelete.useMutation({
-    onSuccess: () => {
-      utils.stewardship.stewardshipRecordList.invalidate();
-      utils.stewardship.stewardshipRecordCount.invalidate();
-    },
-  });
+    api.stewardship.stewardshipRecordDelete.useMutation({
+      onSuccess: () => {
+        utils.stewardship.stewardshipRecordList.invalidate();
+        utils.stewardship.stewardshipRecordCount.invalidate();
+      },
+    });
 
   const continuityPlanQuery = api.stewardship.continuityPlanList.useQuery();
   const continuityPlanCount = api.stewardship.continuityPlanCount.useQuery();
-  const continuityPlanDelete =
-      api.stewardship.continuityPlanDelete.useMutation({
-    onSuccess: () => {
-      utils.stewardship.continuityPlanList.invalidate();
-      utils.stewardship.continuityPlanCount.invalidate();
+  const continuityPlanDelete = api.stewardship.continuityPlanDelete.useMutation(
+    {
+      onSuccess: () => {
+        utils.stewardship.continuityPlanList.invalidate();
+        utils.stewardship.continuityPlanCount.invalidate();
+      },
     },
-  });
+  );
 
   return (
     <div className="space-y-6">
@@ -51,7 +54,11 @@ export default function stewardshipPage() {
             count={stewardshipRecordCount.data}
             onRefresh={() => stewardshipRecordQuery.refetch()}
             onDelete={(id) => stewardshipRecordDelete.mutate({ id })}
-            columns={[{ key: 'responsibility', label: 'Responsibility' }, { key: 'scope', label: 'Scope' }, { key: 'status', label: 'Status' }]}
+            columns={[
+              { key: "responsibility", label: "Responsibility" },
+              { key: "scope", label: "Scope" },
+              { key: "status", label: "Status" },
+            ]}
           />
         </TabsContent>
 
@@ -64,10 +71,13 @@ export default function stewardshipPage() {
             count={continuityPlanCount.data}
             onRefresh={() => continuityPlanQuery.refetch()}
             onDelete={(id) => continuityPlanDelete.mutate({ id })}
-            columns={[{ key: 'name', label: 'Name' }, { key: 'scenario', label: 'Scenario' }, { key: 'status', label: 'Status' }]}
+            columns={[
+              { key: "name", label: "Name" },
+              { key: "scenario", label: "Scenario" },
+              { key: "status", label: "Status" },
+            ]}
           />
         </TabsContent>
-
       </Tabs>
     </div>
   );

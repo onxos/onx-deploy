@@ -23,7 +23,9 @@ export const retrospective = createTable(
     id: serial("id").primaryKey(),
     title: varchar("title", { length: 256 }).notNull(),
     goalReference: varchar("goal_reference", { length: 50 }),
-    ownerId: text("owner_id").references(() => user.id, { onDelete: "set null" }),
+    ownerId: text("owner_id").references(() => user.id, {
+      onDelete: "set null",
+    }),
     finding: text("finding").notNull(),
     action: text("action").notNull(),
     status: varchar("status", { length: 20 }).default("open").notNull(),
@@ -32,7 +34,9 @@ export const retrospective = createTable(
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+      () => new Date(),
+    ),
   },
   (table) => [index("onx_retrospective_status_idx").on(table.status)],
 );
@@ -44,7 +48,9 @@ export const improvementBacklog = createTable(
     title: varchar("title", { length: 256 }).notNull(),
     description: text("description"),
     evidence: text("evidence"),
-    assigneeId: text("assignee_id").references(() => user.id, { onDelete: "set null" }),
+    assigneeId: text("assignee_id").references(() => user.id, {
+      onDelete: "set null",
+    }),
     status: varchar("status", { length: 20 }).default("backlog").notNull(),
     priority: varchar("priority", { length: 20 }).default("medium"),
     effort: varchar("effort", { length: 20 }),
@@ -52,7 +58,9 @@ export const improvementBacklog = createTable(
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+      () => new Date(),
+    ),
   },
   (table) => [index("onx_improvement_backlog_status_idx").on(table.status)],
 );
@@ -82,12 +90,16 @@ export const recommendation = createTable(
     description: text("description").notNull(),
     status: varchar("status", { length: 20 }).default("proposed").notNull(),
     cycle: varchar("cycle", { length: 50 }),
-    proposerId: text("proposer_id").references(() => user.id, { onDelete: "set null" }),
+    proposerId: text("proposer_id").references(() => user.id, {
+      onDelete: "set null",
+    }),
     reviewNotes: text("review_notes"),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+      () => new Date(),
+    ),
   },
   (table) => [index("onx_recommendation_status_idx").on(table.status)],
 );
@@ -105,11 +117,15 @@ export const editorialPolicy = createTable(
     content: text("content").notNull(),
     version: varchar("version", { length: 20 }).default("1.0"),
     status: varchar("status", { length: 20 }).default("draft").notNull(),
-    approvedById: text("approved_by_id").references(() => user.id, { onDelete: "set null" }),
+    approvedById: text("approved_by_id").references(() => user.id, {
+      onDelete: "set null",
+    }),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+      () => new Date(),
+    ),
   },
   (table) => [index("onx_editorial_policy_status_idx").on(table.status)],
 );
@@ -120,7 +136,9 @@ export const contentReview = createTable(
     id: serial("id").primaryKey(),
     contentId: varchar("content_id", { length: 50 }).notNull(),
     contentType: varchar("content_type", { length: 50 }).notNull(),
-    reviewerId: text("reviewer_id").references(() => user.id, { onDelete: "set null" }),
+    reviewerId: text("reviewer_id").references(() => user.id, {
+      onDelete: "set null",
+    }),
     verdict: varchar("verdict", { length: 20 }).notNull(),
     feedback: text("feedback"),
     createdAt: timestamp("created_at", { withTimezone: true })
@@ -135,15 +153,21 @@ export const publicationSchedule = createTable(
   {
     id: serial("id").primaryKey(),
     title: varchar("title", { length: 256 }).notNull(),
-    scheduledDate: timestamp("scheduled_date", { withTimezone: true }).notNull(),
+    scheduledDate: timestamp("scheduled_date", {
+      withTimezone: true,
+    }).notNull(),
     contentType: varchar("content_type", { length: 50 }),
     status: varchar("status", { length: 20 }).default("scheduled").notNull(),
-    ownerId: text("owner_id").references(() => user.id, { onDelete: "set null" }),
+    ownerId: text("owner_id").references(() => user.id, {
+      onDelete: "set null",
+    }),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
   },
-  (table) => [index("onx_publication_schedule_date_idx").on(table.scheduledDate)],
+  (table) => [
+    index("onx_publication_schedule_date_idx").on(table.scheduledDate),
+  ],
 );
 
 // ═══════════════════════════════════════════════════════════
@@ -187,36 +211,36 @@ export const titanMaintenance = createTable(
 // TRAIN Q — Institution Management
 // ═══════════════════════════════════════════════════════════
 
-export const institutionSetting = createTable(
-  "institution_setting",
-  {
-    id: serial("id").primaryKey(),
-    key: varchar("key", { length: 100 }).notNull().unique(),
-    value: text("value"),
-    category: varchar("category", { length: 50 }).default("general"),
-    description: text("description"),
-    updatedById: text("updated_by_id").references(() => user.id, { onDelete: "set null" }),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-  },
-);
+export const institutionSetting = createTable("institution_setting", {
+  id: serial("id").primaryKey(),
+  key: varchar("key", { length: 100 }).notNull().unique(),
+  value: text("value"),
+  category: varchar("category", { length: 50 }).default("general"),
+  description: text("description"),
+  updatedById: text("updated_by_id").references(() => user.id, {
+    onDelete: "set null",
+  }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+    () => new Date(),
+  ),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});
 
-export const memberManagement = createTable(
-  "member_management",
-  {
-    id: serial("id").primaryKey(),
-    userId: text("user_id").notNull().unique(),
-    role: varchar("role", { length: 20 }).notNull(),
-    department: varchar("department", { length: 100 }),
-    status: varchar("status", { length: 20 }).default("active").notNull(),
-    joinedAt: timestamp("joined_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
-  },
-);
+export const memberManagement = createTable("member_management", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull().unique(),
+  role: varchar("role", { length: 20 }).notNull(),
+  department: varchar("department", { length: 100 }),
+  status: varchar("status", { length: 20 }).default("active").notNull(),
+  joinedAt: timestamp("joined_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+    () => new Date(),
+  ),
+});
 
 // ═══════════════════════════════════════════════════════════
 // TRAIN R — Security Review
@@ -231,11 +255,15 @@ export const securityAudit = createTable(
     findings: text("findings"),
     severity: varchar("severity", { length: 20 }).default("low"),
     status: varchar("status", { length: 20 }).default("open").notNull(),
-    auditorId: text("auditor_id").references(() => user.id, { onDelete: "set null" }),
+    auditorId: text("auditor_id").references(() => user.id, {
+      onDelete: "set null",
+    }),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+      () => new Date(),
+    ),
   },
   (table) => [index("onx_security_audit_status_idx").on(table.status)],
 );
@@ -305,7 +333,9 @@ export const releaseRecord = createTable(
     description: text("description"),
     status: varchar("status", { length: 20 }).default("planning").notNull(),
     deployedAt: timestamp("deployed_at", { withTimezone: true }),
-    deployedById: text("deployed_by_id").references(() => user.id, { onDelete: "set null" }),
+    deployedById: text("deployed_by_id").references(() => user.id, {
+      onDelete: "set null",
+    }),
     rollbackVersion: varchar("rollback_version", { length: 50 }),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
@@ -335,20 +365,19 @@ export const deploymentTracking = createTable(
 // TRAIN U — Data Governance
 // ═══════════════════════════════════════════════════════════
 
-export const dataGovernanceRule = createTable(
-  "data_governance_rule",
-  {
-    id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }).notNull(),
-    scope: varchar("scope", { length: 100 }).notNull(),
-    rule: text("rule").notNull(),
-    status: varchar("status", { length: 20 }).default("active").notNull(),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
-  },
-);
+export const dataGovernanceRule = createTable("data_governance_rule", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 256 }).notNull(),
+  scope: varchar("scope", { length: 100 }).notNull(),
+  rule: text("rule").notNull(),
+  status: varchar("status", { length: 20 }).default("active").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+    () => new Date(),
+  ),
+});
 
 export const dataQualityCheck = createTable(
   "data_quality_check",
@@ -385,56 +414,49 @@ export const performanceMetric = createTable(
   (table) => [index("onx_performance_metric_name_idx").on(table.name)],
 );
 
-export const loadTestResult = createTable(
-  "load_test_result",
-  {
-    id: serial("id").primaryKey(),
-    scenario: varchar("scenario", { length: 256 }).notNull(),
-    concurrentUsers: integer("concurrent_users"),
-    avgResponseTime: integer("avg_response_time"),
-    p95ResponseTime: integer("p95_response_time"),
-    errorRate: integer("error_rate"),
-    status: varchar("status", { length: 20 }).default("completed").notNull(),
-    testedAt: timestamp("tested_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-  },
-);
+export const loadTestResult = createTable("load_test_result", {
+  id: serial("id").primaryKey(),
+  scenario: varchar("scenario", { length: 256 }).notNull(),
+  concurrentUsers: integer("concurrent_users"),
+  avgResponseTime: integer("avg_response_time"),
+  p95ResponseTime: integer("p95_response_time"),
+  errorRate: integer("error_rate"),
+  status: varchar("status", { length: 20 }).default("completed").notNull(),
+  testedAt: timestamp("tested_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});
 
 // ═══════════════════════════════════════════════════════════
 // TRAIN W — Enablement
 // ═══════════════════════════════════════════════════════════
 
-export const trainingMaterial = createTable(
-  "training_material",
-  {
-    id: serial("id").primaryKey(),
-    title: varchar("title", { length: 256 }).notNull(),
-    content: text("content").notNull(),
-    category: varchar("category", { length: 100 }).default("general"),
-    difficulty: varchar("difficulty", { length: 20 }).default("beginner"),
-    status: varchar("status", { length: 20 }).default("draft").notNull(),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
-  },
-);
+export const trainingMaterial = createTable("training_material", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 256 }).notNull(),
+  content: text("content").notNull(),
+  category: varchar("category", { length: 100 }).default("general"),
+  difficulty: varchar("difficulty", { length: 20 }).default("beginner"),
+  status: varchar("status", { length: 20 }).default("draft").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+    () => new Date(),
+  ),
+});
 
-export const onboardingFlow = createTable(
-  "onboarding_flow",
-  {
-    id: serial("id").primaryKey(),
-    userId: text("user_id").notNull().unique(),
-    currentStep: integer("current_step").default(0),
-    totalSteps: integer("total_steps").default(5),
-    status: varchar("status", { length: 20 }).default("in_progress").notNull(),
-    completedAt: timestamp("completed_at", { withTimezone: true }),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-  },
-);
+export const onboardingFlow = createTable("onboarding_flow", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull().unique(),
+  currentStep: integer("current_step").default(0),
+  totalSteps: integer("total_steps").default(5),
+  status: varchar("status", { length: 20 }).default("in_progress").notNull(),
+  completedAt: timestamp("completed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});
 
 // ═══════════════════════════════════════════════════════════
 // TRAIN X — Audit & Review
@@ -457,19 +479,16 @@ export const auditLog = createTable(
   (table) => [index("onx_audit_log_action_idx").on(table.action)],
 );
 
-export const complianceCheck = createTable(
-  "compliance_check",
-  {
-    id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }).notNull(),
-    standard: varchar("standard", { length: 100 }).notNull(),
-    result: varchar("result", { length: 20 }).notNull(),
-    findings: text("findings"),
-    checkedAt: timestamp("checked_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-  },
-);
+export const complianceCheck = createTable("compliance_check", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 256 }).notNull(),
+  standard: varchar("standard", { length: 100 }).notNull(),
+  result: varchar("result", { length: 20 }).notNull(),
+  findings: text("findings"),
+  checkedAt: timestamp("checked_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});
 
 // ═══════════════════════════════════════════════════════════
 // TRAIN Y — Launch Readiness
@@ -482,7 +501,9 @@ export const launchChecklist = createTable(
     item: varchar("item", { length: 256 }).notNull(),
     category: varchar("category", { length: 100 }).notNull(),
     completed: boolean("completed").default(false).notNull(),
-    completedById: text("completed_by_id").references(() => user.id, { onDelete: "set null" }),
+    completedById: text("completed_by_id").references(() => user.id, {
+      onDelete: "set null",
+    }),
     completedAt: timestamp("completed_at", { withTimezone: true }),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
@@ -491,53 +512,46 @@ export const launchChecklist = createTable(
   (table) => [index("onx_launch_checklist_category_idx").on(table.category)],
 );
 
-export const postLaunchMonitoring = createTable(
-  "post_launch_monitoring",
-  {
-    id: serial("id").primaryKey(),
-    metric: varchar("metric", { length: 100 }).notNull(),
-    value: varchar("value", { length: 100 }).notNull(),
-    threshold: varchar("threshold", { length: 100 }),
-    isHealthy: boolean("is_healthy").default(true),
-    recordedAt: timestamp("recorded_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-  },
-);
+export const postLaunchMonitoring = createTable("post_launch_monitoring", {
+  id: serial("id").primaryKey(),
+  metric: varchar("metric", { length: 100 }).notNull(),
+  value: varchar("value", { length: 100 }).notNull(),
+  threshold: varchar("threshold", { length: 100 }),
+  isHealthy: boolean("is_healthy").default(true),
+  recordedAt: timestamp("recorded_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});
 
 // ═══════════════════════════════════════════════════════════
 // TRAIN Z — Stewardship & Continuity
 // ═══════════════════════════════════════════════════════════
 
-export const stewardshipRecord = createTable(
-  "stewardship_record",
-  {
-    id: serial("id").primaryKey(),
-    stewardId: text("steward_id").references(() => user.id, { onDelete: "set null" }),
-    responsibility: varchar("responsibility", { length: 256 }).notNull(),
-    scope: varchar("scope", { length: 100 }),
-    status: varchar("status", { length: 20 }).default("active").notNull(),
-    handoffNotes: text("handoff_notes"),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-  },
-);
+export const stewardshipRecord = createTable("stewardship_record", {
+  id: serial("id").primaryKey(),
+  stewardId: text("steward_id").references(() => user.id, {
+    onDelete: "set null",
+  }),
+  responsibility: varchar("responsibility", { length: 256 }).notNull(),
+  scope: varchar("scope", { length: 100 }),
+  status: varchar("status", { length: 20 }).default("active").notNull(),
+  handoffNotes: text("handoff_notes"),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});
 
-export const continuityPlan = createTable(
-  "continuity_plan",
-  {
-    id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }).notNull(),
-    scenario: varchar("scenario", { length: 256 }).notNull(),
-    plan: text("plan").notNull(),
-    status: varchar("status", { length: 20 }).default("draft").notNull(),
-    reviewedAt: timestamp("reviewed_at", { withTimezone: true }),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-  },
-);
+export const continuityPlan = createTable("continuity_plan", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 256 }).notNull(),
+  scenario: varchar("scenario", { length: 256 }).notNull(),
+  plan: text("plan").notNull(),
+  status: varchar("status", { length: 20 }).default("draft").notNull(),
+  reviewedAt: timestamp("reviewed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});
 
 // ═══════════════════════════════════════════════════════════
 // TYPE EXPORTS

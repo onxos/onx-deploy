@@ -4,28 +4,31 @@ import { DataTable } from "@/components/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/react";
 
-export default function institutionPage() {
+export default function InstitutionPage() {
   const utils = api.useUtils();
 
-  const institutionSettingQuery = api.institution.institutionSettingList.useQuery();
-  const institutionSettingCount = api.institution.institutionSettingCount.useQuery();
+  const institutionSettingQuery =
+    api.institution.institutionSettingList.useQuery();
+  const institutionSettingCount =
+    api.institution.institutionSettingCount.useQuery();
   const institutionSettingDelete =
-      api.institution.institutionSettingDelete.useMutation({
-    onSuccess: () => {
-      utils.institution.institutionSettingList.invalidate();
-      utils.institution.institutionSettingCount.invalidate();
-    },
-  });
+    api.institution.institutionSettingDelete.useMutation({
+      onSuccess: () => {
+        utils.institution.institutionSettingList.invalidate();
+        utils.institution.institutionSettingCount.invalidate();
+      },
+    });
 
   const memberManagementQuery = api.institution.memberManagementList.useQuery();
-  const memberManagementCount = api.institution.memberManagementCount.useQuery();
+  const memberManagementCount =
+    api.institution.memberManagementCount.useQuery();
   const memberManagementDelete =
-      api.institution.memberManagementDelete.useMutation({
-    onSuccess: () => {
-      utils.institution.memberManagementList.invalidate();
-      utils.institution.memberManagementCount.invalidate();
-    },
-  });
+    api.institution.memberManagementDelete.useMutation({
+      onSuccess: () => {
+        utils.institution.memberManagementList.invalidate();
+        utils.institution.memberManagementCount.invalidate();
+      },
+    });
 
   return (
     <div className="space-y-6">
@@ -51,7 +54,11 @@ export default function institutionPage() {
             count={institutionSettingCount.data}
             onRefresh={() => institutionSettingQuery.refetch()}
             onDelete={(id) => institutionSettingDelete.mutate({ id })}
-            columns={[{ key: 'key', label: 'Key' }, { key: 'category', label: 'Category' }, { key: 'value', label: 'Value' }]}
+            columns={[
+              { key: "key", label: "Key" },
+              { key: "category", label: "Category" },
+              { key: "value", label: "Value" },
+            ]}
           />
         </TabsContent>
 
@@ -64,10 +71,14 @@ export default function institutionPage() {
             count={memberManagementCount.data}
             onRefresh={() => memberManagementQuery.refetch()}
             onDelete={(id) => memberManagementDelete.mutate({ id })}
-            columns={[{ key: 'userId', label: 'User Id' }, { key: 'role', label: 'Role' }, { key: 'department', label: 'Department' }, { key: 'status', label: 'Status' }]}
+            columns={[
+              { key: "userId", label: "User Id" },
+              { key: "role", label: "Role" },
+              { key: "department", label: "Department" },
+              { key: "status", label: "Status" },
+            ]}
           />
         </TabsContent>
-
       </Tabs>
     </div>
   );

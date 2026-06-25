@@ -4,23 +4,24 @@ import { DataTable } from "@/components/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/react";
 
-export default function operationsPage() {
+export default function OperationsPage() {
   const utils = api.useUtils();
 
-  const operationalMetricQuery = api.operations.operationalMetricList.useQuery();
-  const operationalMetricCount = api.operations.operationalMetricCount.useQuery();
+  const operationalMetricQuery =
+    api.operations.operationalMetricList.useQuery();
+  const operationalMetricCount =
+    api.operations.operationalMetricCount.useQuery();
   const operationalMetricDelete =
-      api.operations.operationalMetricDelete.useMutation({
-    onSuccess: () => {
-      utils.operations.operationalMetricList.invalidate();
-      utils.operations.operationalMetricCount.invalidate();
-    },
-  });
+    api.operations.operationalMetricDelete.useMutation({
+      onSuccess: () => {
+        utils.operations.operationalMetricList.invalidate();
+        utils.operations.operationalMetricCount.invalidate();
+      },
+    });
 
   const systemHealthQuery = api.operations.systemHealthList.useQuery();
   const systemHealthCount = api.operations.systemHealthCount.useQuery();
-  const systemHealthDelete =
-      api.operations.systemHealthDelete.useMutation({
+  const systemHealthDelete = api.operations.systemHealthDelete.useMutation({
     onSuccess: () => {
       utils.operations.systemHealthList.invalidate();
       utils.operations.systemHealthCount.invalidate();
@@ -38,7 +39,9 @@ export default function operationsPage() {
 
       <Tabs defaultValue="operationalMetric" className="px-6">
         <TabsList>
-          <TabsTrigger value="operationalMetric">Operational Metrics</TabsTrigger>
+          <TabsTrigger value="operationalMetric">
+            Operational Metrics
+          </TabsTrigger>
           <TabsTrigger value="systemHealth">System Health</TabsTrigger>
         </TabsList>
 
@@ -51,7 +54,12 @@ export default function operationsPage() {
             count={operationalMetricCount.data}
             onRefresh={() => operationalMetricQuery.refetch()}
             onDelete={(id) => operationalMetricDelete.mutate({ id })}
-            columns={[{ key: 'name', label: 'Name' }, { key: 'value', label: 'Value' }, { key: 'unit', label: 'Unit' }, { key: 'source', label: 'Source' }]}
+            columns={[
+              { key: "name", label: "Name" },
+              { key: "value", label: "Value" },
+              { key: "unit", label: "Unit" },
+              { key: "source", label: "Source" },
+            ]}
           />
         </TabsContent>
 
@@ -64,10 +72,14 @@ export default function operationsPage() {
             count={systemHealthCount.data}
             onRefresh={() => systemHealthQuery.refetch()}
             onDelete={(id) => systemHealthDelete.mutate({ id })}
-            columns={[{ key: 'component', label: 'Component' }, { key: 'status', label: 'Status' }, { key: 'latency', label: 'Latency' }, { key: 'errorRate', label: 'Error Rate' }]}
+            columns={[
+              { key: "component", label: "Component" },
+              { key: "status", label: "Status" },
+              { key: "latency", label: "Latency" },
+              { key: "errorRate", label: "Error Rate" },
+            ]}
           />
         </TabsContent>
-
       </Tabs>
     </div>
   );

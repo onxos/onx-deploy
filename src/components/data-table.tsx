@@ -1,7 +1,16 @@
 "use client";
 
+import { Plus, RefreshCw, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -11,22 +20,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
-import { Plus, RefreshCw, Trash2 } from "lucide-react";
 
 interface DataTableProps<T> {
   title: string;
   description: string;
   data: T[] | undefined;
   isLoading: boolean;
-  columns: { key: string; label: string; format?: (value: unknown) => string }[];
+  columns: {
+    key: string;
+    label: string;
+    format?: (value: unknown) => string;
+  }[];
   statusField?: string;
   statusColors?: Record<string, string>;
   onRefresh: () => void;
@@ -125,7 +129,9 @@ export function DataTable<T extends { id: number; status?: string | null }>({
           className="max-w-sm"
         />
         <p className="text-sm text-muted-foreground">
-          {count !== undefined ? `${count} total` : `${filtered?.length ?? 0} records`}
+          {count !== undefined
+            ? `${count} total`
+            : `${filtered?.length ?? 0} records`}
         </p>
       </div>
 
@@ -142,13 +148,19 @@ export function DataTable<T extends { id: number; status?: string | null }>({
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={columns.length + (onDelete ? 1 : 0)} className="text-center py-8">
+                <TableCell
+                  colSpan={columns.length + (onDelete ? 1 : 0)}
+                  className="text-center py-8"
+                >
                   Loading...
                 </TableCell>
               </TableRow>
             ) : filtered?.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={columns.length + (onDelete ? 1 : 0)} className="text-center py-8 text-muted-foreground">
+                <TableCell
+                  colSpan={columns.length + (onDelete ? 1 : 0)}
+                  className="text-center py-8 text-muted-foreground"
+                >
                   No records found
                 </TableCell>
               </TableRow>
@@ -157,11 +169,16 @@ export function DataTable<T extends { id: number; status?: string | null }>({
                 <TableRow key={row.id}>
                   {columns.map((col) => {
                     const val = (row as Record<string, unknown>)[col.key];
-                    const display = col.format ? col.format(val) : String(val ?? "-");
+                    const display = col.format
+                      ? col.format(val)
+                      : String(val ?? "-");
                     return (
                       <TableCell key={col.key}>
                         {col.key === statusField && val ? (
-                          <Badge className={getStatusColor(String(val))} variant="secondary">
+                          <Badge
+                            className={getStatusColor(String(val))}
+                            variant="secondary"
+                          >
                             {String(val)}
                           </Badge>
                         ) : (

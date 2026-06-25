@@ -4,28 +4,29 @@ import { DataTable } from "@/components/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/react";
 
-export default function launchPage() {
+export default function LaunchPage() {
   const utils = api.useUtils();
 
   const launchChecklistQuery = api.launch.launchChecklistList.useQuery();
   const launchChecklistCount = api.launch.launchChecklistCount.useQuery();
-  const launchChecklistDelete =
-      api.launch.launchChecklistDelete.useMutation({
+  const launchChecklistDelete = api.launch.launchChecklistDelete.useMutation({
     onSuccess: () => {
       utils.launch.launchChecklistList.invalidate();
       utils.launch.launchChecklistCount.invalidate();
     },
   });
 
-  const postLaunchMonitoringQuery = api.launch.postLaunchMonitoringList.useQuery();
-  const postLaunchMonitoringCount = api.launch.postLaunchMonitoringCount.useQuery();
+  const postLaunchMonitoringQuery =
+    api.launch.postLaunchMonitoringList.useQuery();
+  const postLaunchMonitoringCount =
+    api.launch.postLaunchMonitoringCount.useQuery();
   const postLaunchMonitoringDelete =
-      api.launch.postLaunchMonitoringDelete.useMutation({
-    onSuccess: () => {
-      utils.launch.postLaunchMonitoringList.invalidate();
-      utils.launch.postLaunchMonitoringCount.invalidate();
-    },
-  });
+    api.launch.postLaunchMonitoringDelete.useMutation({
+      onSuccess: () => {
+        utils.launch.postLaunchMonitoringList.invalidate();
+        utils.launch.postLaunchMonitoringCount.invalidate();
+      },
+    });
 
   return (
     <div className="space-y-6">
@@ -39,7 +40,9 @@ export default function launchPage() {
       <Tabs defaultValue="launchChecklist" className="px-6">
         <TabsList>
           <TabsTrigger value="launchChecklist">Launch Checklist</TabsTrigger>
-          <TabsTrigger value="postLaunchMonitoring">Post-Launch Monitoring</TabsTrigger>
+          <TabsTrigger value="postLaunchMonitoring">
+            Post-Launch Monitoring
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="launchChecklist">
@@ -51,7 +54,11 @@ export default function launchPage() {
             count={launchChecklistCount.data}
             onRefresh={() => launchChecklistQuery.refetch()}
             onDelete={(id) => launchChecklistDelete.mutate({ id })}
-            columns={[{ key: 'item', label: 'Item' }, { key: 'category', label: 'Category' }, { key: 'completed', label: 'Completed' }]}
+            columns={[
+              { key: "item", label: "Item" },
+              { key: "category", label: "Category" },
+              { key: "completed", label: "Completed" },
+            ]}
           />
         </TabsContent>
 
@@ -64,10 +71,13 @@ export default function launchPage() {
             count={postLaunchMonitoringCount.data}
             onRefresh={() => postLaunchMonitoringQuery.refetch()}
             onDelete={(id) => postLaunchMonitoringDelete.mutate({ id })}
-            columns={[{ key: 'metric', label: 'Metric' }, { key: 'value', label: 'Value' }, { key: 'isHealthy', label: 'Is Healthy' }]}
+            columns={[
+              { key: "metric", label: "Metric" },
+              { key: "value", label: "Value" },
+              { key: "isHealthy", label: "Is Healthy" },
+            ]}
           />
         </TabsContent>
-
       </Tabs>
     </div>
   );

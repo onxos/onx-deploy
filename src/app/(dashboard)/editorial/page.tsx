@@ -4,38 +4,40 @@ import { DataTable } from "@/components/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/react";
 
-export default function editorialPage() {
+export default function EditorialPage() {
   const utils = api.useUtils();
 
   const editorialPolicyQuery = api.editorial.editorialPolicyList.useQuery();
   const editorialPolicyCount = api.editorial.editorialPolicyCount.useQuery();
-  const editorialPolicyDelete =
-      api.editorial.editorialPolicyDelete.useMutation({
-    onSuccess: () => {
-      utils.editorial.editorialPolicyList.invalidate();
-      utils.editorial.editorialPolicyCount.invalidate();
+  const editorialPolicyDelete = api.editorial.editorialPolicyDelete.useMutation(
+    {
+      onSuccess: () => {
+        utils.editorial.editorialPolicyList.invalidate();
+        utils.editorial.editorialPolicyCount.invalidate();
+      },
     },
-  });
+  );
 
   const contentReviewQuery = api.editorial.contentReviewList.useQuery();
   const contentReviewCount = api.editorial.contentReviewCount.useQuery();
-  const contentReviewDelete =
-      api.editorial.contentReviewDelete.useMutation({
+  const contentReviewDelete = api.editorial.contentReviewDelete.useMutation({
     onSuccess: () => {
       utils.editorial.contentReviewList.invalidate();
       utils.editorial.contentReviewCount.invalidate();
     },
   });
 
-  const publicationScheduleQuery = api.editorial.publicationScheduleList.useQuery();
-  const publicationScheduleCount = api.editorial.publicationScheduleCount.useQuery();
+  const publicationScheduleQuery =
+    api.editorial.publicationScheduleList.useQuery();
+  const publicationScheduleCount =
+    api.editorial.publicationScheduleCount.useQuery();
   const publicationScheduleDelete =
-      api.editorial.publicationScheduleDelete.useMutation({
-    onSuccess: () => {
-      utils.editorial.publicationScheduleList.invalidate();
-      utils.editorial.publicationScheduleCount.invalidate();
-    },
-  });
+    api.editorial.publicationScheduleDelete.useMutation({
+      onSuccess: () => {
+        utils.editorial.publicationScheduleList.invalidate();
+        utils.editorial.publicationScheduleCount.invalidate();
+      },
+    });
 
   return (
     <div className="space-y-6">
@@ -50,7 +52,9 @@ export default function editorialPage() {
         <TabsList>
           <TabsTrigger value="editorialPolicy">Editorial Policies</TabsTrigger>
           <TabsTrigger value="contentReview">Content Reviews</TabsTrigger>
-          <TabsTrigger value="publicationSchedule">Publication Schedule</TabsTrigger>
+          <TabsTrigger value="publicationSchedule">
+            Publication Schedule
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="editorialPolicy">
@@ -62,7 +66,12 @@ export default function editorialPage() {
             count={editorialPolicyCount.data}
             onRefresh={() => editorialPolicyQuery.refetch()}
             onDelete={(id) => editorialPolicyDelete.mutate({ id })}
-            columns={[{ key: 'name', label: 'Name' }, { key: 'scope', label: 'Scope' }, { key: 'status', label: 'Status' }, { key: 'version', label: 'Version' }]}
+            columns={[
+              { key: "name", label: "Name" },
+              { key: "scope", label: "Scope" },
+              { key: "status", label: "Status" },
+              { key: "version", label: "Version" },
+            ]}
           />
         </TabsContent>
 
@@ -75,7 +84,11 @@ export default function editorialPage() {
             count={contentReviewCount.data}
             onRefresh={() => contentReviewQuery.refetch()}
             onDelete={(id) => contentReviewDelete.mutate({ id })}
-            columns={[{ key: 'contentId', label: 'Content Id' }, { key: 'contentType', label: 'Content Type' }, { key: 'verdict', label: 'Verdict' }]}
+            columns={[
+              { key: "contentId", label: "Content Id" },
+              { key: "contentType", label: "Content Type" },
+              { key: "verdict", label: "Verdict" },
+            ]}
           />
         </TabsContent>
 
@@ -88,10 +101,13 @@ export default function editorialPage() {
             count={publicationScheduleCount.data}
             onRefresh={() => publicationScheduleQuery.refetch()}
             onDelete={(id) => publicationScheduleDelete.mutate({ id })}
-            columns={[{ key: 'title', label: 'Title' }, { key: 'scheduledDate', label: 'Scheduled Date' }, { key: 'status', label: 'Status' }]}
+            columns={[
+              { key: "title", label: "Title" },
+              { key: "scheduledDate", label: "Scheduled Date" },
+              { key: "status", label: "Status" },
+            ]}
           />
         </TabsContent>
-
       </Tabs>
     </div>
   );

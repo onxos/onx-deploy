@@ -4,28 +4,29 @@ import { DataTable } from "@/components/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/react";
 
-export default function releaseMgmtPage() {
+export default function ReleaseMgmtPage() {
   const utils = api.useUtils();
 
   const releaseRecordQuery = api.releaseMgmt.releaseRecordList.useQuery();
   const releaseRecordCount = api.releaseMgmt.releaseRecordCount.useQuery();
-  const releaseRecordDelete =
-      api.releaseMgmt.releaseRecordDelete.useMutation({
+  const releaseRecordDelete = api.releaseMgmt.releaseRecordDelete.useMutation({
     onSuccess: () => {
       utils.releaseMgmt.releaseRecordList.invalidate();
       utils.releaseMgmt.releaseRecordCount.invalidate();
     },
   });
 
-  const deploymentTrackingQuery = api.releaseMgmt.deploymentTrackingList.useQuery();
-  const deploymentTrackingCount = api.releaseMgmt.deploymentTrackingCount.useQuery();
+  const deploymentTrackingQuery =
+    api.releaseMgmt.deploymentTrackingList.useQuery();
+  const deploymentTrackingCount =
+    api.releaseMgmt.deploymentTrackingCount.useQuery();
   const deploymentTrackingDelete =
-      api.releaseMgmt.deploymentTrackingDelete.useMutation({
-    onSuccess: () => {
-      utils.releaseMgmt.deploymentTrackingList.invalidate();
-      utils.releaseMgmt.deploymentTrackingCount.invalidate();
-    },
-  });
+    api.releaseMgmt.deploymentTrackingDelete.useMutation({
+      onSuccess: () => {
+        utils.releaseMgmt.deploymentTrackingList.invalidate();
+        utils.releaseMgmt.deploymentTrackingCount.invalidate();
+      },
+    });
 
   return (
     <div className="space-y-6">
@@ -51,7 +52,11 @@ export default function releaseMgmtPage() {
             count={releaseRecordCount.data}
             onRefresh={() => releaseRecordQuery.refetch()}
             onDelete={(id) => releaseRecordDelete.mutate({ id })}
-            columns={[{ key: 'version', label: 'Version' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }]}
+            columns={[
+              { key: "version", label: "Version" },
+              { key: "name", label: "Name" },
+              { key: "status", label: "Status" },
+            ]}
           />
         </TabsContent>
 
@@ -64,10 +69,13 @@ export default function releaseMgmtPage() {
             count={deploymentTrackingCount.data}
             onRefresh={() => deploymentTrackingQuery.refetch()}
             onDelete={(id) => deploymentTrackingDelete.mutate({ id })}
-            columns={[{ key: 'releaseId', label: 'Release Id' }, { key: 'environment', label: 'Environment' }, { key: 'status', label: 'Status' }]}
+            columns={[
+              { key: "releaseId", label: "Release Id" },
+              { key: "environment", label: "Environment" },
+              { key: "status", label: "Status" },
+            ]}
           />
         </TabsContent>
-
       </Tabs>
     </div>
   );
