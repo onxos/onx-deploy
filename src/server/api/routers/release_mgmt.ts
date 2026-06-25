@@ -1,4 +1,4 @@
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, type SQL, sql } from "drizzle-orm";
 import { z } from "zod";
 import { requirePermission } from "@/server/api/middleware/rbac";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
@@ -20,7 +20,7 @@ export const release_mgmtRouter = createTRPCRouter({
         .optional(),
     )
     .query(async ({ input }) => {
-      const conditions = [];
+      const conditions: SQL[] = [];
       if (input?.status)
         conditions.push(eq(releaseRecord.status, input.status));
       return db
@@ -106,7 +106,7 @@ export const release_mgmtRouter = createTRPCRouter({
         .optional(),
     )
     .query(async ({ input }) => {
-      const conditions = [];
+      const conditions: SQL[] = [];
       if (input?.status)
         conditions.push(eq(deploymentTracking.status, input.status));
       return db

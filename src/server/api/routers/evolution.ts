@@ -1,4 +1,4 @@
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, type SQL, sql } from "drizzle-orm";
 import { z } from "zod";
 import { requirePermission } from "@/server/api/middleware/rbac";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
@@ -25,7 +25,7 @@ export const evolutionRouter = createTRPCRouter({
         .optional(),
     )
     .query(async ({ input }) => {
-      const conditions = [];
+      const conditions: SQL[] = [];
       if (input?.status)
         conditions.push(eq(retrospective.status, input.status));
       return db
@@ -113,7 +113,7 @@ export const evolutionRouter = createTRPCRouter({
         .optional(),
     )
     .query(async ({ input }) => {
-      const conditions = [];
+      const conditions: SQL[] = [];
       if (input?.status)
         conditions.push(eq(improvementBacklog.status, input.status));
       return db
@@ -203,7 +203,7 @@ export const evolutionRouter = createTRPCRouter({
         .optional(),
     )
     .query(async ({ input }) => {
-      const conditions = [];
+      const conditions: SQL[] = [];
       return db
         .select()
         .from(patternDetection)
@@ -282,7 +282,7 @@ export const evolutionRouter = createTRPCRouter({
         .optional(),
     )
     .query(async ({ input }) => {
-      const conditions = [];
+      const conditions: SQL[] = [];
       if (input?.status)
         conditions.push(eq(recommendation.status, input.status));
       return db
