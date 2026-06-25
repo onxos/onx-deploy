@@ -1,10 +1,10 @@
 import { createTRPCRouter } from "@/server/api/trpc";
 import { adminRouter } from "./routers/admin";
 import { analyticsRouter } from "./routers/analytics";
-import { auditReviewRouter } from "./routers/audit_review";
+import { audit_reviewRouter } from "./routers/audit_review";
 import { authRouter } from "./routers/auth";
 import { civilizationRouter } from "./routers/civilization";
-import { dataGovernanceRouter } from "./routers/data_governance";
+import { data_governanceRouter } from "./routers/data_governance";
 import { dreamRouter } from "./routers/dream";
 import { editorialRouter } from "./routers/editorial";
 import { enablementRouter } from "./routers/enablement";
@@ -18,23 +18,23 @@ import { operationsRouter } from "./routers/operations";
 import { outcomeRouter } from "./routers/outcome";
 import { performanceRouter } from "./routers/performance";
 import { potentialRouter } from "./routers/potential";
-import { releaseMgmtRouter } from "./routers/release_mgmt";
+import { release_mgmtRouter } from "./routers/release_mgmt";
 import { sechRouter } from "./routers/sech";
-import { securityReviewRouter } from "./routers/security_review";
+import { security_reviewRouter } from "./routers/security_review";
 import { stewardshipRouter } from "./routers/stewardship";
 import { taskRouter } from "./routers/task";
 import { titanRouter } from "./routers/titan";
-import { titanOpsRouter } from "./routers/titan_ops";
+import { titan_opsRouter } from "./routers/titan_ops";
 import { understandingRouter } from "./routers/understanding";
 import { userRouter } from "./routers/user";
 
 export const appRouter = createTRPCRouter({
   admin: adminRouter,
   analytics: analyticsRouter,
-  auditReview: auditReviewRouter,
+  auditReview: audit_reviewRouter,
   auth: authRouter,
   civilization: civilizationRouter,
-  dataGovernance: dataGovernanceRouter,
+  dataGovernance: data_governanceRouter,
   dream: dreamRouter,
   editorial: editorialRouter,
   enablement: enablementRouter,
@@ -48,13 +48,13 @@ export const appRouter = createTRPCRouter({
   outcome: outcomeRouter,
   performance: performanceRouter,
   potential: potentialRouter,
-  releaseMgmt: releaseMgmtRouter,
+  releaseMgmt: release_mgmtRouter,
   sech: sechRouter,
-  securityReview: securityReviewRouter,
+  securityReview: security_reviewRouter,
   stewardship: stewardshipRouter,
   task: taskRouter,
   titan: titanRouter,
-  titanOps: titanOpsRouter,
+  titanOps: titan_opsRouter,
   understanding: understandingRouter,
   user: userRouter,
 });
