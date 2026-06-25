@@ -2,7 +2,7 @@ import { asc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { defaultTitanPersonas } from "@/lib/ai/persona-loader";
 import { converseWithTitan } from "@/lib/ai/titan-conversation";
-import { createTRPCRouter } from "@/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { db } from "@/server/db";
 import { titanRegistry } from "@/server/db/schema/civilization";
 import { titanConversation } from "@/server/db/schema/titan-conversation";
