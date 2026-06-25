@@ -49,7 +49,7 @@ export const audit_reviewRouter = createTRPCRouter({
         ipAddress: z.string().optional(),
       }),
     )
-    .mutation(async ({ _ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const result = await db.insert(auditLog).values(input).returning();
       return result[0];
     }),
@@ -118,7 +118,7 @@ export const audit_reviewRouter = createTRPCRouter({
         findings: z.string().optional(),
       }),
     )
-    .mutation(async ({ _ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const result = await db.insert(complianceCheck).values(input).returning();
       return result[0];
     }),

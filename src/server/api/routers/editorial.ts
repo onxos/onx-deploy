@@ -57,7 +57,7 @@ export const editorialRouter = createTRPCRouter({
         version: z.string().optional(),
       }),
     )
-    .mutation(async ({ _ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const result = await db.insert(editorialPolicy).values(input).returning();
       return result[0];
     }),
@@ -143,7 +143,7 @@ export const editorialRouter = createTRPCRouter({
         feedback: z.string().optional(),
       }),
     )
-    .mutation(async ({ _ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const result = await db.insert(contentReview).values(input).returning();
       return result[0];
     }),
@@ -226,7 +226,7 @@ export const editorialRouter = createTRPCRouter({
         contentType: z.string().optional(),
       }),
     )
-    .mutation(async ({ _ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const result = await db
         .insert(publicationSchedule)
         .values(input)
