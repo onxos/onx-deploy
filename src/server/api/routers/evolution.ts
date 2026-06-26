@@ -60,7 +60,7 @@ export const evolutionRouter = createTRPCRouter({
         category: z.string().optional(),
       }),
     )
-    .mutation(async ({ _ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const result = await db.insert(retrospective).values(input).returning();
       return result[0];
     }),
@@ -148,7 +148,7 @@ export const evolutionRouter = createTRPCRouter({
         targetGate: z.string().optional(),
       }),
     )
-    .mutation(async ({ _ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const result = await db
         .insert(improvementBacklog)
         .values(input)
@@ -235,7 +235,7 @@ export const evolutionRouter = createTRPCRouter({
         confidence: z.string().optional(),
       }),
     )
-    .mutation(async ({ _ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const result = await db
         .insert(patternDetection)
         .values(input)
@@ -315,7 +315,7 @@ export const evolutionRouter = createTRPCRouter({
         reviewNotes: z.string().optional(),
       }),
     )
-    .mutation(async ({ _ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const result = await db.insert(recommendation).values(input).returning();
       return result[0];
     }),
