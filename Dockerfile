@@ -1,9 +1,11 @@
 FROM oven/bun:1 AS deps
 WORKDIR /app
 COPY package.json bun.lock ./
-RUN bun install --frozen-lockfile
+RUN bun install --frozen-lockfile && bun add pg && bun add -d @types/pg
 
 FROM deps AS builder
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
 WORKDIR /app
 COPY . .
 RUN bun run build

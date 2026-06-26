@@ -1,17 +1,46 @@
+version: "3.8"
+
 services:
-  onx:
-    image: ${IMAGE_TAG:-ghcr.io/onxos/onx-deploy:staging-latest}
+  postgres:
+    image: postgres:16-alpine
+    container_name: onx-postgres
     restart: unless-stopped
+    environment:
+      POSTGRES_USER: onx_app
+      POSTGRES_PASSWORD: c4wCH7axsckgN9KGyPkGk3nsHMXkgkA9
+      POSTGRES_DB: onx_production
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./drizzle/0002_atlas_v5_trains_nz.sql:/docker-entrypoint-initdb.d/01_migration.sql:ro
     ports:
-      - "${STAGING_PORT:-3000}:3000"
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U onx_app -d onx_production"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - onx-network
+
+  app:
+    image: onx-deploy-app:v2
+    container_name: onx-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
     environment:
       NODE_ENV: production
-      DATABASE_URL: ${DATABASE_URL}
-      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
-      BETTER_AUTH_URL: ${BETTER_AUTH_URL}
-      ONX_FOUNDER_EMAIL: ${ONX_FOUNDER_EMAIL}
-      ONX_FOUNDER_PASSWORD: ${ONX_FOUNDER_PASSWORD}
-      ONX_FOUNDER_NAME: ${ONX_FOUNDER_NAME:-ONX Founder}
+      DATABASE_URL: postgres://onx_app:c4wCH7axsckgN9KGyPkGk3nsHMXkgkA9@postgres:5432/onx_production?sslmode=disable
+      BETTER_AUTH_SECRET: KvGNxNXoK37PRjebiEuCZwvPGSQ4q37isWc1ikvPSZJ6PZVb
+      BETTER_AUTH_URL: http://16.171.230.12
+      ONX_FOUNDER_EMAIL: founder@onxplatform.com
+      ONX_FOUNDER_PASSWORD: s$RRYBz*P1EeX8ECYAzrTb2I
+      ONX_FOUNDER_NAME: ONX Founder
+    ports:
+      - "127.0.0.1:3000:3000"
     healthcheck:
       test:
         [
@@ -23,4 +52,29 @@ services:
       interval: 30s
       timeout: 5s
       retries: 3
-      start_period: 20s
+      start_period: 60s
+    networks:
+      - onx-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: onx-nginx
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - onx-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  onx-network:
+    driver: bridge
