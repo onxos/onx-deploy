@@ -25,7 +25,7 @@ services:
       - onx-network
 
   app:
-    image: onx-deploy-app:v2
+    image: onx-deploy-app:v3
     container_name: onx-app
     restart: unless-stopped
     depends_on:
