@@ -48,7 +48,7 @@ export const operationsRouter = createTRPCRouter({
         source: z.string().optional(),
       }),
     )
-    .mutation(async ({ _ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const result = await db
         .insert(operationalMetric)
         .values(input)
@@ -121,7 +121,7 @@ export const operationsRouter = createTRPCRouter({
         errorRate: z.number().optional(),
       }),
     )
-    .mutation(async ({ _ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const result = await db.insert(systemHealth).values(input).returning();
       return result[0];
     }),
