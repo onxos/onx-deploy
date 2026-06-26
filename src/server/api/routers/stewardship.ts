@@ -50,7 +50,7 @@ export const stewardshipRouter = createTRPCRouter({
         handoffNotes: z.string().optional(),
       }),
     )
-    .mutation(async ({ _ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const result = await db
         .insert(stewardshipRecord)
         .values(input)
@@ -140,7 +140,7 @@ export const stewardshipRouter = createTRPCRouter({
         plan: z.string().min(1),
       }),
     )
-    .mutation(async ({ _ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const result = await db.insert(continuityPlan).values(input).returning();
       return result[0];
     }),
