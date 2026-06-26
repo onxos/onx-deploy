@@ -46,7 +46,7 @@ export const launchRouter = createTRPCRouter({
         category: z.string().min(1).max(100),
       }),
     )
-    .mutation(async ({ _ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const result = await db.insert(launchChecklist).values(input).returning();
       return result[0];
     }),
@@ -109,7 +109,7 @@ export const launchRouter = createTRPCRouter({
         threshold: z.string().optional(),
       }),
     )
-    .mutation(async ({ _ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const result = await db
         .insert(postLaunchMonitoring)
         .values(input)
