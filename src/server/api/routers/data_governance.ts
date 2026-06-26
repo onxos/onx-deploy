@@ -50,7 +50,7 @@ export const data_governanceRouter = createTRPCRouter({
         rule: z.string().min(1),
       }),
     )
-    .mutation(async ({ _ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const result = await db
         .insert(dataGovernanceRule)
         .values(input)
@@ -136,7 +136,7 @@ export const data_governanceRouter = createTRPCRouter({
         details: z.string().optional(),
       }),
     )
-    .mutation(async ({ _ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const result = await db
         .insert(dataQualityCheck)
         .values(input)
