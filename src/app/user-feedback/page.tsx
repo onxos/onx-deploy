@@ -20,7 +20,9 @@ export default function UserFeedbackPage() {
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">User Feedback</h1>
-        <p className="text-muted-foreground">Recommendations and user feedback tracking</p>
+        <p className="text-muted-foreground">
+          Recommendations and user feedback tracking
+        </p>
       </div>
       <div className="px-6 space-y-4">
         <DataTable
@@ -30,8 +32,13 @@ export default function UserFeedbackPage() {
           isLoading={recommendationQuery.isLoading}
           count={recommendationCount.data}
           onRefresh={() => recommendationQuery.refetch()}
-          onDelete={((id: number) => recommendationDelete.mutate({ id }))}
-          columns={[{"key": "title", "label": "Title"}, {"key": "status", "label": "Status"}, {"key": "priority", "label": "Priority"}, {"key": "createdAt", "label": "Date"}]}
+          onDelete={(id: number) => recommendationDelete.mutate({ id })}
+          columns={[
+            { key: "title", label: "Title" },
+            { key: "status", label: "Status" },
+            { key: "priority", label: "Priority" },
+            { key: "createdAt", label: "Date" },
+          ]}
         />
       </div>
     </div>

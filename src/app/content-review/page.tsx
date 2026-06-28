@@ -21,20 +21,24 @@ export default function ContentReviewPage() {
 
   const editorialPolicyQuery = api.editorial.editorialPolicyList.useQuery();
   const editorialPolicyCount = api.editorial.editorialPolicyCount.useQuery();
-  const editorialPolicyDelete = api.editorial.editorialPolicyDelete.useMutation({
-    onSuccess: () => {
-      utils.editorial.contentReviewList.invalidate();
-      utils.editorial.contentReviewCount.invalidate();
-      utils.editorial.editorialPolicyList.invalidate();
-      utils.editorial.editorialPolicyCount.invalidate();
+  const editorialPolicyDelete = api.editorial.editorialPolicyDelete.useMutation(
+    {
+      onSuccess: () => {
+        utils.editorial.contentReviewList.invalidate();
+        utils.editorial.contentReviewCount.invalidate();
+        utils.editorial.editorialPolicyList.invalidate();
+        utils.editorial.editorialPolicyCount.invalidate();
+      },
     },
-  });
+  );
 
   return (
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">Content Review</h1>
-        <p className="text-muted-foreground">Editorial policies and content review</p>
+        <p className="text-muted-foreground">
+          Editorial policies and content review
+        </p>
       </div>
       <div className="px-6 space-y-4">
         <div className="flex gap-4 border-b">
@@ -63,8 +67,13 @@ export default function ContentReviewPage() {
               isLoading={contentReviewQuery.isLoading}
               count={contentReviewCount.data}
               onRefresh={() => contentReviewQuery.refetch()}
-              onDelete={((id: number) => contentReviewDelete.mutate({ id }))}
-              columns={[{"key": "title", "label": "Title"}, {"key": "verdict", "label": "Verdict"}, {"key": "reviewer", "label": "Reviewer"}, {"key": "createdAt", "label": "Date"}]}
+              onDelete={(id: number) => contentReviewDelete.mutate({ id })}
+              columns={[
+                { key: "title", label: "Title" },
+                { key: "verdict", label: "Verdict" },
+                { key: "reviewer", label: "Reviewer" },
+                { key: "createdAt", label: "Date" },
+              ]}
             />
           </div>
         )}
@@ -78,8 +87,13 @@ export default function ContentReviewPage() {
               isLoading={editorialPolicyQuery.isLoading}
               count={editorialPolicyCount.data}
               onRefresh={() => editorialPolicyQuery.refetch()}
-              onDelete={((id: number) => editorialPolicyDelete.mutate({ id }))}
-              columns={[{"key": "title", "label": "Title"}, {"key": "status", "label": "Status"}, {"key": "category", "label": "Category"}, {"key": "createdAt", "label": "Date"}]}
+              onDelete={(id: number) => editorialPolicyDelete.mutate({ id })}
+              columns={[
+                { key: "title", label: "Title" },
+                { key: "status", label: "Status" },
+                { key: "category", label: "Category" },
+                { key: "createdAt", label: "Date" },
+              ]}
             />
           </div>
         )}

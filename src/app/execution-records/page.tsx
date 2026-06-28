@@ -20,7 +20,9 @@ export default function ExecutionRecordsPage() {
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">Execution Records</h1>
-        <p className="text-muted-foreground">Audit log and execution tracking</p>
+        <p className="text-muted-foreground">
+          Audit log and execution tracking
+        </p>
       </div>
       <div className="px-6 space-y-4">
         <DataTable
@@ -30,8 +32,13 @@ export default function ExecutionRecordsPage() {
           isLoading={auditLogQuery.isLoading}
           count={auditLogCount.data}
           onRefresh={() => auditLogQuery.refetch()}
-          onDelete={((id: number) => auditLogDelete.mutate({ id }))}
-          columns={[{"key": "action", "label": "Action"}, {"key": "resource", "label": "Resource"}, {"key": "resourceId", "label": "Resource ID"}, {"key": "details", "label": "Details"}]}
+          onDelete={(id: number) => auditLogDelete.mutate({ id })}
+          columns={[
+            { key: "action", label: "Action" },
+            { key: "resource", label: "Resource" },
+            { key: "resourceId", label: "Resource ID" },
+            { key: "details", label: "Details" },
+          ]}
         />
       </div>
     </div>

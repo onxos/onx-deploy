@@ -25,19 +25,36 @@ export default function TaskManagementPage() {
             </thead>
             <tbody>
               {taskQuery.isLoading && (
-                <tr><td colSpan={4} className="px-4 py-8 text-center text-muted-foreground">Loading...</td></tr>
+                <tr>
+                  <td
+                    colSpan={4}
+                    className="px-4 py-8 text-center text-muted-foreground"
+                  >
+                    Loading...
+                  </td>
+                </tr>
               )}
               {!taskQuery.isLoading && tasks.length === 0 && (
-                <tr><td colSpan={4} className="px-4 py-8 text-center text-muted-foreground">No tasks found</td></tr>
-              )}
-              {!taskQuery.isLoading && tasks.map((task) => (
-                <tr key={task.id} className="border-t">
-                  <td className="px-4 py-3">{task.title}</td>
-                  <td className="px-4 py-3">{task.status}</td>
-                  <td className="px-4 py-3">{task.priority}</td>
-                  <td className="px-4 py-3">{(task as {assignee?: string}).assignee ?? "-"}</td>
+                <tr>
+                  <td
+                    colSpan={4}
+                    className="px-4 py-8 text-center text-muted-foreground"
+                  >
+                    No tasks found
+                  </td>
                 </tr>
-              ))}
+              )}
+              {!taskQuery.isLoading &&
+                tasks.map((task) => (
+                  <tr key={task.id} className="border-t">
+                    <td className="px-4 py-3">{task.title}</td>
+                    <td className="px-4 py-3">{task.status}</td>
+                    <td className="px-4 py-3">{task.priority}</td>
+                    <td className="px-4 py-3">
+                      {(task as { assignee?: string }).assignee ?? "-"}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

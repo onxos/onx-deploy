@@ -8,33 +8,40 @@ export default function PerformanceMetricsPage() {
   const utils = api.useUtils();
   const [activeTab, setActiveTab] = useState("performanceMetric");
 
-  const performanceMetricQuery = api.performance.performanceMetricList.useQuery();
-  const performanceMetricCount = api.performance.performanceMetricCount.useQuery();
-  const performanceMetricDelete = api.performance.performanceMetricDelete.useMutation({
-    onSuccess: () => {
-      utils.performance.performanceMetricList.invalidate();
-      utils.performance.performanceMetricCount.invalidate();
-      utils.performance.loadTestResultList.invalidate();
-      utils.performance.loadTestResultCount.invalidate();
-    },
-  });
+  const performanceMetricQuery =
+    api.performance.performanceMetricList.useQuery();
+  const performanceMetricCount =
+    api.performance.performanceMetricCount.useQuery();
+  const performanceMetricDelete =
+    api.performance.performanceMetricDelete.useMutation({
+      onSuccess: () => {
+        utils.performance.performanceMetricList.invalidate();
+        utils.performance.performanceMetricCount.invalidate();
+        utils.performance.loadTestResultList.invalidate();
+        utils.performance.loadTestResultCount.invalidate();
+      },
+    });
 
   const loadTestResultQuery = api.performance.loadTestResultList.useQuery();
   const loadTestResultCount = api.performance.loadTestResultCount.useQuery();
-  const loadTestResultDelete = api.performance.loadTestResultDelete.useMutation({
-    onSuccess: () => {
-      utils.performance.performanceMetricList.invalidate();
-      utils.performance.performanceMetricCount.invalidate();
-      utils.performance.loadTestResultList.invalidate();
-      utils.performance.loadTestResultCount.invalidate();
+  const loadTestResultDelete = api.performance.loadTestResultDelete.useMutation(
+    {
+      onSuccess: () => {
+        utils.performance.performanceMetricList.invalidate();
+        utils.performance.performanceMetricCount.invalidate();
+        utils.performance.loadTestResultList.invalidate();
+        utils.performance.loadTestResultCount.invalidate();
+      },
     },
-  });
+  );
 
   return (
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">Performance Metrics</h1>
-        <p className="text-muted-foreground">Performance metrics and load test results</p>
+        <p className="text-muted-foreground">
+          Performance metrics and load test results
+        </p>
       </div>
       <div className="px-6 space-y-4">
         <div className="flex gap-4 border-b">
@@ -63,8 +70,13 @@ export default function PerformanceMetricsPage() {
               isLoading={performanceMetricQuery.isLoading}
               count={performanceMetricCount.data}
               onRefresh={() => performanceMetricQuery.refetch()}
-              onDelete={((id: number) => performanceMetricDelete.mutate({ id }))}
-              columns={[{"key": "name", "label": "Name"}, {"key": "value", "label": "Value"}, {"key": "unit", "label": "Unit"}, {"key": "isAlert", "label": "Alert"}]}
+              onDelete={(id: number) => performanceMetricDelete.mutate({ id })}
+              columns={[
+                { key: "name", label: "Name" },
+                { key: "value", label: "Value" },
+                { key: "unit", label: "Unit" },
+                { key: "isAlert", label: "Alert" },
+              ]}
             />
           </div>
         )}
@@ -78,8 +90,13 @@ export default function PerformanceMetricsPage() {
               isLoading={loadTestResultQuery.isLoading}
               count={loadTestResultCount.data}
               onRefresh={() => loadTestResultQuery.refetch()}
-              onDelete={((id: number) => loadTestResultDelete.mutate({ id }))}
-              columns={[{"key": "scenario", "label": "Scenario"}, {"key": "concurrentUsers", "label": "Concurrent Users"}, {"key": "avgResponseTime", "label": "Avg Response Time"}, {"key": "status", "label": "Status"}]}
+              onDelete={(id: number) => loadTestResultDelete.mutate({ id })}
+              columns={[
+                { key: "scenario", label: "Scenario" },
+                { key: "concurrentUsers", label: "Concurrent Users" },
+                { key: "avgResponseTime", label: "Avg Response Time" },
+                { key: "status", label: "Status" },
+              ]}
             />
           </div>
         )}

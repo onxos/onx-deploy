@@ -34,7 +34,9 @@ export default function AtlasV5Page() {
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">Atlas V5</h1>
-        <p className="text-muted-foreground">Complete platform train overview</p>
+        <p className="text-muted-foreground">
+          Complete platform train overview
+        </p>
       </div>
       <div className="px-6 space-y-4">
         <div className="flex gap-4 border-b">
@@ -63,8 +65,13 @@ export default function AtlasV5Page() {
               isLoading={retrospectiveQuery.isLoading}
               count={retrospectiveCount.data}
               onRefresh={() => retrospectiveQuery.refetch()}
-              onDelete={((id: number) => retrospectiveDelete.mutate({ id }))}
-              columns={[{"key": "title", "label": "Title"}, {"key": "status", "label": "Status"}, {"key": "priority", "label": "Priority"}, {"key": "category", "label": "Category"}]}
+              onDelete={(id: number) => retrospectiveDelete.mutate({ id })}
+              columns={[
+                { key: "title", label: "Title" },
+                { key: "status", label: "Status" },
+                { key: "priority", label: "Priority" },
+                { key: "category", label: "Category" },
+              ]}
             />
           </div>
         )}
@@ -78,8 +85,13 @@ export default function AtlasV5Page() {
               isLoading={improvementQuery.isLoading}
               count={improvementCount.data}
               onRefresh={() => improvementQuery.refetch()}
-              onDelete={((id: number) => improvementDelete.mutate({ id }))}
-              columns={[{"key": "title", "label": "Title"}, {"key": "status", "label": "Status"}, {"key": "priority", "label": "Priority"}, {"key": "effort", "label": "Effort"}]}
+              onDelete={(id: number) => improvementDelete.mutate({ id })}
+              columns={[
+                { key: "title", label: "Title" },
+                { key: "status", label: "Status" },
+                { key: "priority", label: "Priority" },
+                { key: "effort", label: "Effort" },
+              ]}
             />
           </div>
         )}

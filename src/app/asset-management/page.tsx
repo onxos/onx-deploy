@@ -20,7 +20,9 @@ export default function AssetManagementPage() {
     <div className="space-y-6">
       <div className="px-6 pt-8">
         <h1 className="text-3xl font-semibold">Asset Management</h1>
-        <p className="text-muted-foreground">Launch checklists and asset tracking</p>
+        <p className="text-muted-foreground">
+          Launch checklists and asset tracking
+        </p>
       </div>
       <div className="px-6 space-y-4">
         <DataTable
@@ -30,8 +32,13 @@ export default function AssetManagementPage() {
           isLoading={launchChecklistQuery.isLoading}
           count={launchChecklistCount.data}
           onRefresh={() => launchChecklistQuery.refetch()}
-          onDelete={((id: number) => launchChecklistDelete.mutate({ id }))}
-          columns={[{"key": "name", "label": "Name"}, {"key": "status", "label": "Status"}, {"key": "phase", "label": "Phase"}, {"key": "createdAt", "label": "Date"}]}
+          onDelete={(id: number) => launchChecklistDelete.mutate({ id })}
+          columns={[
+            { key: "name", label: "Name" },
+            { key: "status", label: "Status" },
+            { key: "phase", label: "Phase" },
+            { key: "createdAt", label: "Date" },
+          ]}
         />
       </div>
     </div>
