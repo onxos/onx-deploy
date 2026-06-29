@@ -48,7 +48,7 @@ export const performanceRouter = createTRPCRouter({
         threshold: z.number().optional(),
       }),
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ input }) => {
       const result = await db
         .insert(performanceMetric)
         .values(input)
@@ -121,7 +121,7 @@ export const performanceRouter = createTRPCRouter({
         errorRate: z.number().optional(),
       }),
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ input }) => {
       const result = await db.insert(loadTestResult).values(input).returning();
       return result[0];
     }),
