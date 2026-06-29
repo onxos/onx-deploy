@@ -20,7 +20,6 @@ jobs:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
       EC2_INSTANCE_ID: i-034305df29d1925d9
       EC2_OS_USER: ec2-user
-      EC2_PORT: "22"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -40,52 +39,45 @@ jobs:
             echo "Stopping: required secrets are missing."
             exit 1
           fi
+          echo "Secrets check: PASS"
 
       - name: Configure AWS credentials via OIDC
+        id: aws-creds
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Verify OIDC role assumption
+      - name: Verify OIDC and EC2
         shell: bash
         run: |
           set -euo pipefail
-          echo "=== STS GetCallerIdentity ==="
-          aws sts get-caller-identity
-          echo "=== AWS Region ==="
-          aws configure get region
+          echo "=== OIDC Role ==="
+          echo "Assumed role ARN: ${{ steps.aws-creds.outputs.aws-account-id }}"
+          echo "AWS region: $AWS_REGION"
+          echo ""
+          echo "=== EC2 Instance ==="
+          aws ec2 describe-instances             --instance-ids "$EC2_INSTANCE_ID"             --region "$AWS_REGION"             --query 'Reservations[0].Instances[0].[State.Name,InstanceType,PublicIpAddress,AvailabilityZone]'             --output table
 
-      - name: Verify EC2 instance state
-        shell: bash
-        run: |
-          set -euo pipefail
-          echo "=== EC2 Instance State ==="
-          aws ec2 describe-instances             --instance-ids "$EC2_INSTANCE_ID"             --region "$AWS_REGION"             --query 'Reservations[0].Instances[0].[State.Name,InstanceType,PublicIpAddress,AvailabilityZone]'             --output text
-
-      - name: Generate temporary SSH keypair
+      - name: Generate SSH key and connect to EC2
         shell: bash
         run: |
           set -euo pipefail
           ssh-keygen -t ed25519 -q -N "" -f /tmp/onx_eic_key
           chmod 600 /tmp/onx_eic_key
-
-      - name: Push SSH key via EC2 Instance Connect
-        shell: bash
-        run: |
-          set -euo pipefail
           EC2_AZ=$(aws ec2 describe-instances             --instance-ids "$EC2_INSTANCE_ID"             --region "$AWS_REGION"             --query 'Reservations[0].Instances[0].Placement.AvailabilityZone'             --output text)
           echo "AZ: $EC2_AZ"
           aws ec2-instance-connect send-ssh-public-key             --region "$AWS_REGION"             --instance-id "$EC2_INSTANCE_ID"             --availability-zone "$EC2_AZ"             --instance-os-user "$EC2_OS_USER"             --ssh-public-key "file:///tmp/onx_eic_key.pub"
+          echo "SSH key pushed via Instance Connect"
 
-      - name: Verify EC2 connectivity and system state
+      - name: Verify EC2 system state
         shell: bash
         run: |
           set -euo pipefail
           EC2_IP=$(aws ec2 describe-instances             --instance-ids "$EC2_INSTANCE_ID"             --region "$AWS_REGION"             --query 'Reservations[0].Instances[0].PublicIpAddress'             --output text)
           echo "EC2 IP: $EC2_IP"
-          ssh -o StrictHostKeyChecking=no -i /tmp/onx_eic_key -p "$EC2_PORT" "$EC2_OS_USER@$EC2_IP" '
-            echo "=== Host ==="
+          ssh -o StrictHostKeyChecking=no -i /tmp/onx_eic_key "$EC2_OS_USER@$EC2_IP" '
+            echo "=== uname ==="
             uname -a
             echo "=== OS ==="
             cat /etc/os-release | head -5
@@ -96,39 +88,36 @@ jobs:
             echo "=== CPU ==="
             nproc
             echo "=== Docker ==="
-            docker --version
-            docker compose version
-            echo "=== Docker PS ==="
-            docker ps --format "table {{.Names}}	{{.Status}}"
-            echo "=== Git Status ==="
-            cd /opt/onx-deploy && git rev-parse HEAD && git status --short
+            docker --version && docker compose version
+            echo "=== Containers ==="
+            docker ps --format "table {{.Names}}\t{{.Status}}"
+            echo "=== Git ==="
+            cd /opt/onx-deploy && git rev-parse HEAD && echo "---" && git status --short
           '
 
-      - name: Verify PostgreSQL and health endpoints
+      - name: Verify health endpoints
         shell: bash
         run: |
           set -euo pipefail
           EC2_IP=$(aws ec2 describe-instances             --instance-ids "$EC2_INSTANCE_ID"             --region "$AWS_REGION"             --query 'Reservations[0].Instances[0].PublicIpAddress'             --output text)
-          BASE_URL="http://$EC2_IP"
-          echo "=== Health Check ==="
-          curl -s "$BASE_URL/api/health" || echo "HEALTH FAILED"
+          BASE="http://$EC2_IP"
+          echo "=== /api/health ==="
+          curl -s "$BASE/api/health" || echo "FAILED"
           echo ""
-          echo "=== DB Health ==="
-          curl -s "$BASE_URL/api/health/db" || echo "DB HEALTH FAILED"
+          echo "=== /api/health/db ==="
+          curl -s "$BASE/api/health/db" || echo "FAILED"
           echo ""
           echo "=== Smoke Tests ==="
-          for route in / /dashboard /atlas /execution-records /system-configuration /task-management /quality-assurance /content-review /compliance-checks /vendor-management /user-feedback /asset-management /security-monitoring /performance-metrics; do
-            code=$(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL$route")
-            echo "$route -> HTTP $code"
+          for r in / /dashboard /atlas /execution-records /system-configuration /task-management /quality-assurance /content-review /compliance-checks /vendor-management /user-feedback /asset-management /security-monitoring /performance-metrics; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "$BASE$r")
+            echo "$r -> HTTP $code"
           done
 
-      - name: Verify database tables
+      - name: Verify PostgreSQL tables
         shell: bash
         run: |
           set -euo pipefail
           EC2_IP=$(aws ec2 describe-instances             --instance-ids "$EC2_INSTANCE_ID"             --region "$AWS_REGION"             --query 'Reservations[0].Instances[0].PublicIpAddress'             --output text)
-          ssh -o StrictHostKeyChecking=no -i /tmp/onx_eic_key -p "$EC2_PORT" "$EC2_OS_USER@$EC2_IP" '
+          ssh -o StrictHostKeyChecking=no -i /tmp/onx_eic_key "$EC2_OS_USER@$EC2_IP" '
             docker exec onx-postgres psql -U onx_app -d onx_production -c "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public';"
-            echo "=== Table Names ==="
-            docker exec onx-postgres psql -U onx_app -d onx_production -tc "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name;"
           '
