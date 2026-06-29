@@ -1,0 +1,296 @@
+name: AWS Infrastructure Verification
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "Optional evidence run identifier"
+        required: false
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  verify-and-deploy-staging:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+      EC2_HOST: ${{ secrets.EC2_HOST }}
+      EC2_USER: ${{ secrets.EC2_USER }}
+      EC2_PORT: ${{ secrets.EC2_PORT }}
+      ONX_BASE_URL: ${{ secrets.ONX_BASE_URL }}
+      EVIDENCE_DATE: ${{ github.run_started_at }}
+      EVIDENCE_ROOT: evidence/EP-05
+      REPORT_FILE: evidence/EP-05/AWS_VERIFICATION_REPORT.md
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Preflight required secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          missing=0
+          for key in AWS_REGION AWS_ROLE_ARN EC2_HOST EC2_USER ONX_BASE_URL; do
+            if [ -z "${!key:-}" ]; then
+              echo "ERROR: required secret is missing or empty: $key"
+              missing=1
+            fi
+          done
+
+          if [ "$missing" -ne 0 ]; then
+            echo "Stopping: required secrets are missing."
+            exit 1
+          fi
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Verify role assumption and caller identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_ROOT"
+          {
+            echo "# AWS OIDC Role Assumption"
+            date -u
+            echo
+            echo "## sts get-caller-identity"
+            aws sts get-caller-identity
+            echo
+            echo "## configured region"
+            aws configure list
+          } | tee "$EVIDENCE_ROOT/EV-SEC_WP-AWS-01_${{ github.run_id }}_oidc-role-assumption.txt"
+
+      - name: Create SSH key from secret
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${{ secrets.EC2_SSH_PRIVATE_KEY }}" ]; then
+            echo "ERROR: required secret is missing or empty: EC2_SSH_PRIVATE_KEY"
+            exit 1
+          fi
+
+          printf "%s\n" "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > /tmp/onx_ec2_key
+          chmod 600 /tmp/onx_ec2_key
+
+      - name: Verify EC2 connectivity and platform prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_ROOT"
+          PORT="${EC2_PORT:-22}"
+
+          ssh -o StrictHostKeyChecking=no -i /tmp/onx_ec2_key -p "$PORT" "$EC2_USER@$EC2_HOST" '
+            set -euo pipefail
+            echo "# EC2 Infrastructure Verification"
+            date -u
+            echo
+            echo "## Host and kernel"
+            uname -a
+            echo
+            echo "## Disk"
+            df -h
+            echo
+            echo "## Memory"
+            free -m
+            echo
+            echo "## CPU"
+            nproc
+            lscpu | sed -n "1,20p"
+            echo
+            echo "## Docker"
+            docker --version
+            echo
+            echo "## Docker Compose"
+            docker compose version
+            echo
+            echo "## Docker daemon state"
+            systemctl is-active docker || true
+            echo
+            echo "## Effective IAM identity from instance"
+            aws sts get-caller-identity
+          ' | tee "$EVIDENCE_ROOT/EV-RUN_WP-AWS-02_${{ github.run_id }}_ec2-prereq-checks.txt"
+
+      - name: Verify AWS networking and IAM permissions
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_ROOT"
+
+          INSTANCE_ID=$(aws ec2 describe-instances \
+            --filters "Name=private-dns-name,Values=$EC2_HOST" "Name=instance-state-name,Values=running" \
+            --query 'Reservations[0].Instances[0].InstanceId' --output text 2>/dev/null || true)
+
+          if [ -z "$INSTANCE_ID" ] || [ "$INSTANCE_ID" = "None" ]; then
+            INSTANCE_ID=$(aws ec2 describe-instances \
+              --filters "Name=ip-address,Values=$EC2_HOST" "Name=instance-state-name,Values=running" \
+              --query 'Reservations[0].Instances[0].InstanceId' --output text)
+          fi
+
+          SG_IDS=$(aws ec2 describe-instances \
+            --instance-ids "$INSTANCE_ID" \
+            --query 'Reservations[0].Instances[0].SecurityGroups[*].GroupId' \
+            --output text)
+
+          {
+            echo "# AWS Security Group and IAM Verification"
+            date -u
+            echo
+            echo "InstanceId: $INSTANCE_ID"
+            echo "SecurityGroups: $SG_IDS"
+            echo
+            echo "## Security group ingress/egress"
+            aws ec2 describe-security-groups --group-ids $SG_IDS
+            echo
+            echo "## IAM caller identity"
+            aws sts get-caller-identity
+            echo
+            echo "## Verify EC2 describe permissions"
+            aws ec2 describe-instances --instance-ids "$INSTANCE_ID" --query 'Reservations[0].Instances[0].State.Name' --output text
+          } | tee "$EVIDENCE_ROOT/EV-SEC_WP-AWS-03_${{ github.run_id }}_sg-iam-checks.txt"
+
+      - name: Deploy ONX platform to staging on EC2
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_ROOT"
+          PORT="${EC2_PORT:-22}"
+
+          ssh -o StrictHostKeyChecking=no -i /tmp/onx_ec2_key -p "$PORT" "$EC2_USER@$EC2_HOST" '
+            set -euo pipefail
+            cd /opt/onx-deploy
+            git fetch --all --prune
+            git checkout main
+            git pull --ff-only origin main
+            bash scripts/deploy-staging.sh
+          ' | tee "$EVIDENCE_ROOT/EV-DEPL_WP-AWS-04_${{ github.run_id }}_staging-deploy.txt"
+
+      - name: Post-deploy health checks and smoke tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_ROOT"
+
+          {
+            echo "# Post-deploy Health and Smoke Checks"
+            date -u
+            echo
+            echo "## /api/health"
+            curl -iSf "$ONX_BASE_URL/api/health"
+            echo
+            echo "## /api/health/ready"
+            curl -iSf "$ONX_BASE_URL/api/health/ready"
+            echo
+            echo "## /api/health/db"
+            curl -iSf "$ONX_BASE_URL/api/health/db"
+            echo
+            echo "## smoke test"
+            docker run --rm \
+              -e ONX_BASE_URL="$ONX_BASE_URL" \
+              -v "$PWD:/repo" -w /repo oven/bun:1 \
+              bun run test:staging
+          } | tee "$EVIDENCE_ROOT/EV-TEST_WP-AWS-05_${{ github.run_id }}_post-deploy-health-smoke.txt"
+
+      - name: Verify environment variables and PostgreSQL readiness on EC2
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_ROOT"
+          PORT="${EC2_PORT:-22}"
+
+          ssh -o StrictHostKeyChecking=no -i /tmp/onx_ec2_key -p "$PORT" "$EC2_USER@$EC2_HOST" '
+            set -euo pipefail
+            cd /opt/onx-deploy
+            echo "# Environment and PostgreSQL Readiness"
+            date -u
+            echo
+            echo "## Compose services"
+            docker compose ps
+            echo
+            echo "## Required app env present in compose"
+            for key in DATABASE_URL BETTER_AUTH_SECRET BETTER_AUTH_URL ONX_FOUNDER_EMAIL ONX_FOUNDER_PASSWORD; do
+              if docker compose config | grep -q "$key"; then
+                echo "present: $key"
+              else
+                echo "missing: $key"
+                exit 1
+              fi
+            done
+            echo
+            echo "## PostgreSQL container status"
+            docker compose ps postgres
+            echo
+            echo "## PostgreSQL connectivity"
+            docker compose exec -T postgres pg_isready -U "${POSTGRES_USER:-onx_app}" -d "${POSTGRES_DB:-onx_production}"
+            echo
+            echo "## App DB endpoint"
+            curl -iSf http://localhost:3000/api/health/db
+          ' | tee "$EVIDENCE_ROOT/EV-RUN_WP-AWS-06_${{ github.run_id }}_env-postgres-readiness.txt"
+
+      - name: Build production verification report
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_ROOT"
+
+          verdict="FAILED"
+          if [ "${{ job.status }}" = "success" ]; then
+            verdict="PASS"
+          fi
+
+          cat > "$REPORT_FILE" <<'EOF'
+# AWS Verification Report
+
+## Scope
+
+- Repository: onxos/onx-deploy
+- AWS Account: 576557632565
+- Region: eu-north-1
+- Authentication: GitHub Actions OIDC role assumption
+
+## Verification Tasks and Results
+
+1. Configure GitHub Actions for AWS OIDC authentication: COMPLETED
+2. Verify role assumption succeeds: SEE EVIDENCE
+3. Verify AWS credentials: SEE EVIDENCE
+4. Connect to existing EC2 instance: SEE EVIDENCE
+5. Verify Docker, Docker Compose, disk, memory, CPU, security groups, IAM: SEE EVIDENCE
+6. Verify PostgreSQL deployment readiness: SEE EVIDENCE
+7. Verify application environment variables: SEE EVIDENCE
+8. Deploy ONX Platform to staging: SEE EVIDENCE
+9. Execute health checks, smoke tests, DB connectivity, API verification: SEE EVIDENCE
+
+## Evidence Files
+
+- EV-SEC_WP-AWS-01_*_oidc-role-assumption.txt
+- EV-RUN_WP-AWS-02_*_ec2-prereq-checks.txt
+- EV-SEC_WP-AWS-03_*_sg-iam-checks.txt
+- EV-DEPL_WP-AWS-04_*_staging-deploy.txt
+- EV-TEST_WP-AWS-05_*_post-deploy-health-smoke.txt
+- EV-RUN_WP-AWS-06_*_env-postgres-readiness.txt
+
+## Production Readiness Verdict
+
+- Verdict: __VERDICT_PLACEHOLDER__
+- Rule: if any mandatory verification fails, verdict is FAILED.
+
+EOF
+
+          sed -i "s/__VERDICT_PLACEHOLDER__/$verdict/" "$REPORT_FILE"
+
+      - name: Upload verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aws-infra-verification-${{ github.run_id }}
+          path: |
+            evidence/EP-05/*.txt
+            evidence/EP-05/*.md
