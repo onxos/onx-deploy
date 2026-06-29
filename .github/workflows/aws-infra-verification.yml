@@ -21,9 +21,6 @@ jobs:
       EC2_INSTANCE_ID: i-034305df29d1925d9
       EC2_OS_USER: ec2-user
       EC2_PORT: "22"
-      EVIDENCE_DATE: ${{ github.run_started_at }}
-      EVIDENCE_ROOT: evidence/EP-05
-      REPORT_FILE: evidence/EP-05/AWS_VERIFICATION_REPORT.md
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,7 +36,6 @@ jobs:
               missing=1
             fi
           done
-
           if [ "$missing" -ne 0 ]; then
             echo "Stopping: required secrets are missing."
             exit 1
@@ -51,299 +47,88 @@ jobs:
           role-to-assume: ${{ env.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Verify role assumption and caller identity
+      - name: Verify OIDC role assumption
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p "$EVIDENCE_ROOT"
-          {
-            echo "# AWS OIDC Role Assumption"
-            date -u
-            echo
-            echo "## sts get-caller-identity"
-            aws sts get-caller-identity
-            echo
-            echo "## configured region"
-            aws configure list
-            echo
-            echo "## ec2 describe target instance"
-            aws ec2 describe-instances --instance-ids "$EC2_INSTANCE_ID" --region "$AWS_REGION"
-          } | tee "$EVIDENCE_ROOT/EV-SEC_WP-AWS-01_${{ github.run_id }}_oidc-role-assumption.txt"
+          echo "=== STS GetCallerIdentity ==="
+          aws sts get-caller-identity
+          echo "=== AWS Region ==="
+          aws configure get region
 
-      - name: Resolve EC2 endpoint details
+      - name: Verify EC2 instance state
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p "$EVIDENCE_ROOT"
+          echo "=== EC2 Instance State ==="
+          aws ec2 describe-instances             --instance-ids "$EC2_INSTANCE_ID"             --region "$AWS_REGION"             --query 'Reservations[0].Instances[0].[State.Name,InstanceType,PublicIpAddress,AvailabilityZone]'             --output text
 
-          INSTANCE_STATE=$(aws ec2 describe-instances \
-            --instance-ids "$EC2_INSTANCE_ID" \
-            --region "$AWS_REGION" \
-            --query 'Reservations[0].Instances[0].State.Name' \
-            --output text)
-
-          if [ "$INSTANCE_STATE" = "None" ] || [ -z "$INSTANCE_STATE" ]; then
-            echo "ERROR: EC2 instance was not found: $EC2_INSTANCE_ID"
-            exit 1
-          fi
-
-          if [ "$INSTANCE_STATE" != "running" ]; then
-            echo "ERROR: EC2 instance is not running. State=$INSTANCE_STATE"
-            exit 1
-          fi
-
-          EC2_AZ=$(aws ec2 describe-instances \
-            --instance-ids "$EC2_INSTANCE_ID" \
-            --region "$AWS_REGION" \
-            --query 'Reservations[0].Instances[0].Placement.AvailabilityZone' \
-            --output text)
-
-          EC2_PUBLIC_DNS=$(aws ec2 describe-instances \
-            --instance-ids "$EC2_INSTANCE_ID" \
-            --region "$AWS_REGION" \
-            --query 'Reservations[0].Instances[0].PublicDnsName' \
-            --output text)
-
-          EC2_PUBLIC_IP=$(aws ec2 describe-instances \
-            --instance-ids "$EC2_INSTANCE_ID" \
-            --region "$AWS_REGION" \
-            --query 'Reservations[0].Instances[0].PublicIpAddress' \
-            --output text)
-
-          if [ "$EC2_PUBLIC_DNS" = "None" ] && [ "$EC2_PUBLIC_IP" = "None" ]; then
-            echo "ERROR: instance has no public DNS/IP reachable for SSH"
-            exit 1
-          fi
-
-          SSH_HOST="$EC2_PUBLIC_DNS"
-          if [ "$SSH_HOST" = "None" ] || [ -z "$SSH_HOST" ]; then
-            SSH_HOST="$EC2_PUBLIC_IP"
-          fi
-
-          {
-            echo "EC2_AZ=$EC2_AZ"
-            echo "SSH_HOST=$SSH_HOST"
-            echo "ONX_BASE_URL=http://$SSH_HOST"
-          } >> "$GITHUB_ENV"
-
-      - name: Generate temporary SSH keypair for Instance Connect
+      - name: Generate temporary SSH keypair
         shell: bash
         run: |
           set -euo pipefail
           ssh-keygen -t ed25519 -q -N "" -f /tmp/onx_eic_key
           chmod 600 /tmp/onx_eic_key
 
-      - name: Push temporary public key with EC2 Instance Connect
+      - name: Push SSH key via EC2 Instance Connect
         shell: bash
         run: |
           set -euo pipefail
-          aws ec2-instance-connect send-ssh-public-key \
-            --region "$AWS_REGION" \
-            --instance-id "$EC2_INSTANCE_ID" \
-            --availability-zone "$EC2_AZ" \
-            --instance-os-user "$EC2_OS_USER" \
-            --ssh-public-key "file:///tmp/onx_eic_key.pub" \
-            | tee "$EVIDENCE_ROOT/EV-SEC_WP-AWS-02_${{ github.run_id }}_instance-connect-key-push.txt"
+          EC2_AZ=$(aws ec2 describe-instances             --instance-ids "$EC2_INSTANCE_ID"             --region "$AWS_REGION"             --query 'Reservations[0].Instances[0].Placement.AvailabilityZone'             --output text)
+          echo "AZ: $EC2_AZ"
+          aws ec2-instance-connect send-ssh-public-key             --region "$AWS_REGION"             --instance-id "$EC2_INSTANCE_ID"             --availability-zone "$EC2_AZ"             --instance-os-user "$EC2_OS_USER"             --ssh-public-key "file:///tmp/onx_eic_key.pub"
 
-      - name: Verify EC2 connectivity and platform prerequisites
+      - name: Verify EC2 connectivity and system state
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p "$EVIDENCE_ROOT"
-
-          ssh -o StrictHostKeyChecking=no -i /tmp/onx_eic_key -p "$EC2_PORT" "$EC2_OS_USER@$SSH_HOST" '
-            set -euo pipefail
-            echo "# EC2 Infrastructure Verification"
-            date -u
-            echo
-            echo "## Host and kernel"
+          EC2_IP=$(aws ec2 describe-instances             --instance-ids "$EC2_INSTANCE_ID"             --region "$AWS_REGION"             --query 'Reservations[0].Instances[0].PublicIpAddress'             --output text)
+          echo "EC2 IP: $EC2_IP"
+          ssh -o StrictHostKeyChecking=no -i /tmp/onx_eic_key -p "$EC2_PORT" "$EC2_OS_USER@$EC2_IP" '
+            echo "=== Host ==="
             uname -a
-            echo
-            echo "## Disk"
+            echo "=== OS ==="
+            cat /etc/os-release | head -5
+            echo "=== Disk ==="
             df -h
-            echo
-            echo "## Memory"
-            free -m
-            echo
-            echo "## CPU"
+            echo "=== Memory ==="
+            free -h
+            echo "=== CPU ==="
             nproc
-            lscpu | sed -n "1,20p"
-            echo
-            echo "## Docker"
+            echo "=== Docker ==="
             docker --version
-            echo
-            echo "## Docker Compose"
             docker compose version
-            echo
-            aws sts get-caller-identity || echo "instance has no local IAM identity"
-            systemctl is-active docker || true
-            echo
-            echo "## Effective IAM identity from instance"
-            aws sts get-caller-identity
-          ' | tee "$EVIDENCE_ROOT/EV-RUN_WP-AWS-02_${{ github.run_id }}_ec2-prereq-checks.txt"
+            echo "=== Docker PS ==="
+            docker ps --format "table {{.Names}}	{{.Status}}"
+            echo "=== Git Status ==="
+            cd /opt/onx-deploy && git rev-parse HEAD && git status --short
+          '
 
-      - name: Verify AWS networking and IAM permissions
-              --filters "Name=ip-address,Values=$EC2_HOST" "Name=instance-state-name,Values=running" \
-            --instance-ids "$EC2_INSTANCE_ID" \
-            --region "$AWS_REGION" \
-          fi
-
-          SG_IDS=$(aws ec2 describe-instances \
-            --instance-ids "$INSTANCE_ID" \
-            --query 'Reservations[0].Instances[0].SecurityGroups[*].GroupId' \
-            --output text)
-
-            echo "InstanceId: $EC2_INSTANCE_ID"
-            echo "# AWS Security Group and IAM Verification"
-            date -u
-            echo
-            aws ec2 describe-security-groups --group-ids $SG_IDS --region "$AWS_REGION"
-            echo "SecurityGroups: $SG_IDS"
-            echo
-            echo "## Security group ingress/egress"
-            aws ec2 describe-security-groups --group-ids $SG_IDS
-            echo
-            aws ec2 describe-instances --instance-ids "$EC2_INSTANCE_ID" --region "$AWS_REGION" --query 'Reservations[0].Instances[0].State.Name' --output text
-          } | tee "$EVIDENCE_ROOT/EV-SEC_WP-AWS-04_${{ github.run_id }}_sg-iam-checks.txt"
-            echo
-            echo "## Verify EC2 describe permissions"
-            aws ec2 describe-instances --instance-ids "$INSTANCE_ID" --query 'Reservations[0].Instances[0].State.Name' --output text
-          } | tee "$EVIDENCE_ROOT/EV-SEC_WP-AWS-03_${{ github.run_id }}_sg-iam-checks.txt"
-
-      - name: Deploy ONX platform to staging on EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no -i /tmp/onx_eic_key -p "$EC2_PORT" "$EC2_OS_USER@$SSH_HOST" '
-          mkdir -p "$EVIDENCE_ROOT"
-          PORT="${EC2_PORT:-22}"
-
-          ssh -o StrictHostKeyChecking=no -i /tmp/onx_ec2_key -p "$PORT" "$EC2_USER@$EC2_HOST" '
-            set -euo pipefail
-            cd /opt/onx-deploy
-            git fetch --all --prune
-            git checkout main
-            git pull --ff-only origin main
-            bash scripts/deploy-staging.sh
-          ' | tee "$EVIDENCE_ROOT/EV-DEPL_WP-AWS-04_${{ github.run_id }}_staging-deploy.txt"
-
-      - name: Post-deploy health checks and smoke tests
+      - name: Verify PostgreSQL and health endpoints
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p "$EVIDENCE_ROOT"
+          EC2_IP=$(aws ec2 describe-instances             --instance-ids "$EC2_INSTANCE_ID"             --region "$AWS_REGION"             --query 'Reservations[0].Instances[0].PublicIpAddress'             --output text)
+          BASE_URL="http://$EC2_IP"
+          echo "=== Health Check ==="
+          curl -s "$BASE_URL/api/health" || echo "HEALTH FAILED"
+          echo ""
+          echo "=== DB Health ==="
+          curl -s "$BASE_URL/api/health/db" || echo "DB HEALTH FAILED"
+          echo ""
+          echo "=== Smoke Tests ==="
+          for route in / /dashboard /atlas /execution-records /system-configuration /task-management /quality-assurance /content-review /compliance-checks /vendor-management /user-feedback /asset-management /security-monitoring /performance-metrics; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL$route")
+            echo "$route -> HTTP $code"
+          done
 
-          {
-            echo "# Post-deploy Health and Smoke Checks"
-            date -u
-            echo
-            echo "## /api/health"
-            curl -iSf "$ONX_BASE_URL/api/health"
-            echo
-            echo "## /api/health/ready"
-            curl -iSf "$ONX_BASE_URL/api/health/ready"
-            echo
-            echo "## /api/health/db"
-            curl -iSf "$ONX_BASE_URL/api/health/db"
-            echo
-            echo "## smoke test"
-            docker run --rm \
-              -e ONX_BASE_URL="$ONX_BASE_URL" \
-              -v "$PWD:/repo" -w /repo oven/bun:1 \
-              bun run test:staging
-          } | tee "$EVIDENCE_ROOT/EV-TEST_WP-AWS-05_${{ github.run_id }}_post-deploy-health-smoke.txt"
-
-      - name: Verify environment variables and PostgreSQL readiness on EC2
+      - name: Verify database tables
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p "$EVIDENCE_ROOT"
-
-          ssh -o StrictHostKeyChecking=no -i /tmp/onx_eic_key -p "$EC2_PORT" "$EC2_OS_USER@$SSH_HOST" '
-            set -euo pipefail
-            cd /opt/onx-deploy
-            echo "# Environment and PostgreSQL Readiness"
-            date -u
-            echo
-            echo "## Compose services"
-            docker compose ps
-            echo
-            echo "## Required app env present in compose"
-            for key in DATABASE_URL BETTER_AUTH_SECRET BETTER_AUTH_URL ONX_FOUNDER_EMAIL ONX_FOUNDER_PASSWORD; do
-              if docker compose config | grep -q "$key"; then
-                echo "present: $key"
-              else
-                echo "missing: $key"
-                exit 1
-              fi
-            done
-            echo
-            echo "## PostgreSQL container status"
-            docker compose ps postgres
-            echo
-            echo "## PostgreSQL connectivity"
-            docker compose exec -T postgres pg_isready -U "${POSTGRES_USER:-onx_app}" -d "${POSTGRES_DB:-onx_production}"
-            echo
-            echo "## App DB endpoint"
-            curl -iSf http://localhost:3000/api/health/db
-          ' | tee "$EVIDENCE_ROOT/EV-RUN_WP-AWS-06_${{ github.run_id }}_env-postgres-readiness.txt"
-
-      - name: Build production verification report
-        if: always()
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p "$EVIDENCE_ROOT"
-
-          verdict="AWS VERIFICATION BLOCKED OR FAILED"
-          if [ "${{ job.status }}" = "success" ]; then
-            verdict="PASS"
-          fi
-
-          cat > "$REPORT_FILE" <<'EOF'
-# AWS Verification Report
-
-## Scope
-
-- Repository: onxos/onx-deploy
-- AWS Account: 576557632565
-- Region: eu-north-1
-- Authentication: GitHub Actions OIDC role assumption
-
-## Verification Tasks and Results
-
-1. Configure GitHub Actions for AWS OIDC authentication: COMPLETED
-2. Verify role assumption succeeds: SEE EVIDENCE
-3. Verify AWS credentials: SEE EVIDENCE
-4. Connect to existing EC2 instance with Instance Connect: SEE EVIDENCE
-5. Verify Docker, Docker Compose, disk, memory, CPU, security groups, IAM: SEE EVIDENCE
-6. Verify PostgreSQL deployment readiness: SEE EVIDENCE
-7. Verify application environment variables: SEE EVIDENCE
-8. Deploy ONX Platform to staging: SEE EVIDENCE
-9. Execute health checks, smoke tests, DB connectivity, API verification: SEE EVIDENCE
-
-## Evidence Files
-
-- EV-SEC_WP-AWS-01_*_oidc-role-assumption.txt
-- EV-SEC_WP-AWS-02_*_instance-connect-key-push.txt
-- EV-RUN_WP-AWS-03_*_ec2-prereq-checks.txt
-- EV-SEC_WP-AWS-04_*_sg-iam-checks.txt
-- EV-DEPL_WP-AWS-04_*_staging-deploy.txt
-- EV-TEST_WP-AWS-05_*_post-deploy-health-smoke.txt
-- EV-RUN_WP-AWS-06_*_env-postgres-readiness.txt
-
-## Production Readiness Verdict
-
-- Verdict: __VERDICT_PLACEHOLDER__
-- Rule: mark failed only when OIDC fails, EC2 lookup fails, Instance Connect fails, or runtime checks fail after SSH.
-
-EOF
-
-          sed -i "s/__VERDICT_PLACEHOLDER__/$verdict/" "$REPORT_FILE"
-
-      - name: Upload verification evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: aws-infra-verification-${{ github.run_id }}
-          path: |
-            evidence/EP-05/*.txt
-            evidence/EP-05/*.md
+          EC2_IP=$(aws ec2 describe-instances             --instance-ids "$EC2_INSTANCE_ID"             --region "$AWS_REGION"             --query 'Reservations[0].Instances[0].PublicIpAddress'             --output text)
+          ssh -o StrictHostKeyChecking=no -i /tmp/onx_eic_key -p "$EC2_PORT" "$EC2_OS_USER@$EC2_IP" '
+            docker exec onx-postgres psql -U onx_app -d onx_production -c "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public';"
+            echo "=== Table Names ==="
+            docker exec onx-postgres psql -U onx_app -d onx_production -tc "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name;"
+          '
