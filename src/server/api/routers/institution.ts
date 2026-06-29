@@ -48,7 +48,7 @@ export const institutionRouter = createTRPCRouter({
         description: z.string().optional(),
       }),
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ input }) => {
       const result = await db
         .insert(institutionSetting)
         .values(input)
@@ -119,7 +119,7 @@ export const institutionRouter = createTRPCRouter({
         department: z.string().optional(),
       }),
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ input }) => {
       const result = await db
         .insert(memberManagement)
         .values(input)

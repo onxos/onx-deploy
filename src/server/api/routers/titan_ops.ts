@@ -49,7 +49,7 @@ export const titan_opsRouter = createTRPCRouter({
         metadata: z.string().optional(),
       }),
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ input }) => {
       const result = await db
         .insert(titanMonitoringLog)
         .values(input)
@@ -122,7 +122,7 @@ export const titan_opsRouter = createTRPCRouter({
         description: z.string().optional(),
       }),
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ input }) => {
       const result = await db
         .insert(titanMaintenance)
         .values(input)
