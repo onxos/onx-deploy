@@ -16,10 +16,14 @@ export async function GET() {
   }
 
   const memory = process.memoryUsage();
-  const heapRatio = memory.heapUsed / memory.heapTotal;
-  checks.memory = heapRatio < 0.9 ? "ok" : "degraded";
+  const heapTotal = Math.max(memory.heapTotal, 1);
+  const heapRatio = memory.heapUsed / heapTotal;
 
-  const ready = Object.values(checks).every((check) => check === "ok");
+  // Memory is exposed as telemetry and warning signal, not a hard readiness gate.
+  // Some runtimes may report transient heap ratios above 1 during allocation cycles.
+  checks.memory = heapRatio < 0.95 ? "ok" : "degraded";
+
+  const ready = checks.database === "ok";
 
   return NextResponse.json(
     {
