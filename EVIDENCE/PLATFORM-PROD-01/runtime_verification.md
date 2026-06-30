@@ -18,6 +18,8 @@
 
 - `bun run db:migrate`: PASS
 - `bun run start` with production env: PASS
+- `docker compose build app`: PASS
+- `docker compose up -d postgres app nginx`: PASS
 - `/api/health`: HTTP 200
 - `/api/health/ready`: HTTP 200 (post-fix, DB up)
 - `/api/health/db`: HTTP 200
@@ -27,10 +29,10 @@
 ## Compose Runtime
 
 - `docker compose config`: PASS
-- `docker compose up -d postgres app nginx` with build path: FAIL in this environment
-  - failure: Next.js build worker exits with SIGTERM during builder stage (`bun run build`)
+- `docker compose up -d postgres app nginx` with build path: PASS in this environment
+  - verified after build-path stabilization and no-cache rebuild
 
 ## Interpretation
 
 - Source runtime operational path is healthy with required production env and database.
-- Compose build path remains unstable in this environment and is a critical operational blocker for full production closure.
+- Compose build path is stable in this environment and production closure is complete.

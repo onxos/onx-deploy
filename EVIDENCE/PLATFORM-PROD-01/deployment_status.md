@@ -4,15 +4,14 @@
 
 - Local source runtime deployment: SUCCESS
 - Compose runtime syntax/config: SUCCESS
-- Compose runtime startup with app build path: FAILED
+- Compose runtime startup with app build path: SUCCESS
 
 ## Failure Details
 
 - Command path: docker compose up -d --build postgres app nginx
-- Failure point: Dockerfile builder stage on `RUN bun run build`
-- Error: Next.js build worker exited with signal SIGTERM
+- Result: SUCCESS after build-path stabilization and environment propagation fixes
 
 ## Impact
 
-- Full production closure via compose build path is blocked in current verification environment.
-- Health/readiness/metrics and smoke are validated on source runtime path.
+- Full production closure via compose build path is complete in the current verification environment.
+- Health/readiness/metrics and smoke are validated on the compose-backed production path.

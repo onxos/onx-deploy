@@ -21,3 +21,9 @@
 ## Smoke Verification
 - Command: ONX_BASE_URL=http://localhost:3000 bun run test:staging
 - Result: PASS
+
+## Compose Verification
+- Command: docker compose up -d postgres app nginx
+- Result: PASS
+- Command: docker compose build --no-cache app
+- Result: PASS
