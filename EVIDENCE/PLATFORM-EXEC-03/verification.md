@@ -17,3 +17,8 @@ PASS
 - No duplicated providers introduced.
 - No duplicated services introduced.
 - No architecture redesign performed.
+
+## Merge Metadata
+- PR: https://github.com/onxos/onx-deploy/pull/6
+- Merge SHA: ff2134b49fc87b735d0d20397e534bea13bde312
+- Status: MERGED
