@@ -23,7 +23,17 @@ services:
       - onx-network
 
   app:
-    image: onx-deploy-app:v3
+    image: ${IMAGE_TAG:-ghcr.io/onxos/onx-deploy:staging-latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        DATABASE_URL: ${DATABASE_URL}
+        BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+        BETTER_AUTH_URL: ${BETTER_AUTH_URL}
+        ONX_FOUNDER_EMAIL: ${ONX_FOUNDER_EMAIL}
+        ONX_FOUNDER_PASSWORD: ${ONX_FOUNDER_PASSWORD}
+        ONX_FOUNDER_NAME: ${ONX_FOUNDER_NAME:-ONX Founder}
     container_name: onx-app
     restart: unless-stopped
     depends_on:
