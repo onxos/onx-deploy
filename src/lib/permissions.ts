@@ -173,6 +173,18 @@ export const PERMISSIONS = [
   // Wave 4 — D11-S01 TeleVet Session (OCMBR-005)
   "televet:read",
   "televet:write",
+  // Wave 5 — D11-S03 Mobile Clinic (OCMBR-005)
+  "mobile-clinic:read",
+  "mobile-clinic:write",
+  // Wave 5 — D11-S04 Field Visit (OCMBR-005)
+  "field-visit:read",
+  "field-visit:write",
+  // Wave 5 — D11-S05 Emergency (OCMBR-005)
+  "emergency:read",
+  "emergency:write",
+  // Wave 5 — D12-S01/S02 Compliance (OCMBR-005)
+  "compliance:read",
+  "compliance:write",
 ] as const;
 
 export type Permission = (typeof PERMISSIONS)[number];
@@ -286,6 +298,14 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "imaging:write",
     "televet:read",
     "televet:write",
+    "mobile-clinic:read",
+    "mobile-clinic:write",
+    "field-visit:read",
+    "field-visit:write",
+    "emergency:read",
+    "emergency:write",
+    "compliance:read",
+    "compliance:write",
   ],
   editor: [
     "analytics:read",

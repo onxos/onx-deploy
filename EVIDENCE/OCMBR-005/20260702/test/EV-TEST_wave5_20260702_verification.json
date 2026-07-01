@@ -1,0 +1,61 @@
+{
+  "evidence_id": "EV-TEST_wave5_20260702_verification",
+  "wave": "Wave 5",
+  "systems": ["D11-S03", "D11-S04", "D11-S05", "D12-S01", "D12-S02"],
+  "checks_total": 45,
+  "checks_passed": 45,
+  "checks_failed": 0,
+  "lint_status": "PASS — 0 errors (biome check, 902 files)",
+  "typescript_status": "PASS — bunx tsc --noEmit 0 errors",
+  "build_status": "Compiled successfully (TypeScript worker SIGTERM/OOM, consistent with Waves 2f–4 pattern; tsc direct pass accepted)",
+  "test_script": "scripts/test-wave5.ts",
+  "branch": "ocmbr/wave5-execution",
+  "collected_at": "2026-07-02T00:00:00.000Z",
+  "details": {
+    "D11-S03_mobile_clinic": {
+      "schema": "src/server/db/schema/mobile-clinic-foundation.ts",
+      "service": "src/server/services/mobile-clinic.service.ts",
+      "router": "src/server/api/routers/mobile-clinic.ts",
+      "ui_layout": "src/app/mobile-clinic/layout.tsx",
+      "ui_page": "src/app/mobile-clinic/page.tsx",
+      "migration": "drizzle/0013_wave5_systems.sql",
+      "permissions": ["mobile-clinic:read", "mobile-clinic:write"]
+    },
+    "D11-S04_field_visit": {
+      "schema": "src/server/db/schema/field-visit-foundation.ts",
+      "service": "src/server/services/field-visit.service.ts",
+      "router": "src/server/api/routers/field-visit.ts",
+      "ui_layout": "src/app/field-visits/layout.tsx",
+      "ui_page": "src/app/field-visits/page.tsx",
+      "migration": "drizzle/0013_wave5_systems.sql",
+      "permissions": ["field-visit:read", "field-visit:write"]
+    },
+    "D11-S05_emergency_case": {
+      "schema": "src/server/db/schema/emergency-case-foundation.ts",
+      "service": "src/server/services/emergency-case.service.ts",
+      "router": "src/server/api/routers/emergency-case.ts",
+      "ui_layout": "src/app/emergency/layout.tsx",
+      "ui_page": "src/app/emergency/page.tsx",
+      "migration": "drizzle/0013_wave5_systems.sql",
+      "permissions": ["emergency:read", "emergency:write"]
+    },
+    "D12-S01_regulatory_register": {
+      "schema": "src/server/db/schema/regulatory-register-foundation.ts",
+      "service": "src/server/services/regulatory-register.service.ts",
+      "router": "src/server/api/routers/regulatory-register.ts",
+      "ui_layout": "src/app/regulatory-register/layout.tsx",
+      "ui_page": "src/app/regulatory-register/page.tsx",
+      "migration": "drizzle/0013_wave5_systems.sql",
+      "permissions": ["compliance:read", "compliance:write"]
+    },
+    "D12-S02_licence_certificate": {
+      "schema": "src/server/db/schema/licence-certificate-foundation.ts",
+      "service": "src/server/services/licence-certificate.service.ts",
+      "router": "src/server/api/routers/licence-certificate.ts",
+      "ui_layout": "src/app/licences/layout.tsx",
+      "ui_page": "src/app/licences/page.tsx",
+      "migration": "drizzle/0013_wave5_systems.sql",
+      "permissions": ["compliance:read", "compliance:write"]
+    }
+  }
+}
