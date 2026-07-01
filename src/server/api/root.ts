@@ -1,5 +1,6 @@
 import { createTRPCRouter } from "@/server/api/trpc";
 import { adminRouter } from "./routers/admin";
+import { analyserDeviceRouter } from "./routers/analyser-device";
 import { analyticsRouter } from "./routers/analytics";
 import { apRouter } from "./routers/ap";
 import { appointmentRouter } from "./routers/appointment";
@@ -14,6 +15,8 @@ import { cashReconciliationRouter } from "./routers/cash-reconciliation";
 import { catalogueRouter } from "./routers/catalogue";
 import { civilizationRouter } from "./routers/civilization";
 import { clinicalRouter } from "./routers/clinical";
+import { clinicalOutcomeRouter } from "./routers/clinical-outcome";
+import { consentFormRouter } from "./routers/consent-form";
 import { crmRouter } from "./routers/crm";
 import { data_governanceRouter } from "./routers/data_governance";
 import { discountRouter } from "./routers/discount";
@@ -21,6 +24,7 @@ import { dreamRouter } from "./routers/dream";
 import { editorialRouter } from "./routers/editorial";
 import { enablementRouter } from "./routers/enablement";
 import { evolutionRouter } from "./routers/evolution";
+import { externalLabRouter } from "./routers/external-lab";
 import { financeRouter } from "./routers/finance";
 import { gapRouter } from "./routers/gap";
 import { glRouter } from "./routers/gl";
@@ -36,6 +40,7 @@ import { inventoryRouter } from "./routers/inventory";
 import { inventoryLocationRouter } from "./routers/inventory-location";
 import { itemBatchRouter } from "./routers/item-batch";
 import { judgmentRouter } from "./routers/judgment";
+import { labTestRouter } from "./routers/lab-test";
 import { launchRouter } from "./routers/launch";
 import { leaveRouter } from "./routers/leave";
 import { operationsRouter } from "./routers/operations";
@@ -151,6 +156,12 @@ export const appRouter = createTRPCRouter({
   posReceipt: posReceiptRouter,
   referral: referralRouter,
   surgicalTheatre: surgicalTheatreRouter,
+  // Wave 3
+  analyserDevice: analyserDeviceRouter,
+  clinicalOutcome: clinicalOutcomeRouter,
+  consentForm: consentFormRouter,
+  externalLab: externalLabRouter,
+  labTest: labTestRouter,
 });
 
 export type AppRouter = typeof appRouter;

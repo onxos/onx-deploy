@@ -1,0 +1,59 @@
+{
+  "wave": "3",
+  "date": "2026-07-02",
+  "systems": [
+    {
+      "id": "D09-S10",
+      "name": "Clinical Outcome Tracking",
+      "ius": [
+        "D09-S10-IU-SCH",
+        "D09-S10-IU-SVC",
+        "D09-S10-IU-API",
+        "D09-S10-IU-UI"
+      ]
+    },
+    {
+      "id": "D09-S11",
+      "name": "Consent Forms & Legal Documents",
+      "ius": [
+        "D09-S11-IU-SCH",
+        "D09-S11-IU-SVC",
+        "D09-S11-IU-API",
+        "D09-S11-IU-UI"
+      ]
+    },
+    {
+      "id": "D10-S01",
+      "name": "Lab Test Request & Result Entry",
+      "ius": [
+        "D10-S01-IU-SCH",
+        "D10-S01-IU-SVC",
+        "D10-S01-IU-API",
+        "D10-S01-IU-UI"
+      ]
+    },
+    {
+      "id": "D10-S02",
+      "name": "In-house Analyser Integration Hooks",
+      "ius": [
+        "D10-S02-IU-SCH",
+        "D10-S02-IU-SVC",
+        "D10-S02-IU-API",
+        "D10-S02-IU-UI"
+      ]
+    },
+    {
+      "id": "D10-S03",
+      "name": "External Lab Referral & Import",
+      "ius": [
+        "D10-S03-IU-SCH",
+        "D10-S03-IU-SVC",
+        "D10-S03-IU-API",
+        "D10-S03-IU-UI"
+      ]
+    }
+  ],
+  "total_ius": 20,
+  "status": "VERIFIED",
+  "evidence_standard": "ONX_UNIFIED_EVIDENCE_STANDARD_v1.0"
+}
