@@ -43,6 +43,7 @@ import { financeRouter } from "./routers/finance";
 import { gapRouter } from "./routers/gap";
 import { glRouter } from "./routers/gl";
 import { goalRouter } from "./routers/goal";
+import { governanceRouter } from "./routers/governance";
 import { grnRouter } from "./routers/grn";
 import { hrRouter } from "./routers/hr";
 import { imagingRequestRouter } from "./routers/imaging-request";
@@ -242,6 +243,8 @@ export const appRouter = createTRPCRouter({
   jobQueue: jobQueueRouter,
   // Wave 13
   executiveGov: executiveRouter,
+  // Wave 14
+  governance: governanceRouter,
 });
 
 export type AppRouter = typeof appRouter;
