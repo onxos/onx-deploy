@@ -1,5 +1,6 @@
 import { createTRPCRouter } from "@/server/api/trpc";
 import { adminRouter } from "./routers/admin";
+import { aiDecisionRouter } from "./routers/ai-decision";
 import { analyserDeviceRouter } from "./routers/analyser-device";
 import { analyticsRouter } from "./routers/analytics";
 import { apRouter } from "./routers/ap";
@@ -226,6 +227,8 @@ export const appRouter = createTRPCRouter({
   telemetry: telemetryRouter,
   webhook: webhookRouter,
   reporting: reportingRouter,
+  // Wave 10
+  aiDecision: aiDecisionRouter,
 });
 
 export type AppRouter = typeof appRouter;
