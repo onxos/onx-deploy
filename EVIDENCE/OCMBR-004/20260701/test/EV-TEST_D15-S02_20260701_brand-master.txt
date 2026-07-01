@@ -1,0 +1,30 @@
+OCMBR IU-ID: D15-S02-IU-TST
+Date: 2026-07-01T06:53:00.962Z
+Scenarios: 24
+
+2026-07-01T06:53:00.962Z PASS SCH-01 org-foundation.ts schema file exists
+2026-07-01T06:53:00.962Z PASS SCH-02 onx_brand table defined in schema
+2026-07-01T06:53:00.962Z PASS SCH-03 Brand has code unique field
+2026-07-01T06:53:00.962Z PASS SCH-04 Brand has isActive field
+2026-07-01T06:53:00.962Z PASS SCH-05 Brand exported from schema barrel
+2026-07-01T06:53:00.962Z PASS SCH-06 onx_brand migration exists
+2026-07-01T06:53:00.962Z PASS API-01 org.service.ts exists
+2026-07-01T06:53:00.962Z PASS API-02 listBrands function defined
+2026-07-01T06:53:00.962Z PASS API-03 getBrandById function defined
+2026-07-01T06:53:00.962Z PASS API-04 createBrand function defined
+2026-07-01T06:53:00.962Z PASS API-05 updateBrand function defined
+2026-07-01T06:53:00.962Z PASS API-06 deactivateBrand cascades to branches
+2026-07-01T06:53:00.962Z PASS API-07 org tRPC router exists
+2026-07-01T06:53:00.962Z PASS API-08 listBrands procedure in router
+2026-07-01T06:53:00.962Z PASS API-09 getBrand procedure in router
+2026-07-01T06:53:00.962Z PASS API-10 createBrand procedure in router
+2026-07-01T06:53:00.962Z PASS API-11 updateBrand procedure in router
+2026-07-01T06:53:00.962Z PASS API-12 deactivateBrand procedure in router
+2026-07-01T06:53:00.962Z PASS API-13 org router registered in root
+2026-07-01T06:53:00.962Z PASS API-14 org:read permission defined
+2026-07-01T06:53:00.962Z PASS UI-01 /org/layout.tsx exists
+2026-07-01T06:53:00.962Z PASS UI-02 /org/brands/page.tsx exists
+2026-07-01T06:53:00.962Z PASS UI-03 Brands page uses listBrands tRPC call
+2026-07-01T06:53:00.962Z PASS UI-04 Brands page uses createBrand tRPC call
+
+ALL 24 SCENARIOS PASS
