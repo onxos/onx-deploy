@@ -36,6 +36,30 @@ export const PERMISSIONS = [
   "rbac:manage",
   "audit:read",
   "events:read",
+  // Wave 1 — D07-S01 CRM (OCMBR-004)
+  "crm:read",
+  "crm:write",
+  // Wave 1 — D02-S01 HR (OCMBR-004)
+  "hr:read",
+  "hr:write",
+  // Wave 1 — D05-S01 Inventory (OCMBR-004)
+  "inventory:read",
+  "inventory:write",
+  // Wave 1 — D04-S01 Procurement (OCMBR-004)
+  "procurement:read",
+  "procurement:write",
+  // Wave 1 — D06-S01 Insurance (OCMBR-004)
+  "insurance:read",
+  "insurance:write",
+  // Wave 1 — D03-S01 Finance / D03-S02 GL (OCMBR-004)
+  "finance:read",
+  "finance:write",
+  // Wave 1 — D09-S01 Clinical (OCMBR-004)
+  "clinical:read",
+  "clinical:write",
+  // Wave 1 — D08-S01 POS (OCMBR-004)
+  "pos:read",
+  "pos:write",
 ] as const;
 
 export type Permission = (typeof PERMISSIONS)[number];
@@ -59,6 +83,22 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "rbac:manage",
     "audit:read",
     "events:read",
+    "crm:read",
+    "crm:write",
+    "hr:read",
+    "hr:write",
+    "inventory:read",
+    "inventory:write",
+    "procurement:read",
+    "procurement:write",
+    "insurance:read",
+    "insurance:write",
+    "finance:read",
+    "finance:write",
+    "clinical:read",
+    "clinical:write",
+    "pos:read",
+    "pos:write",
   ],
   editor: [
     "analytics:read",
@@ -66,8 +106,26 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "article:update",
     "gap:update",
     "org:read",
+    "crm:read",
+    "hr:read",
+    "inventory:read",
+    "procurement:read",
+    "insurance:read",
+    "finance:read",
+    "clinical:read",
+    "pos:read",
   ],
-  operator: ["article:create", "gap:update", "sech:update", "org:read"],
+  operator: [
+    "article:create",
+    "gap:update",
+    "sech:update",
+    "org:read",
+    "crm:read",
+    "inventory:read",
+    "clinical:read",
+    "pos:read",
+    "pos:write",
+  ],
   viewer: ["analytics:read"],
   guest: [],
 };
