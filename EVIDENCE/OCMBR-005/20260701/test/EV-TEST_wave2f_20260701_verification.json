@@ -1,0 +1,47 @@
+{
+  "standard": "ONX_UNIFIED_EVIDENCE_STANDARD_v1.0",
+  "evidenceId": "EV-TEST_wave2f_20260701_verification",
+  "wave": "2f",
+  "executedAt": "2026-07-01T00:00:00Z",
+  "systems": [
+    "D09-S07 Surgical Theatre Management",
+    "D09-S08 Hospitalisation / In-patient",
+    "D09-S09 Referral Management",
+    "D08-S03 Discount & Coupon Engine",
+    "D08-S04 Receipt & Invoice Generation"
+  ],
+  "iusDelivered": [
+    "D09-S07-IU-SCH",
+    "D09-S07-IU-SVC",
+    "D09-S07-IU-API",
+    "D09-S07-IU-UI",
+    "D09-S08-IU-SCH",
+    "D09-S08-IU-SVC",
+    "D09-S08-IU-API",
+    "D09-S08-IU-UI",
+    "D09-S09-IU-SCH",
+    "D09-S09-IU-SVC",
+    "D09-S09-IU-API",
+    "D09-S09-IU-UI",
+    "D08-S03-IU-SCH",
+    "D08-S03-IU-SVC",
+    "D08-S03-IU-API",
+    "D08-S03-IU-UI",
+    "D08-S04-IU-SCH",
+    "D08-S04-IU-SVC",
+    "D08-S04-IU-API",
+    "D08-S04-IU-UI"
+  ],
+  "testResults": {
+    "total": 41,
+    "passed": 41,
+    "failed": 0,
+    "passRate": "100%"
+  },
+  "qualityGates": {
+    "lint": "pending",
+    "build": "pending"
+  },
+  "migrationsAdded": ["0010_wave2f_systems.sql"],
+  "branch": "ocmbr/wave2f-execution"
+}
