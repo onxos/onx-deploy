@@ -3,6 +3,7 @@ import { adminRouter } from "./routers/admin";
 import { analyticsRouter } from "./routers/analytics";
 import { audit_reviewRouter } from "./routers/audit_review";
 import { authRouter } from "./routers/auth";
+import { branchRbacRouter } from "./routers/branch-rbac";
 import { civilizationRouter } from "./routers/civilization";
 import { data_governanceRouter } from "./routers/data_governance";
 import { dreamRouter } from "./routers/dream";
@@ -15,6 +16,7 @@ import { institutionRouter } from "./routers/institution";
 import { judgmentRouter } from "./routers/judgment";
 import { launchRouter } from "./routers/launch";
 import { operationsRouter } from "./routers/operations";
+import { orgRouter } from "./routers/org";
 import { outcomeRouter } from "./routers/outcome";
 import { performanceRouter } from "./routers/performance";
 import { potentialRouter } from "./routers/potential";
@@ -23,6 +25,7 @@ import { sechRouter } from "./routers/sech";
 import { security_reviewRouter } from "./routers/security_review";
 import { stewardshipRouter } from "./routers/stewardship";
 import { taskRouter } from "./routers/task";
+import { tenantRouter } from "./routers/tenant";
 import { titanRouter } from "./routers/titan";
 import { titan_opsRouter } from "./routers/titan_ops";
 import { understandingRouter } from "./routers/understanding";
@@ -57,6 +60,9 @@ export const appRouter = createTRPCRouter({
   titanOps: titan_opsRouter,
   understanding: understandingRouter,
   user: userRouter,
+  branchRbac: branchRbacRouter,
+  org: orgRouter,
+  tenant: tenantRouter,
 });
 
 export type AppRouter = typeof appRouter;

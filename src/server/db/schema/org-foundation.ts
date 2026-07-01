@@ -15,6 +15,7 @@ import { sql } from "drizzle-orm";
 import {
   boolean,
   index,
+  integer,
   jsonb,
   pgTableCreator,
   serial,
@@ -56,7 +57,7 @@ export const branch = createTable(
   "branch",
   {
     id: serial("id").primaryKey(),
-    brandId: serial("brand_id")
+    brandId: integer("brand_id")
       .notNull()
       .references(() => brand.id, { onDelete: "restrict" }),
     name: varchar("name", { length: 150 }).notNull(),

@@ -1,0 +1,15 @@
+2026-07-01T04:18:10.409Z PASS 01 tenant-foundation schema file exists
+2026-07-01T04:18:10.409Z PASS 02 onx_tenant table defined in schema
+2026-07-01T04:18:10.409Z PASS 03 onx_tenant_invite table defined
+2026-07-01T04:18:10.409Z PASS 04 onx_tenant_config table defined
+2026-07-01T04:18:10.409Z PASS 05 Tenant schema exported from barrel
+2026-07-01T04:18:10.409Z PASS 06 tenant.service.ts exists
+2026-07-01T04:18:10.409Z PASS 07 createTenant function defined
+2026-07-01T04:18:10.409Z PASS 08 createInvite function defined
+2026-07-01T04:18:10.409Z PASS 09 validateInviteToken function defined
+2026-07-01T04:18:10.409Z PASS 10 tRPC tenant router exists
+2026-07-01T04:18:10.409Z PASS 11 tenantRouter exported from router file
+2026-07-01T04:18:10.409Z PASS 12 tenant router registered in appRouter root
+2026-07-01T04:18:10.409Z PASS 13 tenant:write permission defined
+2026-07-01T04:18:10.409Z PASS 14 tenant:read permission defined
+ALL 14 SCENARIOS PASS

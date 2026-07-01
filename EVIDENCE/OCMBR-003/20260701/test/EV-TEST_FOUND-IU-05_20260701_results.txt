@@ -1,0 +1,15 @@
+2026-07-01T04:18:10.523Z PASS 01 audit-foundation schema file exists
+2026-07-01T04:18:10.523Z PASS 02 onx_domain_audit_event table defined
+2026-07-01T04:18:10.523Z PASS 03 onx_audit_retention_policy table defined
+2026-07-01T04:18:10.523Z PASS 04 audit-foundation exported from barrel
+2026-07-01T04:18:10.523Z PASS 05 audit.service.ts exists
+2026-07-01T04:18:10.523Z PASS 06 recordAudit function defined
+2026-07-01T04:18:10.523Z PASS 07 getAuditTrail function defined
+2026-07-01T04:18:10.523Z PASS 08 getAuditForEntity function defined
+2026-07-01T04:18:10.523Z PASS 09 getRetentionPolicy function defined
+2026-07-01T04:18:10.523Z PASS 10 append-only design enforced (no update/delete calls)
+2026-07-01T04:18:10.523Z PASS 11 audit:read permission defined
+2026-07-01T04:18:10.523Z PASS 12 audit recorded on brand create (org router)
+2026-07-01T04:18:10.523Z PASS 13 audit recorded on tenant create (tenant router)
+2026-07-01T04:18:10.523Z PASS 14 audit recorded on branch-rbac mutations
+ALL 14 SCENARIOS PASS

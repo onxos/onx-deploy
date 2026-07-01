@@ -1,0 +1,15 @@
+2026-07-01T04:18:10.449Z PASS 01 branch-rbac-foundation schema file exists
+2026-07-01T04:18:10.449Z PASS 02 onx_user_branch_role table defined
+2026-07-01T04:18:10.449Z PASS 03 onx_user_tenant_membership table defined
+2026-07-01T04:18:10.449Z PASS 04 onx_branch_role_permission table defined
+2026-07-01T04:18:10.449Z PASS 05 branch-rbac schema exported from barrel
+2026-07-01T04:18:10.449Z PASS 06 branch-rbac.service.ts exists
+2026-07-01T04:18:10.449Z PASS 07 grantBranchRole function defined
+2026-07-01T04:18:10.449Z PASS 08 revokeBranchRole function defined
+2026-07-01T04:18:10.449Z PASS 09 checkBranchPermission function defined
+2026-07-01T04:18:10.449Z PASS 10 seedDefaultBranchPermissions function defined
+2026-07-01T04:18:10.449Z PASS 11 tRPC branch-rbac router exists
+2026-07-01T04:18:10.449Z PASS 12 branchRbacRouter exported from router file
+2026-07-01T04:18:10.449Z PASS 13 branchRbac router registered in appRouter root
+2026-07-01T04:18:10.449Z PASS 14 rbac:manage permission defined
+ALL 14 SCENARIOS PASS

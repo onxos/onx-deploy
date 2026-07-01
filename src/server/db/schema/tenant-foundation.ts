@@ -15,6 +15,7 @@ import { sql } from "drizzle-orm";
 import {
   boolean,
   index,
+  integer,
   jsonb,
   pgTableCreator,
   serial,
@@ -39,7 +40,7 @@ export const tenant = createTable(
     planTier: varchar("plan_tier", { length: 30 })
       .default("standard")
       .notNull(),
-    maxBranches: serial("max_branches").default(10),
+    maxBranches: integer("max_branches").default(10),
     isActive: boolean("is_active").default(true).notNull(),
     contactEmail: varchar("contact_email", { length: 256 }),
     contactPhone: varchar("contact_phone", { length: 30 }),
@@ -65,10 +66,10 @@ export const tenantBrand = createTable(
   "tenant_brand",
   {
     id: serial("id").primaryKey(),
-    tenantId: serial("tenant_id")
+    tenantId: integer("tenant_id")
       .notNull()
       .references(() => tenant.id, { onDelete: "cascade" }),
-    brandId: serial("brand_id")
+    brandId: integer("brand_id")
       .notNull()
       .references(() => brand.id, { onDelete: "cascade" }),
     createdAt: timestamp("created_at", { withTimezone: true })
@@ -88,7 +89,7 @@ export const tenantConfig = createTable(
   "tenant_config",
   {
     id: serial("id").primaryKey(),
-    tenantId: serial("tenant_id")
+    tenantId: integer("tenant_id")
       .notNull()
       .references(() => tenant.id, { onDelete: "cascade" })
       .unique(),
@@ -114,7 +115,7 @@ export const tenantInvite = createTable(
   "tenant_invite",
   {
     id: text("id").primaryKey(),
-    tenantId: serial("tenant_id")
+    tenantId: integer("tenant_id")
       .notNull()
       .references(() => tenant.id, { onDelete: "cascade" }),
     email: varchar("email", { length: 256 }).notNull(),
