@@ -1,0 +1,30 @@
+OCMBR IU-ID: D15-S04-IU-TST
+Date: 2026-07-01T06:53:01.068Z
+Scenarios: 24
+
+2026-07-01T06:53:01.067Z PASS SCH-01 branch-rbac-foundation.ts schema file exists
+2026-07-01T06:53:01.067Z PASS SCH-02 onx_user_branch_role table defined
+2026-07-01T06:53:01.067Z PASS SCH-03 onx_branch_role_permission table defined
+2026-07-01T06:53:01.067Z PASS SCH-04 onx_user_tenant_membership table defined
+2026-07-01T06:53:01.067Z PASS SCH-05 branch-rbac-foundation exported from schema barrel
+2026-07-01T06:53:01.067Z PASS SCH-06 onx_user_branch_role migration exists
+2026-07-01T06:53:01.067Z PASS SCH-07 onx_branch_role_permission migration exists
+2026-07-01T06:53:01.067Z PASS API-01 branch-rbac.service.ts exists
+2026-07-01T06:53:01.067Z PASS API-02 getUserBranchRoles function defined
+2026-07-01T06:53:01.067Z PASS API-03 getUserRoleInBranch function defined
+2026-07-01T06:53:01.067Z PASS API-04 grantBranchRole function defined
+2026-07-01T06:53:01.067Z PASS API-05 revokeBranchRole function defined
+2026-07-01T06:53:01.067Z PASS API-06 branch-rbac tRPC router exists
+2026-07-01T06:53:01.067Z PASS API-07 getUserBranchRoles procedure in router
+2026-07-01T06:53:01.067Z PASS API-08 grantBranchRole procedure in router
+2026-07-01T06:53:01.067Z PASS API-09 revokeBranchRole procedure in router
+2026-07-01T06:53:01.067Z PASS API-10 branchRbac router registered in root
+2026-07-01T06:53:01.067Z PASS API-11 rbac:manage permission defined
+2026-07-01T06:53:01.067Z PASS UI-01 /branch-permissions/layout.tsx exists
+2026-07-01T06:53:01.067Z PASS UI-02 /branch-permissions/page.tsx exists
+2026-07-01T06:53:01.067Z PASS UI-03 Branch permissions page uses getUserBranchRoles tRPC call
+2026-07-01T06:53:01.067Z PASS UI-04 Branch permissions page uses grantBranchRole tRPC call
+2026-07-01T06:53:01.067Z PASS UI-05 Branch permissions page uses revokeBranchRole tRPC call
+2026-07-01T06:53:01.067Z PASS UI-06 Layout requires admin role
+
+ALL 24 SCENARIOS PASS

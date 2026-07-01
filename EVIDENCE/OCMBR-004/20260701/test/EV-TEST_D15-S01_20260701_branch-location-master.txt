@@ -1,0 +1,30 @@
+OCMBR IU-ID: D15-S01-IU-TST
+Date: 2026-07-01T06:53:00.920Z
+Scenarios: 24
+
+2026-07-01T06:53:00.919Z PASS SCH-01 org-foundation.ts schema file exists
+2026-07-01T06:53:00.919Z PASS SCH-02 onx_branch table defined in schema
+2026-07-01T06:53:00.919Z PASS SCH-03 Branch has brandId FK to onx_brand
+2026-07-01T06:53:00.919Z PASS SCH-04 Branch has code unique field
+2026-07-01T06:53:00.919Z PASS SCH-05 Branch exported from schema barrel
+2026-07-01T06:53:00.919Z PASS SCH-06 onx_branch migration exists
+2026-07-01T06:53:00.919Z PASS API-01 org.service.ts exists
+2026-07-01T06:53:00.919Z PASS API-02 listBranches function defined
+2026-07-01T06:53:00.919Z PASS API-03 getBranchById function defined
+2026-07-01T06:53:00.919Z PASS API-04 createBranch function defined
+2026-07-01T06:53:00.919Z PASS API-05 updateBranch function defined
+2026-07-01T06:53:00.919Z PASS API-06 updateBranch supports isActive toggle (branch deactivation)
+2026-07-01T06:53:00.919Z PASS API-07 org tRPC router exists
+2026-07-01T06:53:00.919Z PASS API-08 listBranches procedure in router
+2026-07-01T06:53:00.919Z PASS API-09 getBranch procedure in router
+2026-07-01T06:53:00.919Z PASS API-10 createBranch procedure in router
+2026-07-01T06:53:00.919Z PASS API-11 updateBranch procedure in router
+2026-07-01T06:53:00.919Z PASS API-12 org router registered in root
+2026-07-01T06:53:00.919Z PASS API-13 org:read permission defined
+2026-07-01T06:53:00.919Z PASS API-14 org:write permission defined
+2026-07-01T06:53:00.919Z PASS UI-01 /org/layout.tsx exists
+2026-07-01T06:53:00.919Z PASS UI-02 /org/branches/page.tsx exists
+2026-07-01T06:53:00.919Z PASS UI-03 Branches page uses listBranches tRPC call
+2026-07-01T06:53:00.919Z PASS UI-04 Branches page uses createBranch tRPC call
+
+ALL 24 SCENARIOS PASS
