@@ -1,0 +1,59 @@
+{
+  "wave": "4",
+  "date": "2026-07-02",
+  "systems": [
+    {
+      "id": "D10-S04",
+      "name": "Lab Result History & Trends",
+      "ius": [
+        "D10-S04-IU-SCH",
+        "D10-S04-IU-SVC",
+        "D10-S04-IU-API",
+        "D10-S04-IU-UI"
+      ]
+    },
+    {
+      "id": "D10-S05",
+      "name": "Imaging Request Module",
+      "ius": [
+        "D10-S05-IU-SCH",
+        "D10-S05-IU-SVC",
+        "D10-S05-IU-API",
+        "D10-S05-IU-UI"
+      ]
+    },
+    {
+      "id": "D10-S06",
+      "name": "DICOM Viewer Hooks (PACS)",
+      "ius": [
+        "D10-S06-IU-SCH",
+        "D10-S06-IU-SVC",
+        "D10-S06-IU-API",
+        "D10-S06-IU-UI"
+      ]
+    },
+    {
+      "id": "D11-S01",
+      "name": "TeleVet Booking & Video Session",
+      "ius": [
+        "D11-S01-IU-SCH",
+        "D11-S01-IU-SVC",
+        "D11-S01-IU-API",
+        "D11-S01-IU-UI"
+      ]
+    },
+    {
+      "id": "D11-S02",
+      "name": "TeleVet Medical Record Integration",
+      "ius": [
+        "D11-S02-IU-SCH",
+        "D11-S02-IU-SVC",
+        "D11-S02-IU-API",
+        "D11-S02-IU-UI"
+      ]
+    }
+  ],
+  "total_ius": 20,
+  "status": "VERIFIED",
+  "evidence_standard": "ONX_UNIFIED_EVIDENCE_STANDARD_v1.0"
+}

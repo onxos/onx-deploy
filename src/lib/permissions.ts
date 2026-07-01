@@ -165,6 +165,14 @@ export const PERMISSIONS = [
   // Wave 3 — D10-S03 External Lab (OCMBR-005)
   "external-lab:read",
   "external-lab:write",
+  // Wave 4 — D10-S04 Lab Result History (OCMBR-005)
+  // (reuses lab:read / lab:write)
+  // Wave 4 — D10-S05 Imaging Request (OCMBR-005)
+  "imaging:read",
+  "imaging:write",
+  // Wave 4 — D11-S01 TeleVet Session (OCMBR-005)
+  "televet:read",
+  "televet:write",
 ] as const;
 
 export type Permission = (typeof PERMISSIONS)[number];
@@ -274,6 +282,10 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "analyser:write",
     "external-lab:read",
     "external-lab:write",
+    "imaging:read",
+    "imaging:write",
+    "televet:read",
+    "televet:write",
   ],
   editor: [
     "analytics:read",
