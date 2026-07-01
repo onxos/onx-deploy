@@ -33,6 +33,7 @@ import { editorialRouter } from "./routers/editorial";
 import { emergencyCaseRouter } from "./routers/emergency-case";
 import { emergencyResourceRouter } from "./routers/emergency-resource";
 import { enablementRouter } from "./routers/enablement";
+import { eventOutboxRouter } from "./routers/event-outbox";
 import { evolutionRouter } from "./routers/evolution";
 import { externalLabRouter } from "./routers/external-lab";
 import { fieldVisitRouter } from "./routers/field-visit";
@@ -79,6 +80,7 @@ import { referralRouter } from "./routers/referral";
 import { regulatoryRegisterRouter } from "./routers/regulatory-register";
 import { release_mgmtRouter } from "./routers/release_mgmt";
 import { reorderRouter } from "./routers/reorder";
+import { reportingRouter } from "./routers/reporting";
 import { riskRegisterRouter } from "./routers/risk-register";
 import { sechRouter } from "./routers/sech";
 import { security_reviewRouter } from "./routers/security_review";
@@ -90,6 +92,7 @@ import { successionRouter } from "./routers/succession";
 import { supplierReturnRouter } from "./routers/supplier-return";
 import { surgicalTheatreRouter } from "./routers/surgical-theatre";
 import { taskRouter } from "./routers/task";
+import { telemetryRouter } from "./routers/telemetry";
 import { telvetMedicalNoteRouter } from "./routers/televet-medical-note";
 import { telvetSessionRouter } from "./routers/televet-session";
 import { tenantRouter } from "./routers/tenant";
@@ -100,6 +103,7 @@ import { treatmentPlanRouter } from "./routers/treatment-plan";
 import { understandingRouter } from "./routers/understanding";
 import { userRouter } from "./routers/user";
 import { vaccinationRouter } from "./routers/vaccination";
+import { webhookRouter } from "./routers/webhook";
 import { workforceAnalyticsRouter } from "./routers/workforce-analytics";
 
 export const appRouter = createTRPCRouter({
@@ -217,6 +221,11 @@ export const appRouter = createTRPCRouter({
   developmentPlan: developmentPlanRouter,
   succession: successionRouter,
   workforceAnalytics: workforceAnalyticsRouter,
+  // Wave 9
+  eventOutbox: eventOutboxRouter,
+  telemetry: telemetryRouter,
+  webhook: webhookRouter,
+  reporting: reportingRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -165,3 +165,36 @@ export async function markJobFailed(id: number, error: string) {
     .where(eq(jobQueue.id, id))
     .returning();
 }
+
+// ── Router-facing aliases ────────────────────────────────────────────────────
+
+export const listPendingEvents = (limit = 50) => getPendingEvents(limit);
+
+export async function listEventsByDomain(domain: string) {
+  return db.select().from(eventOutbox).where(eq(eventOutbox.domain, domain));
+}
+
+export const markDelivered = (id: number) => markEventDelivered(id);
+export const markFailed = (id: number, error: string) =>
+  markEventFailed(id, error);
+
+export async function enqueueJobSimple(
+  jobType: string,
+  domain?: string,
+  payload?: Record<string, unknown>,
+  priority = 5,
+  scheduledAt?: Date,
+) {
+  return enqueueJob(jobType, payload ?? {}, { domain, priority, scheduledAt });
+}
+
+export async function listJobs(status?: string, limit = 50) {
+  if (status) {
+    return db
+      .select()
+      .from(jobQueue)
+      .where(eq(jobQueue.status, status))
+      .limit(limit);
+  }
+  return db.select().from(jobQueue).limit(limit);
+}
