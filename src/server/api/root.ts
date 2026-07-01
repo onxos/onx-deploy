@@ -8,7 +8,10 @@ import { approvalRouter } from "./routers/approval";
 import { arRouter } from "./routers/ar";
 import { attendanceRouter } from "./routers/attendance";
 import { audit_reviewRouter } from "./routers/audit_review";
+import { auditFindingRouter } from "./routers/audit-finding";
+import { auditProgrammeRouter } from "./routers/audit-programme";
 import { authRouter } from "./routers/auth";
+import { availabilityRouter } from "./routers/availability";
 import { bankReconciliationRouter } from "./routers/bank-reconciliation";
 import { branchRbacRouter } from "./routers/branch-rbac";
 import { cashReconciliationRouter } from "./routers/cash-reconciliation";
@@ -24,6 +27,7 @@ import { discountRouter } from "./routers/discount";
 import { dreamRouter } from "./routers/dream";
 import { editorialRouter } from "./routers/editorial";
 import { emergencyCaseRouter } from "./routers/emergency-case";
+import { emergencyResourceRouter } from "./routers/emergency-resource";
 import { enablementRouter } from "./routers/enablement";
 import { evolutionRouter } from "./routers/evolution";
 import { externalLabRouter } from "./routers/external-lab";
@@ -50,6 +54,7 @@ import { launchRouter } from "./routers/launch";
 import { leaveRouter } from "./routers/leave";
 import { licenceCertificateRouter } from "./routers/licence-certificate";
 import { mobileClinicRouter } from "./routers/mobile-clinic";
+import { oncallScheduleRouter } from "./routers/oncall-schedule";
 import { operationsRouter } from "./routers/operations";
 import { orgRouter } from "./routers/org";
 import { outcomeRouter } from "./routers/outcome";
@@ -184,6 +189,12 @@ export const appRouter = createTRPCRouter({
   licenceCertificate: licenceCertificateRouter,
   mobileClinic: mobileClinicRouter,
   regulatoryRegister: regulatoryRegisterRouter,
+  // Wave 6
+  auditFinding: auditFindingRouter,
+  auditProgramme: auditProgrammeRouter,
+  availability: availabilityRouter,
+  emergencyResource: emergencyResourceRouter,
+  oncallSchedule: oncallScheduleRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -1,0 +1,61 @@
+{
+  "evidence_id": "EV-TEST_wave6_20260703_verification",
+  "wave": "Wave 6",
+  "systems": ["D11-S06", "D11-S07", "D11-S08", "D12-S03", "D12-S04"],
+  "checks_total": 45,
+  "checks_passed": 45,
+  "checks_failed": 0,
+  "lint_status": "PASS — 0 errors (biome check, 929 files)",
+  "typescript_status": "PASS — bunx tsc --noEmit 0 errors",
+  "build_status": "tsc direct pass (Next.js TypeScript worker SIGTERM/OOM — consistent with Waves 2f–5 pattern)",
+  "test_script": "scripts/test-wave6.ts",
+  "branch": "ocmbr/wave6-execution",
+  "collected_at": "2026-07-03T00:00:00.000Z",
+  "details": {
+    "D11-S06_emergency_resource": {
+      "schema": "src/server/db/schema/emergency-resource-foundation.ts",
+      "service": "src/server/services/emergency-resource.service.ts",
+      "router": "src/server/api/routers/emergency-resource.ts",
+      "ui_layout": "src/app/emergency-resources/layout.tsx",
+      "ui_page": "src/app/emergency-resources/page.tsx",
+      "migration": "drizzle/0014_wave6_systems.sql",
+      "permissions": ["emergency:read", "emergency:write"]
+    },
+    "D11-S07_oncall_schedule": {
+      "schema": "src/server/db/schema/oncall-schedule-foundation.ts",
+      "service": "src/server/services/oncall-schedule.service.ts",
+      "router": "src/server/api/routers/oncall-schedule.ts",
+      "ui_layout": "src/app/oncall/layout.tsx",
+      "ui_page": "src/app/oncall/page.tsx",
+      "migration": "drizzle/0014_wave6_systems.sql",
+      "permissions": ["oncall:read", "oncall:write"]
+    },
+    "D11-S08_availability": {
+      "schema": "src/server/db/schema/availability-foundation.ts",
+      "service": "src/server/services/availability.service.ts",
+      "router": "src/server/api/routers/availability.ts",
+      "ui_layout": "src/app/availability/layout.tsx",
+      "ui_page": "src/app/availability/page.tsx",
+      "migration": "drizzle/0014_wave6_systems.sql",
+      "permissions": ["availability:read", "availability:write"]
+    },
+    "D12-S03_audit_programme": {
+      "schema": "src/server/db/schema/audit-programme-foundation.ts",
+      "service": "src/server/services/audit-programme.service.ts",
+      "router": "src/server/api/routers/audit-programme.ts",
+      "ui_layout": "src/app/audit-programme/layout.tsx",
+      "ui_page": "src/app/audit-programme/page.tsx",
+      "migration": "drizzle/0014_wave6_systems.sql",
+      "permissions": ["compliance:read", "compliance:write"]
+    },
+    "D12-S04_audit_finding_capa": {
+      "schema": "src/server/db/schema/audit-finding-foundation.ts",
+      "service": "src/server/services/audit-finding.service.ts",
+      "router": "src/server/api/routers/audit-finding.ts",
+      "ui_layout": "src/app/audit-findings/layout.tsx",
+      "ui_page": "src/app/audit-findings/page.tsx",
+      "migration": "drizzle/0014_wave6_systems.sql",
+      "permissions": ["compliance:read", "compliance:write"]
+    }
+  }
+}
