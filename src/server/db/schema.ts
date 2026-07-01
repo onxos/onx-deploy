@@ -28,6 +28,7 @@ export * from "./schema/dicom-study-foundation";
 export * from "./schema/discount-foundation";
 export * from "./schema/emergency-case-foundation";
 export * from "./schema/emergency-resource-foundation";
+export * from "./schema/executive-foundation";
 export * from "./schema/external-lab-foundation";
 export * from "./schema/field-visit-foundation";
 export * from "./schema/finance-foundation";
