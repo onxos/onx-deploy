@@ -150,6 +150,21 @@ export const PERMISSIONS = [
   // Wave 2f — D08-S04 Receipt & Invoice (OCMBR-005)
   "receipt:read",
   "receipt:write",
+  // Wave 3 — D09-S10 Clinical Outcome Tracking (OCMBR-005)
+  "clinical-outcome:read",
+  "clinical-outcome:write",
+  // Wave 3 — D09-S11 Consent Forms (OCMBR-005)
+  "consent:read",
+  "consent:write",
+  // Wave 3 — D10-S01 Lab Test Request (OCMBR-005)
+  "lab:read",
+  "lab:write",
+  // Wave 3 — D10-S02 Analyser Device (OCMBR-005)
+  "analyser:read",
+  "analyser:write",
+  // Wave 3 — D10-S03 External Lab (OCMBR-005)
+  "external-lab:read",
+  "external-lab:write",
 ] as const;
 
 export type Permission = (typeof PERMISSIONS)[number];
@@ -249,6 +264,16 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "discount:write",
     "receipt:read",
     "receipt:write",
+    "clinical-outcome:read",
+    "clinical-outcome:write",
+    "consent:read",
+    "consent:write",
+    "lab:read",
+    "lab:write",
+    "analyser:read",
+    "analyser:write",
+    "external-lab:read",
+    "external-lab:write",
   ],
   editor: [
     "analytics:read",
