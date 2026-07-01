@@ -1,3 +1,4 @@
+export * from "./schema/ap-foundation";
 export * from "./schema/appointment-foundation";
 export * from "./schema/approval-foundation";
 export * from "./schema/ar-foundation";
@@ -11,7 +12,9 @@ export * from "./schema/clinical-foundation";
 export * from "./schema/crm-foundation";
 export * from "./schema/finance-foundation";
 export * from "./schema/gl-foundation";
+export * from "./schema/grn-foundation";
 export * from "./schema/hr-foundation";
+export * from "./schema/insurance-claim-foundation";
 export * from "./schema/insurance-foundation";
 export * from "./schema/insurance-policy-foundation";
 export * from "./schema/intelligence-foundation";

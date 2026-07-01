@@ -99,6 +99,15 @@ export const PERMISSIONS = [
   // Wave 2b — D09-S03 SOAP Notes (OCMBR-005)
   "soap-note:read",
   "soap-note:write",
+  // Wave 2c — D03-S04 Accounts Payable (OCMBR-005)
+  "ap:read",
+  "ap:write",
+  // Wave 2c — D04-S05 GRN (OCMBR-005)
+  "grn:read",
+  "grn:write",
+  // Wave 2c — D06-S04 Insurance Claim (OCMBR-005)
+  "claim:read",
+  "claim:write",
 ] as const;
 
 export type Permission = (typeof PERMISSIONS)[number];
@@ -164,6 +173,12 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "reorder:write",
     "soap-note:read",
     "soap-note:write",
+    "ap:read",
+    "ap:write",
+    "grn:read",
+    "grn:write",
+    "claim:read",
+    "claim:write",
   ],
   editor: [
     "analytics:read",
@@ -192,6 +207,9 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "item-batch:read",
     "reorder:read",
     "soap-note:read",
+    "ap:read",
+    "grn:read",
+    "claim:read",
   ],
   operator: [
     "article:create",
