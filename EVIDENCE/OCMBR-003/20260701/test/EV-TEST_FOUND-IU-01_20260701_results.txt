@@ -1,0 +1,16 @@
+2026-07-01T04:18:10.366Z PASS 01 org-foundation schema file exists
+2026-07-01T04:18:10.366Z PASS 02 onx_brand table defined in schema
+2026-07-01T04:18:10.366Z PASS 03 onx_branch table defined in schema
+2026-07-01T04:18:10.366Z PASS 04 Brand and Branch exported from barrel
+2026-07-01T04:18:10.366Z PASS 05 org.service.ts exists
+2026-07-01T04:18:10.366Z PASS 06 createBrand function defined
+2026-07-01T04:18:10.366Z PASS 07 createBranch function defined
+2026-07-01T04:18:10.366Z PASS 08 deactivateBrand cascades branches
+2026-07-01T04:18:10.366Z PASS 09 tRPC org router exists
+2026-07-01T04:18:10.366Z PASS 10 orgRouter exported from router file
+2026-07-01T04:18:10.366Z PASS 11 org router registered in appRouter root
+2026-07-01T04:18:10.366Z PASS 12 /org/layout.tsx exists (admin/founder only)
+2026-07-01T04:18:10.366Z PASS 13 /org/brands/page.tsx exists
+2026-07-01T04:18:10.366Z PASS 14 /org/branches/page.tsx exists
+2026-07-01T04:18:10.366Z PASS 15 org:write permission defined
+ALL 15 SCENARIOS PASS

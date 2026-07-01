@@ -1,0 +1,15 @@
+2026-07-01T04:18:10.485Z PASS 01 intelligence-foundation schema file exists
+2026-07-01T04:18:10.485Z PASS 02 onx_event_outbox table defined
+2026-07-01T04:18:10.485Z PASS 03 onx_job_queue table defined
+2026-07-01T04:18:10.485Z PASS 04 intelligence-foundation exported from barrel
+2026-07-01T04:18:10.485Z PASS 05 event-outbox.service.ts exists
+2026-07-01T04:18:10.485Z PASS 06 publishEvent function defined
+2026-07-01T04:18:10.485Z PASS 07 getPendingEvents function defined
+2026-07-01T04:18:10.485Z PASS 08 markEventDelivered function defined
+2026-07-01T04:18:10.485Z PASS 09 markEventFailed function defined
+2026-07-01T04:18:10.485Z PASS 10 enqueueJob function defined
+2026-07-01T04:18:10.485Z PASS 11 getNextReadyJob function defined
+2026-07-01T04:18:10.485Z PASS 12 markJobComplete function defined
+2026-07-01T04:18:10.485Z PASS 13 markJobFailed with DEAD_LETTER logic defined
+2026-07-01T04:18:10.485Z PASS 14 events:read permission defined
+ALL 14 SCENARIOS PASS

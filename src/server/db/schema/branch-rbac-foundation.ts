@@ -15,6 +15,7 @@ import { sql } from "drizzle-orm";
 import {
   boolean,
   index,
+  integer,
   pgTableCreator,
   serial,
   text,
@@ -37,7 +38,7 @@ export const userBranchRole = createTable(
     userId: text("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
-    branchId: serial("branch_id")
+    branchId: integer("branch_id")
       .notNull()
       .references(() => branch.id, { onDelete: "cascade" }),
     role: varchar("role", { length: 50 }).notNull(),
@@ -68,7 +69,7 @@ export const userTenantMembership = createTable(
     userId: text("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
-    tenantId: serial("tenant_id")
+    tenantId: integer("tenant_id")
       .notNull()
       .references(() => tenant.id, { onDelete: "cascade" }),
     platformRole: varchar("platform_role", { length: 50 })

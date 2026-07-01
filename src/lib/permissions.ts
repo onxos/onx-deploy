@@ -28,6 +28,14 @@ export const PERMISSIONS = [
   "sech:update",
   "user:delete",
   "user:updateRole",
+  // Foundation P0 — org/tenant/RBAC management (OCMBR-003)
+  "org:read",
+  "org:write",
+  "tenant:read",
+  "tenant:write",
+  "rbac:manage",
+  "audit:read",
+  "events:read",
 ] as const;
 
 export type Permission = (typeof PERMISSIONS)[number];
@@ -44,9 +52,22 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "sech:update",
     "user:delete",
     "user:updateRole",
+    "org:read",
+    "org:write",
+    "tenant:read",
+    "tenant:write",
+    "rbac:manage",
+    "audit:read",
+    "events:read",
   ],
-  editor: ["analytics:read", "article:create", "article:update", "gap:update"],
-  operator: ["article:create", "gap:update", "sech:update"],
+  editor: [
+    "analytics:read",
+    "article:create",
+    "article:update",
+    "gap:update",
+    "org:read",
+  ],
+  operator: ["article:create", "gap:update", "sech:update", "org:read"],
   viewer: ["analytics:read"],
   guest: [],
 };
