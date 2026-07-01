@@ -8,6 +8,7 @@ import { arRouter } from "./routers/ar";
 import { attendanceRouter } from "./routers/attendance";
 import { audit_reviewRouter } from "./routers/audit_review";
 import { authRouter } from "./routers/auth";
+import { bankReconciliationRouter } from "./routers/bank-reconciliation";
 import { branchRbacRouter } from "./routers/branch-rbac";
 import { civilizationRouter } from "./routers/civilization";
 import { clinicalRouter } from "./routers/clinical";
@@ -40,6 +41,7 @@ import { payrollRouter } from "./routers/payroll";
 import { performanceRouter } from "./routers/performance";
 import { posRouter } from "./routers/pos";
 import { potentialRouter } from "./routers/potential";
+import { prescriptionRouter } from "./routers/prescription";
 import { procurementRouter } from "./routers/procurement";
 import { procurementPrRouter } from "./routers/procurement-pr";
 import { purchaseOrderRouter } from "./routers/purchase-order";
@@ -50,10 +52,12 @@ import { security_reviewRouter } from "./routers/security_review";
 import { soapNoteRouter } from "./routers/soap-note";
 import { stewardshipRouter } from "./routers/stewardship";
 import { stockMovementRouter } from "./routers/stock-movement";
+import { supplierReturnRouter } from "./routers/supplier-return";
 import { taskRouter } from "./routers/task";
 import { tenantRouter } from "./routers/tenant";
 import { titanRouter } from "./routers/titan";
 import { titan_opsRouter } from "./routers/titan_ops";
+import { treatmentPlanRouter } from "./routers/treatment-plan";
 import { understandingRouter } from "./routers/understanding";
 import { userRouter } from "./routers/user";
 import { vaccinationRouter } from "./routers/vaccination";
@@ -120,6 +124,11 @@ export const appRouter = createTRPCRouter({
   ap: apRouter,
   grn: grnRouter,
   insuranceClaim: insuranceClaimRouter,
+  // Wave 2d
+  bankReconciliation: bankReconciliationRouter,
+  prescription: prescriptionRouter,
+  supplierReturn: supplierReturnRouter,
+  treatmentPlan: treatmentPlanRouter,
 });
 
 export type AppRouter = typeof appRouter;

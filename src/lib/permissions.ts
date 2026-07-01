@@ -108,6 +108,18 @@ export const PERMISSIONS = [
   // Wave 2c — D06-S04 Insurance Claim (OCMBR-005)
   "claim:read",
   "claim:write",
+  // Wave 2d — D09-S04 Treatment Plan (OCMBR-005)
+  "treatment-plan:read",
+  "treatment-plan:write",
+  // Wave 2d — D03-S05 Bank Reconciliation (OCMBR-005)
+  "bank-recon:read",
+  "bank-recon:write",
+  // Wave 2d — D04-S06 Supplier Returns (OCMBR-005)
+  "supplier-return:read",
+  "supplier-return:write",
+  // Wave 2d — D09-S06 Prescription (OCMBR-005)
+  "prescription:read",
+  "prescription:write",
 ] as const;
 
 export type Permission = (typeof PERMISSIONS)[number];
@@ -179,6 +191,14 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "grn:write",
     "claim:read",
     "claim:write",
+    "treatment-plan:read",
+    "treatment-plan:write",
+    "bank-recon:read",
+    "bank-recon:write",
+    "supplier-return:read",
+    "supplier-return:write",
+    "prescription:read",
+    "prescription:write",
   ],
   editor: [
     "analytics:read",
@@ -210,6 +230,10 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "ap:read",
     "grn:read",
     "claim:read",
+    "treatment-plan:read",
+    "bank-recon:read",
+    "supplier-return:read",
+    "prescription:read",
   ],
   operator: [
     "article:create",
@@ -229,6 +253,10 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "item-batch:read",
     "soap-note:read",
     "soap-note:write",
+    "treatment-plan:read",
+    "treatment-plan:write",
+    "prescription:read",
+    "prescription:write",
   ],
   viewer: ["analytics:read"],
   guest: [],

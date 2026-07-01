@@ -57,6 +57,13 @@
       "when": 1751760000000,
       "tag": "0007_wave2c_systems",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1751846400000,
+      "tag": "0008_wave2d_systems",
+      "breakpoints": true
     }
   ]
 }
