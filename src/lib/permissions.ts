@@ -60,6 +60,27 @@ export const PERMISSIONS = [
   // Wave 1 — D08-S01 POS (OCMBR-004)
   "pos:read",
   "pos:write",
+  // Wave 2 — D02-S03 Attendance (OCMBR-005)
+  "attendance:read",
+  "attendance:write",
+  // Wave 2 — D02-S04 Leave (OCMBR-005)
+  "leave:read",
+  "leave:write",
+  // Wave 2 — D03-S03 Accounts Receivable (OCMBR-005)
+  "ar:read",
+  "ar:write",
+  // Wave 2 — D04-S09 Approval Workflow (OCMBR-005)
+  "approval:read",
+  "approval:write",
+  // Wave 2 — D05-S04 Stock Movement (OCMBR-005)
+  "stock:read",
+  "stock:write",
+  // Wave 2 — D09-S02 Appointments (OCMBR-005)
+  "appointment:read",
+  "appointment:write",
+  // Wave 2 — D09-S05 Vaccination (OCMBR-005)
+  "vaccination:read",
+  "vaccination:write",
 ] as const;
 
 export type Permission = (typeof PERMISSIONS)[number];
@@ -99,6 +120,20 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "clinical:write",
     "pos:read",
     "pos:write",
+    "attendance:read",
+    "attendance:write",
+    "leave:read",
+    "leave:write",
+    "ar:read",
+    "ar:write",
+    "approval:read",
+    "approval:write",
+    "stock:read",
+    "stock:write",
+    "appointment:read",
+    "appointment:write",
+    "vaccination:read",
+    "vaccination:write",
   ],
   editor: [
     "analytics:read",
@@ -114,6 +149,13 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "finance:read",
     "clinical:read",
     "pos:read",
+    "attendance:read",
+    "leave:read",
+    "ar:read",
+    "approval:read",
+    "stock:read",
+    "appointment:read",
+    "vaccination:read",
   ],
   operator: [
     "article:create",
@@ -125,6 +167,10 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "clinical:read",
     "pos:read",
     "pos:write",
+    "appointment:read",
+    "appointment:write",
+    "vaccination:read",
+    "stock:read",
   ],
   viewer: ["analytics:read"],
   guest: [],

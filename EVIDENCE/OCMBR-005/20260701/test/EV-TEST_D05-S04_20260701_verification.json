@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-07-01T07:44:55.618Z",
+  "scenarios": [
+    {
+      "id": "D05-S04-SCH-01",
+      "description": "stock movement schema file exists",
+      "pass": true
+    },
+    {
+      "id": "D05-S04-SCH-02",
+      "description": "stockMovement and stockBalance tables exported",
+      "pass": true
+    },
+    {
+      "id": "D05-S04-SVC-01",
+      "description": "stock movement service exists",
+      "pass": true
+    },
+    {
+      "id": "D05-S04-SVC-02",
+      "description": "recordStockMovement function exported",
+      "pass": true
+    },
+    {
+      "id": "D05-S04-API-01",
+      "description": "stock movement router exists",
+      "pass": true
+    },
+    {
+      "id": "D05-S04-API-02",
+      "description": "stockMovementRouter registered in root",
+      "pass": true
+    },
+    {
+      "id": "D05-S04-UI-01",
+      "description": "stock-movements layout exists",
+      "pass": true
+    },
+    {
+      "id": "D05-S04-UI-02",
+      "description": "stock-movements page exists",
+      "pass": true
+    }
+  ]
+}

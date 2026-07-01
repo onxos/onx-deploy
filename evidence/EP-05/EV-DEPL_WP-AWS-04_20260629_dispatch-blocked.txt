@@ -1,0 +1,19 @@
+# Deployment Evidence (Blocked)
+
+Date: 2026-06-29
+Repository: onxos/onx-deploy
+
+## Attempt
+
+Command:
+
+gh workflow run aws-infra-verification.yml --ref chore/aws-oidc-infra-verification
+
+Result:
+
+could not create workflow dispatch event: HTTP 403: Resource not accessible by integration
+
+## Decision
+
+Deployment to staging not executed.
+Stopping immediately per rule: if any verification fails, stop and report evidence.

@@ -1,5 +1,6 @@
 "use client";
 
+import SentinelBadge from "@/components/sech/SentinelBadge";
 import { CollapsibleSidebar } from "./collapsible-sidebar";
 import { ContentArea } from "./content-area";
 import { ErrorBoundary } from "./error-boundary";
@@ -14,6 +15,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <ContentArea>
           <ErrorBoundary>{children}</ErrorBoundary>
         </ContentArea>
+        <SentinelBadge />
       </div>
     </div>
   );
