@@ -31,6 +31,7 @@ export * from "./schema/emergency-resource-foundation";
 export * from "./schema/executive-foundation";
 export * from "./schema/external-lab-foundation";
 export * from "./schema/field-visit-foundation";
+export * from "./schema/finance-extended-foundation";
 export * from "./schema/finance-foundation";
 export * from "./schema/gl-foundation";
 export * from "./schema/governance-foundation";
