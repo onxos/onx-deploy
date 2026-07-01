@@ -1,3 +1,4 @@
+export * from "./schema/ai-decision-foundation";
 export * from "./schema/analyser-device-foundation";
 export * from "./schema/ap-foundation";
 export * from "./schema/appointment-foundation";

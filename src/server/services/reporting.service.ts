@@ -94,3 +94,89 @@ export async function upsertFinanceKpi(
   const [row] = await db.insert(financeDashboardKpi).values(input).returning();
   return row;
 }
+
+// ── HR KPIs (D14-S04) ────────────────────────────────────────────────────────
+
+import type {
+  NewClinicalDirectorKpi,
+  NewHrDashboardKpi,
+  NewInventoryProcurementKpi,
+  NewLoyaltyDashboardKpi,
+} from "@/server/db/schema/reporting-foundation";
+import {
+  clinicalDirectorKpi,
+  hrDashboardKpi,
+  inventoryProcurementKpi,
+  loyaltyDashboardKpi,
+} from "@/server/db/schema/reporting-foundation";
+
+export async function listHrKpis(branchId?: string) {
+  if (branchId) {
+    return db
+      .select()
+      .from(hrDashboardKpi)
+      .where(eq(hrDashboardKpi.branchId, branchId));
+  }
+  return db.select().from(hrDashboardKpi);
+}
+
+export async function upsertHrKpi(
+  input: Omit<NewHrDashboardKpi, "id" | "createdAt">,
+) {
+  const [row] = await db.insert(hrDashboardKpi).values(input).returning();
+  return row;
+}
+
+export async function listClinicalDirectorKpis(branchId?: string) {
+  if (branchId) {
+    return db
+      .select()
+      .from(clinicalDirectorKpi)
+      .where(eq(clinicalDirectorKpi.branchId, branchId));
+  }
+  return db.select().from(clinicalDirectorKpi);
+}
+
+export async function upsertClinicalDirectorKpi(
+  input: Omit<NewClinicalDirectorKpi, "id" | "createdAt">,
+) {
+  const [row] = await db.insert(clinicalDirectorKpi).values(input).returning();
+  return row;
+}
+
+export async function listInventoryKpis(branchId?: string) {
+  if (branchId) {
+    return db
+      .select()
+      .from(inventoryProcurementKpi)
+      .where(eq(inventoryProcurementKpi.branchId, branchId));
+  }
+  return db.select().from(inventoryProcurementKpi);
+}
+
+export async function upsertInventoryKpi(
+  input: Omit<NewInventoryProcurementKpi, "id" | "createdAt">,
+) {
+  const [row] = await db
+    .insert(inventoryProcurementKpi)
+    .values(input)
+    .returning();
+  return row;
+}
+
+export async function listLoyaltyKpis(branchId?: string) {
+  if (branchId) {
+    return db
+      .select()
+      .from(loyaltyDashboardKpi)
+      .where(eq(loyaltyDashboardKpi.branchId, branchId));
+  }
+  return db.select().from(loyaltyDashboardKpi);
+}
+
+export async function upsertLoyaltyKpi(
+  input: Omit<NewLoyaltyDashboardKpi, "id" | "createdAt">,
+) {
+  const [row] = await db.insert(loyaltyDashboardKpi).values(input).returning();
+  return row;
+}
