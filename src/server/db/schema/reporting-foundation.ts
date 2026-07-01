@@ -247,3 +247,98 @@ export type NewInventoryProcurementKpi =
   typeof inventoryProcurementKpi.$inferInsert;
 export type LoyaltyDashboardKpi = typeof loyaltyDashboardKpi.$inferSelect;
 export type NewLoyaltyDashboardKpi = typeof loyaltyDashboardKpi.$inferInsert;
+
+// D14-S08 Compliance & Audit Dashboard KPIs
+export const complianceDashboardKpi = createTable(
+  "compliance_dashboard_kpi",
+  {
+    id: serial("id").primaryKey(),
+    branchId: varchar("branch_id", { length: 100 }),
+    periodLabel: varchar("period_label", { length: 50 }).notNull(),
+    openAuditFindings: numeric("open_audit_findings", {
+      precision: 8,
+      scale: 0,
+    }),
+    overdueCapas: numeric("overdue_capas", { precision: 8, scale: 0 }),
+    expiringLicences: numeric("expiring_licences", { precision: 8, scale: 0 }),
+    openIncidents: numeric("open_incidents", { precision: 8, scale: 0 }),
+    highRiskItems: numeric("high_risk_items", { precision: 8, scale: 0 }),
+    policyAcknowledgementRate: numeric("policy_acknowledgement_rate", {
+      precision: 8,
+      scale: 4,
+    }),
+    metadata: jsonb("metadata"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+  },
+  (table) => [
+    index("onx_compliance_kpi_period_idx").on(table.periodLabel),
+    index("onx_compliance_kpi_branch_idx").on(table.branchId),
+  ],
+);
+
+// D14-S09 Custom Report Builder
+export const customReport = createTable(
+  "custom_report",
+  {
+    id: serial("id").primaryKey(),
+    name: varchar("name", { length: 150 }).notNull(),
+    description: text("description"),
+    queryConfig: jsonb("query_config").notNull(),
+    columns: jsonb("columns").notNull(),
+    filters: jsonb("filters"),
+    createdBy: varchar("created_by", { length: 255 }).notNull(),
+    isShared: text("is_shared").default("false").notNull(),
+    lastRunAt: timestamp("last_run_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+  },
+  (table) => [
+    index("onx_custom_report_creator_idx").on(table.createdBy),
+    index("onx_custom_report_shared_idx").on(table.isShared),
+  ],
+);
+
+// D15-S05 Consolidated Reporting Toggle
+export const consolidatedReportConfig = createTable(
+  "consolidated_report_config",
+  {
+    id: serial("id").primaryKey(),
+    tenantId: varchar("tenant_id", { length: 100 }),
+    reportType: varchar("report_type", { length: 100 }).notNull(),
+    consolidationMode: varchar("consolidation_mode", { length: 30 })
+      .default("CONSOLIDATED")
+      .notNull(),
+    includedBranchIds: jsonb("included_branch_ids"),
+    excludedBranchIds: jsonb("excluded_branch_ids"),
+    currencyCode: varchar("currency_code", { length: 10 })
+      .default("USD")
+      .notNull(),
+    isActive: text("is_active").default("true").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+  },
+  (table) => [
+    index("onx_consol_config_tenant_idx").on(table.tenantId),
+    index("onx_consol_config_type_idx").on(table.reportType),
+  ],
+);
+
+export type ComplianceDashboardKpi = typeof complianceDashboardKpi.$inferSelect;
+export type NewComplianceDashboardKpi =
+  typeof complianceDashboardKpi.$inferInsert;
+export type CustomReport = typeof customReport.$inferSelect;
+export type NewCustomReport = typeof customReport.$inferInsert;
+export type ConsolidatedReportConfig =
+  typeof consolidatedReportConfig.$inferSelect;
+export type NewConsolidatedReportConfig =
+  typeof consolidatedReportConfig.$inferInsert;

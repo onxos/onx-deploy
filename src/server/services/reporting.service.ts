@@ -180,3 +180,105 @@ export async function upsertLoyaltyKpi(
   const [row] = await db.insert(loyaltyDashboardKpi).values(input).returning();
   return row;
 }
+
+// ── Compliance KPIs (D14-S08) ─────────────────────────────────────────────────
+
+import type {
+  NewComplianceDashboardKpi,
+  NewConsolidatedReportConfig,
+  NewCustomReport,
+} from "@/server/db/schema/reporting-foundation";
+import {
+  complianceDashboardKpi,
+  consolidatedReportConfig,
+  customReport,
+} from "@/server/db/schema/reporting-foundation";
+
+export async function listComplianceKpis(branchId?: string) {
+  if (branchId) {
+    return db
+      .select()
+      .from(complianceDashboardKpi)
+      .where(eq(complianceDashboardKpi.branchId, branchId));
+  }
+  return db.select().from(complianceDashboardKpi);
+}
+
+export async function upsertComplianceKpi(
+  input: Omit<NewComplianceDashboardKpi, "id" | "createdAt">,
+) {
+  const [row] = await db
+    .insert(complianceDashboardKpi)
+    .values(input)
+    .returning();
+  return row;
+}
+
+// ── Custom Reports (D14-S09) ──────────────────────────────────────────────────
+
+export async function listCustomReports(createdBy?: string) {
+  if (createdBy) {
+    return db
+      .select()
+      .from(customReport)
+      .where(eq(customReport.createdBy, createdBy));
+  }
+  return db.select().from(customReport);
+}
+
+export async function createCustomReport(
+  input: Omit<NewCustomReport, "id" | "createdAt" | "updatedAt">,
+) {
+  const [row] = await db.insert(customReport).values(input).returning();
+  return row;
+}
+
+export async function updateCustomReport(
+  id: number,
+  patch: Partial<Omit<NewCustomReport, "id" | "createdAt">>,
+) {
+  const [row] = await db
+    .update(customReport)
+    .set({ ...patch, updatedAt: new Date() })
+    .where(eq(customReport.id, id))
+    .returning();
+  return row;
+}
+
+export async function deleteCustomReport(id: number) {
+  return db.delete(customReport).where(eq(customReport.id, id));
+}
+
+// ── Consolidated Report Config (D15-S05) ─────────────────────────────────────
+
+export async function listConsolidatedConfigs(tenantId?: string) {
+  if (tenantId) {
+    return db
+      .select()
+      .from(consolidatedReportConfig)
+      .where(eq(consolidatedReportConfig.tenantId, tenantId));
+  }
+  return db.select().from(consolidatedReportConfig);
+}
+
+export async function createConsolidatedConfig(
+  input: Omit<NewConsolidatedReportConfig, "id" | "createdAt" | "updatedAt">,
+) {
+  const [row] = await db
+    .insert(consolidatedReportConfig)
+    .values(input)
+    .returning();
+  return row;
+}
+
+export async function updateConsolidatedConfig(
+  id: number,
+  patch: Partial<Omit<NewConsolidatedReportConfig, "id" | "createdAt">>,
+) {
+  const [row] = await db
+    .update(consolidatedReportConfig)
+    .set({ ...patch, updatedAt: new Date() })
+    .where(eq(consolidatedReportConfig.id, id))
+    .returning();
+  return row;
+}

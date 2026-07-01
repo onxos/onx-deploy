@@ -76,6 +76,7 @@ import { prescriptionRouter } from "./routers/prescription";
 import { procurementRouter } from "./routers/procurement";
 import { procurementPrRouter } from "./routers/procurement-pr";
 import { purchaseOrderRouter } from "./routers/purchase-order";
+import { recommendationRouter } from "./routers/recommendation";
 import { recruitmentRouter } from "./routers/recruitment";
 import { referralRouter } from "./routers/referral";
 import { regulatoryRegisterRouter } from "./routers/regulatory-register";
@@ -229,6 +230,8 @@ export const appRouter = createTRPCRouter({
   reporting: reportingRouter,
   // Wave 10
   aiDecision: aiDecisionRouter,
+  // Wave 11
+  recommendation: recommendationRouter,
 });
 
 export type AppRouter = typeof appRouter;

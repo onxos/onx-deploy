@@ -194,4 +194,99 @@ export const reportingRouter = createTRPCRouter({
       }),
     )
     .mutation(({ input }) => svc.upsertLoyaltyKpi(input)),
+
+  // ── Compliance KPIs (D14-S08) ──────────────────────────────────────────────
+  listComplianceKpis: protectedProcedure
+    .use(requirePermission("reporting:read"))
+    .input(z.object({ branchId: z.string().optional() }))
+    .query(({ input }) => svc.listComplianceKpis(input.branchId)),
+
+  upsertComplianceKpi: protectedProcedure
+    .use(requirePermission("reporting:write"))
+    .input(
+      z.object({
+        branchId: z.string().optional(),
+        periodLabel: z.string().min(1).max(50),
+        openAuditFindings: numericStr.optional(),
+        overdueCapas: numericStr.optional(),
+        expiringLicences: numericStr.optional(),
+        openIncidents: numericStr.optional(),
+        highRiskItems: numericStr.optional(),
+        policyAcknowledgementRate: numericStr.optional(),
+        metadata: z.record(z.string(), z.unknown()).optional(),
+      }),
+    )
+    .mutation(({ input }) => svc.upsertComplianceKpi(input)),
+
+  // ── Custom Report Builder (D14-S09) ────────────────────────────────────────
+  listCustomReports: protectedProcedure
+    .use(requirePermission("reporting:read"))
+    .input(z.object({ createdBy: z.string().optional() }))
+    .query(({ input }) => svc.listCustomReports(input.createdBy)),
+
+  createCustomReport: protectedProcedure
+    .use(requirePermission("reporting:write"))
+    .input(
+      z.object({
+        name: z.string().min(1).max(150),
+        description: z.string().optional(),
+        queryConfig: z.record(z.string(), z.unknown()),
+        columns: z.array(z.string()),
+        filters: z.record(z.string(), z.unknown()).optional(),
+        createdBy: z.string().min(1),
+        isShared: z.boolean().default(false),
+      }),
+    )
+    .mutation(({ input }) =>
+      svc.createCustomReport({ ...input, isShared: String(input.isShared) }),
+    ),
+
+  updateCustomReport: protectedProcedure
+    .use(requirePermission("reporting:write"))
+    .input(
+      z.object({
+        id: z.number().int().positive(),
+        name: z.string().min(1).max(150).optional(),
+        description: z.string().optional(),
+      }),
+    )
+    .mutation(({ input }) => {
+      const { id, ...patch } = input;
+      return svc.updateCustomReport(id, patch);
+    }),
+
+  deleteCustomReport: protectedProcedure
+    .use(requirePermission("reporting:write"))
+    .input(z.object({ id: z.number().int().positive() }))
+    .mutation(({ input }) => svc.deleteCustomReport(input.id)),
+
+  // ── Consolidated Report Config (D15-S05) ───────────────────────────────────
+  listConsolidatedConfigs: protectedProcedure
+    .use(requirePermission("reporting:read"))
+    .input(z.object({ tenantId: z.string().optional() }))
+    .query(({ input }) => svc.listConsolidatedConfigs(input.tenantId)),
+
+  createConsolidatedConfig: protectedProcedure
+    .use(requirePermission("reporting:write"))
+    .input(
+      z.object({
+        tenantId: z.string().optional(),
+        reportType: z.string().min(1).max(100),
+        consolidationMode: z
+          .enum(["CONSOLIDATED", "BRANCH", "BRAND"])
+          .default("CONSOLIDATED"),
+        includedBranchIds: z.array(z.string()).optional(),
+        excludedBranchIds: z.array(z.string()).optional(),
+        currencyCode: z.string().max(10).default("USD"),
+        isActive: z.boolean().default(true),
+      }),
+    )
+    .mutation(({ input }) =>
+      svc.createConsolidatedConfig({
+        ...input,
+        isActive: String(input.isActive),
+        includedBranchIds: input.includedBranchIds,
+        excludedBranchIds: input.excludedBranchIds,
+      }),
+    ),
 });
