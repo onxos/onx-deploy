@@ -51,9 +51,11 @@ import { institutionRouter } from "./routers/institution";
 import { insuranceRouter } from "./routers/insurance";
 import { insuranceClaimRouter } from "./routers/insurance-claim";
 import { insurancePolicyRouter } from "./routers/insurance-policy";
+import { integrationContractRouter } from "./routers/integration-contract";
 import { inventoryRouter } from "./routers/inventory";
 import { inventoryLocationRouter } from "./routers/inventory-location";
 import { itemBatchRouter } from "./routers/item-batch";
+import { jobQueueRouter } from "./routers/job-queue";
 import { judgmentRouter } from "./routers/judgment";
 import { labResultHistoryRouter } from "./routers/lab-result-history";
 import { labTestRouter } from "./routers/lab-test";
@@ -61,6 +63,7 @@ import { launchRouter } from "./routers/launch";
 import { leaveRouter } from "./routers/leave";
 import { licenceCertificateRouter } from "./routers/licence-certificate";
 import { mobileClinicRouter } from "./routers/mobile-clinic";
+import { multibranchRouter } from "./routers/multibranch";
 import { oncallScheduleRouter } from "./routers/oncall-schedule";
 import { operationsRouter } from "./routers/operations";
 import { orgRouter } from "./routers/org";
@@ -232,6 +235,10 @@ export const appRouter = createTRPCRouter({
   aiDecision: aiDecisionRouter,
   // Wave 11
   recommendation: recommendationRouter,
+  // Wave 12
+  multibranch: multibranchRouter,
+  integrationContract: integrationContractRouter,
+  jobQueue: jobQueueRouter,
 });
 
 export type AppRouter = typeof appRouter;
