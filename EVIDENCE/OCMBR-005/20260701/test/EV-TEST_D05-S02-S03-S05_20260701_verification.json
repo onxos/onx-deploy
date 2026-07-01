@@ -1,0 +1,80 @@
+{
+  "timestamp": "2026-07-01T08:04:31.079Z",
+  "scenarios": [
+    {
+      "id": "D05-S02-SCH-01",
+      "description": "inventory location schema exists",
+      "pass": true
+    },
+    {
+      "id": "D05-S02-SVC-01",
+      "description": "inventory location service exists",
+      "pass": true
+    },
+    {
+      "id": "D05-S02-API-01",
+      "description": "inventory location router exists",
+      "pass": true
+    },
+    {
+      "id": "D05-S02-UI-01",
+      "description": "inventory-locations page exists",
+      "pass": true
+    },
+    {
+      "id": "D05-S03-SCH-01",
+      "description": "item batch schema exists",
+      "pass": true
+    },
+    {
+      "id": "D05-S03-SVC-01",
+      "description": "item batch service exists",
+      "pass": true
+    },
+    {
+      "id": "D05-S03-API-01",
+      "description": "item batch router exists",
+      "pass": true
+    },
+    {
+      "id": "D05-S03-UI-01",
+      "description": "item-batches page exists",
+      "pass": true
+    },
+    {
+      "id": "D05-S05-SCH-01",
+      "description": "reorder schema exists",
+      "pass": true
+    },
+    {
+      "id": "D05-S05-SVC-01",
+      "description": "reorder service exists",
+      "pass": true
+    },
+    {
+      "id": "D05-S05-API-01",
+      "description": "reorder router exists",
+      "pass": true
+    },
+    {
+      "id": "D05-S05-UI-01",
+      "description": "reorder page exists",
+      "pass": true
+    },
+    {
+      "id": "D05-S02-API-02",
+      "description": "inventoryLocationRouter in root",
+      "pass": true
+    },
+    {
+      "id": "D05-S03-API-02",
+      "description": "itemBatchRouter in root",
+      "pass": true
+    },
+    {
+      "id": "D05-S05-API-02",
+      "description": "reorderRouter in root",
+      "pass": true
+    }
+  ]
+}

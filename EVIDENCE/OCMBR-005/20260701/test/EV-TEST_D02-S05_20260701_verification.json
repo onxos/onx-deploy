@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-07-01T08:04:30.969Z",
+  "scenarios": [
+    {
+      "id": "D02-S05-SCH-01",
+      "description": "payroll schema file exists",
+      "pass": true
+    },
+    {
+      "id": "D02-S05-SCH-02",
+      "description": "payrollRun and payrollLine tables exported",
+      "pass": true
+    },
+    {
+      "id": "D02-S05-SVC-01",
+      "description": "payroll service exists",
+      "pass": true
+    },
+    {
+      "id": "D02-S05-SVC-02",
+      "description": "createPayrollRun function exported",
+      "pass": true
+    },
+    {
+      "id": "D02-S05-API-01",
+      "description": "payroll router exists",
+      "pass": true
+    },
+    {
+      "id": "D02-S05-API-02",
+      "description": "payrollRouter registered in root",
+      "pass": true
+    },
+    {
+      "id": "D02-S05-UI-01",
+      "description": "payroll layout exists",
+      "pass": true
+    },
+    {
+      "id": "D02-S05-UI-02",
+      "description": "payroll page exists",
+      "pass": true
+    }
+  ]
+}

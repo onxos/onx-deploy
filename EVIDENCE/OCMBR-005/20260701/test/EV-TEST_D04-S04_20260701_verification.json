@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-07-01T08:04:31.028Z",
+  "scenarios": [
+    {
+      "id": "D04-S04-SCH-01",
+      "description": "purchase order schema file exists",
+      "pass": true
+    },
+    {
+      "id": "D04-S04-SCH-02",
+      "description": "purchaseOrder and poLine tables exported",
+      "pass": true
+    },
+    {
+      "id": "D04-S04-SVC-01",
+      "description": "purchase order service exists",
+      "pass": true
+    },
+    {
+      "id": "D04-S04-SVC-02",
+      "description": "createPurchaseOrder function exported",
+      "pass": true
+    },
+    {
+      "id": "D04-S04-API-01",
+      "description": "purchase order router exists",
+      "pass": true
+    },
+    {
+      "id": "D04-S04-API-02",
+      "description": "purchaseOrderRouter registered in root",
+      "pass": true
+    },
+    {
+      "id": "D04-S04-UI-01",
+      "description": "purchase-orders layout exists",
+      "pass": true
+    },
+    {
+      "id": "D04-S04-UI-02",
+      "description": "purchase-orders page exists",
+      "pass": true
+    }
+  ]
+}
