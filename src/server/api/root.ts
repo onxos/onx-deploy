@@ -22,6 +22,7 @@ import { clinicalOutcomeRouter } from "./routers/clinical-outcome";
 import { consentFormRouter } from "./routers/consent-form";
 import { crmRouter } from "./routers/crm";
 import { data_governanceRouter } from "./routers/data_governance";
+import { dataPrivacyRouter } from "./routers/data-privacy";
 import { dicomStudyRouter } from "./routers/dicom-study";
 import { discountRouter } from "./routers/discount";
 import { dreamRouter } from "./routers/dream";
@@ -39,6 +40,7 @@ import { goalRouter } from "./routers/goal";
 import { grnRouter } from "./routers/grn";
 import { hrRouter } from "./routers/hr";
 import { imagingRequestRouter } from "./routers/imaging-request";
+import { incidentReportRouter } from "./routers/incident-report";
 import { inpatientRouter } from "./routers/inpatient";
 import { institutionRouter } from "./routers/institution";
 import { insuranceRouter } from "./routers/insurance";
@@ -61,6 +63,7 @@ import { outcomeRouter } from "./routers/outcome";
 import { payrollRouter } from "./routers/payroll";
 import { performanceRouter } from "./routers/performance";
 import { petProfileRouter } from "./routers/pet-profile";
+import { policyDocumentRouter } from "./routers/policy-document";
 import { posRouter } from "./routers/pos";
 import { posReceiptRouter } from "./routers/pos-receipt";
 import { potentialRouter } from "./routers/potential";
@@ -73,6 +76,7 @@ import { referralRouter } from "./routers/referral";
 import { regulatoryRegisterRouter } from "./routers/regulatory-register";
 import { release_mgmtRouter } from "./routers/release_mgmt";
 import { reorderRouter } from "./routers/reorder";
+import { riskRegisterRouter } from "./routers/risk-register";
 import { sechRouter } from "./routers/sech";
 import { security_reviewRouter } from "./routers/security_review";
 import { shiftManagementRouter } from "./routers/shift-management";
@@ -87,6 +91,7 @@ import { telvetSessionRouter } from "./routers/televet-session";
 import { tenantRouter } from "./routers/tenant";
 import { titanRouter } from "./routers/titan";
 import { titan_opsRouter } from "./routers/titan_ops";
+import { trainingRouter } from "./routers/training";
 import { treatmentPlanRouter } from "./routers/treatment-plan";
 import { understandingRouter } from "./routers/understanding";
 import { userRouter } from "./routers/user";
@@ -195,6 +200,12 @@ export const appRouter = createTRPCRouter({
   availability: availabilityRouter,
   emergencyResource: emergencyResourceRouter,
   oncallSchedule: oncallScheduleRouter,
+  // Wave 7
+  dataPrivacy: dataPrivacyRouter,
+  incidentReport: incidentReportRouter,
+  policyDocument: policyDocumentRouter,
+  riskRegister: riskRegisterRouter,
+  training: trainingRouter,
 });
 
 export type AppRouter = typeof appRouter;
