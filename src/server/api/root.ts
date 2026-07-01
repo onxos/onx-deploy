@@ -10,6 +10,8 @@ import { audit_reviewRouter } from "./routers/audit_review";
 import { authRouter } from "./routers/auth";
 import { bankReconciliationRouter } from "./routers/bank-reconciliation";
 import { branchRbacRouter } from "./routers/branch-rbac";
+import { cashReconciliationRouter } from "./routers/cash-reconciliation";
+import { catalogueRouter } from "./routers/catalogue";
 import { civilizationRouter } from "./routers/civilization";
 import { clinicalRouter } from "./routers/clinical";
 import { crmRouter } from "./routers/crm";
@@ -39,16 +41,19 @@ import { orgRouter } from "./routers/org";
 import { outcomeRouter } from "./routers/outcome";
 import { payrollRouter } from "./routers/payroll";
 import { performanceRouter } from "./routers/performance";
+import { petProfileRouter } from "./routers/pet-profile";
 import { posRouter } from "./routers/pos";
 import { potentialRouter } from "./routers/potential";
 import { prescriptionRouter } from "./routers/prescription";
 import { procurementRouter } from "./routers/procurement";
 import { procurementPrRouter } from "./routers/procurement-pr";
 import { purchaseOrderRouter } from "./routers/purchase-order";
+import { recruitmentRouter } from "./routers/recruitment";
 import { release_mgmtRouter } from "./routers/release_mgmt";
 import { reorderRouter } from "./routers/reorder";
 import { sechRouter } from "./routers/sech";
 import { security_reviewRouter } from "./routers/security_review";
+import { shiftManagementRouter } from "./routers/shift-management";
 import { soapNoteRouter } from "./routers/soap-note";
 import { stewardshipRouter } from "./routers/stewardship";
 import { stockMovementRouter } from "./routers/stock-movement";
@@ -129,6 +134,12 @@ export const appRouter = createTRPCRouter({
   prescription: prescriptionRouter,
   supplierReturn: supplierReturnRouter,
   treatmentPlan: treatmentPlanRouter,
+  // Wave 2e
+  catalogue: catalogueRouter,
+  cashReconciliation: cashReconciliationRouter,
+  petProfile: petProfileRouter,
+  recruitment: recruitmentRouter,
+  shiftManagement: shiftManagementRouter,
 });
 
 export type AppRouter = typeof appRouter;
