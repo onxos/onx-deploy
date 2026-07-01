@@ -4,6 +4,7 @@ import { analyserDeviceRouter } from "./routers/analyser-device";
 import { analyticsRouter } from "./routers/analytics";
 import { apRouter } from "./routers/ap";
 import { appointmentRouter } from "./routers/appointment";
+import { appraisalRouter } from "./routers/appraisal";
 import { approvalRouter } from "./routers/approval";
 import { arRouter } from "./routers/ar";
 import { attendanceRouter } from "./routers/attendance";
@@ -18,11 +19,13 @@ import { cashReconciliationRouter } from "./routers/cash-reconciliation";
 import { catalogueRouter } from "./routers/catalogue";
 import { civilizationRouter } from "./routers/civilization";
 import { clinicalRouter } from "./routers/clinical";
+import { clinicalAnalyticsRouter } from "./routers/clinical-analytics";
 import { clinicalOutcomeRouter } from "./routers/clinical-outcome";
 import { consentFormRouter } from "./routers/consent-form";
 import { crmRouter } from "./routers/crm";
 import { data_governanceRouter } from "./routers/data_governance";
 import { dataPrivacyRouter } from "./routers/data-privacy";
+import { developmentPlanRouter } from "./routers/development-plan";
 import { dicomStudyRouter } from "./routers/dicom-study";
 import { discountRouter } from "./routers/discount";
 import { dreamRouter } from "./routers/dream";
@@ -83,6 +86,7 @@ import { shiftManagementRouter } from "./routers/shift-management";
 import { soapNoteRouter } from "./routers/soap-note";
 import { stewardshipRouter } from "./routers/stewardship";
 import { stockMovementRouter } from "./routers/stock-movement";
+import { successionRouter } from "./routers/succession";
 import { supplierReturnRouter } from "./routers/supplier-return";
 import { surgicalTheatreRouter } from "./routers/surgical-theatre";
 import { taskRouter } from "./routers/task";
@@ -96,6 +100,7 @@ import { treatmentPlanRouter } from "./routers/treatment-plan";
 import { understandingRouter } from "./routers/understanding";
 import { userRouter } from "./routers/user";
 import { vaccinationRouter } from "./routers/vaccination";
+import { workforceAnalyticsRouter } from "./routers/workforce-analytics";
 
 export const appRouter = createTRPCRouter({
   admin: adminRouter,
@@ -206,6 +211,12 @@ export const appRouter = createTRPCRouter({
   policyDocument: policyDocumentRouter,
   riskRegister: riskRegisterRouter,
   training: trainingRouter,
+  // Wave 8
+  appraisal: appraisalRouter,
+  clinicalAnalytics: clinicalAnalyticsRouter,
+  developmentPlan: developmentPlanRouter,
+  succession: successionRouter,
+  workforceAnalytics: workforceAnalyticsRouter,
 });
 
 export type AppRouter = typeof appRouter;
