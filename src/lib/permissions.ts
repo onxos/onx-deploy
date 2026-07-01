@@ -20,6 +20,7 @@ export const ROLE_LEVELS: Record<Role, number> = {
 
 export const PERMISSIONS = [
   "admin:read",
+  "admin:write",
   "analytics:read",
   "article:create",
   "article:update",
@@ -210,6 +211,7 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
   founder: PERMISSIONS,
   admin: [
     "admin:read",
+    "admin:write",
     "analytics:read",
     "article:create",
     "article:update",

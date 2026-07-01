@@ -36,6 +36,7 @@ import { emergencyResourceRouter } from "./routers/emergency-resource";
 import { enablementRouter } from "./routers/enablement";
 import { eventOutboxRouter } from "./routers/event-outbox";
 import { evolutionRouter } from "./routers/evolution";
+import { executiveRouter } from "./routers/executive";
 import { externalLabRouter } from "./routers/external-lab";
 import { fieldVisitRouter } from "./routers/field-visit";
 import { financeRouter } from "./routers/finance";
@@ -239,6 +240,8 @@ export const appRouter = createTRPCRouter({
   multibranch: multibranchRouter,
   integrationContract: integrationContractRouter,
   jobQueue: jobQueueRouter,
+  // Wave 13
+  executiveGov: executiveRouter,
 });
 
 export type AppRouter = typeof appRouter;
