@@ -19,6 +19,7 @@ import { clinicalOutcomeRouter } from "./routers/clinical-outcome";
 import { consentFormRouter } from "./routers/consent-form";
 import { crmRouter } from "./routers/crm";
 import { data_governanceRouter } from "./routers/data_governance";
+import { dicomStudyRouter } from "./routers/dicom-study";
 import { discountRouter } from "./routers/discount";
 import { dreamRouter } from "./routers/dream";
 import { editorialRouter } from "./routers/editorial";
@@ -31,6 +32,7 @@ import { glRouter } from "./routers/gl";
 import { goalRouter } from "./routers/goal";
 import { grnRouter } from "./routers/grn";
 import { hrRouter } from "./routers/hr";
+import { imagingRequestRouter } from "./routers/imaging-request";
 import { inpatientRouter } from "./routers/inpatient";
 import { institutionRouter } from "./routers/institution";
 import { insuranceRouter } from "./routers/insurance";
@@ -40,6 +42,7 @@ import { inventoryRouter } from "./routers/inventory";
 import { inventoryLocationRouter } from "./routers/inventory-location";
 import { itemBatchRouter } from "./routers/item-batch";
 import { judgmentRouter } from "./routers/judgment";
+import { labResultHistoryRouter } from "./routers/lab-result-history";
 import { labTestRouter } from "./routers/lab-test";
 import { launchRouter } from "./routers/launch";
 import { leaveRouter } from "./routers/leave";
@@ -69,6 +72,8 @@ import { stockMovementRouter } from "./routers/stock-movement";
 import { supplierReturnRouter } from "./routers/supplier-return";
 import { surgicalTheatreRouter } from "./routers/surgical-theatre";
 import { taskRouter } from "./routers/task";
+import { telvetMedicalNoteRouter } from "./routers/televet-medical-note";
+import { telvetSessionRouter } from "./routers/televet-session";
 import { tenantRouter } from "./routers/tenant";
 import { titanRouter } from "./routers/titan";
 import { titan_opsRouter } from "./routers/titan_ops";
@@ -162,6 +167,12 @@ export const appRouter = createTRPCRouter({
   consentForm: consentFormRouter,
   externalLab: externalLabRouter,
   labTest: labTestRouter,
+  // Wave 4
+  dicomStudy: dicomStudyRouter,
+  imagingRequest: imagingRequestRouter,
+  labResultHistory: labResultHistoryRouter,
+  telvetMedicalNote: telvetMedicalNoteRouter,
+  telvetSession: telvetSessionRouter,
 });
 
 export type AppRouter = typeof appRouter;
