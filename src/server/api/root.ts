@@ -1,6 +1,7 @@
 import { createTRPCRouter } from "@/server/api/trpc";
 import { adminRouter } from "./routers/admin";
 import { analyticsRouter } from "./routers/analytics";
+import { apRouter } from "./routers/ap";
 import { appointmentRouter } from "./routers/appointment";
 import { approvalRouter } from "./routers/approval";
 import { arRouter } from "./routers/ar";
@@ -20,9 +21,11 @@ import { financeRouter } from "./routers/finance";
 import { gapRouter } from "./routers/gap";
 import { glRouter } from "./routers/gl";
 import { goalRouter } from "./routers/goal";
+import { grnRouter } from "./routers/grn";
 import { hrRouter } from "./routers/hr";
 import { institutionRouter } from "./routers/institution";
 import { insuranceRouter } from "./routers/insurance";
+import { insuranceClaimRouter } from "./routers/insurance-claim";
 import { insurancePolicyRouter } from "./routers/insurance-policy";
 import { inventoryRouter } from "./routers/inventory";
 import { inventoryLocationRouter } from "./routers/inventory-location";
@@ -113,6 +116,10 @@ export const appRouter = createTRPCRouter({
   purchaseOrder: purchaseOrderRouter,
   reorder: reorderRouter,
   soapNote: soapNoteRouter,
+  // Wave 2c
+  ap: apRouter,
+  grn: grnRouter,
+  insuranceClaim: insuranceClaimRouter,
 });
 
 export type AppRouter = typeof appRouter;
