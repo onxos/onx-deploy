@@ -16,6 +16,7 @@ import { civilizationRouter } from "./routers/civilization";
 import { clinicalRouter } from "./routers/clinical";
 import { crmRouter } from "./routers/crm";
 import { data_governanceRouter } from "./routers/data_governance";
+import { discountRouter } from "./routers/discount";
 import { dreamRouter } from "./routers/dream";
 import { editorialRouter } from "./routers/editorial";
 import { enablementRouter } from "./routers/enablement";
@@ -26,6 +27,7 @@ import { glRouter } from "./routers/gl";
 import { goalRouter } from "./routers/goal";
 import { grnRouter } from "./routers/grn";
 import { hrRouter } from "./routers/hr";
+import { inpatientRouter } from "./routers/inpatient";
 import { institutionRouter } from "./routers/institution";
 import { insuranceRouter } from "./routers/insurance";
 import { insuranceClaimRouter } from "./routers/insurance-claim";
@@ -43,12 +45,14 @@ import { payrollRouter } from "./routers/payroll";
 import { performanceRouter } from "./routers/performance";
 import { petProfileRouter } from "./routers/pet-profile";
 import { posRouter } from "./routers/pos";
+import { posReceiptRouter } from "./routers/pos-receipt";
 import { potentialRouter } from "./routers/potential";
 import { prescriptionRouter } from "./routers/prescription";
 import { procurementRouter } from "./routers/procurement";
 import { procurementPrRouter } from "./routers/procurement-pr";
 import { purchaseOrderRouter } from "./routers/purchase-order";
 import { recruitmentRouter } from "./routers/recruitment";
+import { referralRouter } from "./routers/referral";
 import { release_mgmtRouter } from "./routers/release_mgmt";
 import { reorderRouter } from "./routers/reorder";
 import { sechRouter } from "./routers/sech";
@@ -58,6 +62,7 @@ import { soapNoteRouter } from "./routers/soap-note";
 import { stewardshipRouter } from "./routers/stewardship";
 import { stockMovementRouter } from "./routers/stock-movement";
 import { supplierReturnRouter } from "./routers/supplier-return";
+import { surgicalTheatreRouter } from "./routers/surgical-theatre";
 import { taskRouter } from "./routers/task";
 import { tenantRouter } from "./routers/tenant";
 import { titanRouter } from "./routers/titan";
@@ -140,6 +145,12 @@ export const appRouter = createTRPCRouter({
   petProfile: petProfileRouter,
   recruitment: recruitmentRouter,
   shiftManagement: shiftManagementRouter,
+  // Wave 2f
+  discount: discountRouter,
+  inpatient: inpatientRouter,
+  posReceipt: posReceiptRouter,
+  referral: referralRouter,
+  surgicalTheatre: surgicalTheatreRouter,
 });
 
 export type AppRouter = typeof appRouter;

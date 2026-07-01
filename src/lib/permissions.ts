@@ -135,6 +135,21 @@ export const PERMISSIONS = [
   // Wave 2e — D07-S02 Pet Profile (OCMBR-005)
   "pet-profile:read",
   "pet-profile:write",
+  // Wave 2f — D09-S07 Surgical Theatre (OCMBR-005)
+  "surgical:read",
+  "surgical:write",
+  // Wave 2f — D09-S08 Hospitalisation (OCMBR-005)
+  "inpatient:read",
+  "inpatient:write",
+  // Wave 2f — D09-S09 Referral Management (OCMBR-005)
+  "referral:read",
+  "referral:write",
+  // Wave 2f — D08-S03 Discount & Coupon Engine (OCMBR-005)
+  "discount:read",
+  "discount:write",
+  // Wave 2f — D08-S04 Receipt & Invoice (OCMBR-005)
+  "receipt:read",
+  "receipt:write",
 ] as const;
 
 export type Permission = (typeof PERMISSIONS)[number];
@@ -224,6 +239,16 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "recruitment:write",
     "pet-profile:read",
     "pet-profile:write",
+    "surgical:read",
+    "surgical:write",
+    "inpatient:read",
+    "inpatient:write",
+    "referral:read",
+    "referral:write",
+    "discount:read",
+    "discount:write",
+    "receipt:read",
+    "receipt:write",
   ],
   editor: [
     "analytics:read",
@@ -264,6 +289,11 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "shift-mgmt:read",
     "recruitment:read",
     "pet-profile:read",
+    "surgical:read",
+    "inpatient:read",
+    "referral:read",
+    "discount:read",
+    "receipt:read",
   ],
   operator: [
     "article:create",
@@ -293,6 +323,14 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "shift-mgmt:write",
     "pet-profile:read",
     "pet-profile:write",
+    "surgical:read",
+    "surgical:write",
+    "inpatient:read",
+    "inpatient:write",
+    "referral:read",
+    "referral:write",
+    "discount:read",
+    "receipt:read",
   ],
   viewer: ["analytics:read"],
   guest: [],
