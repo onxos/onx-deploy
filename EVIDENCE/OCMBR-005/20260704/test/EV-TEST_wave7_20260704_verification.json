@@ -1,0 +1,61 @@
+{
+  "evidence_id": "EV-TEST_wave7_20260704_verification",
+  "wave": "Wave 7",
+  "systems": ["D12-S05", "D12-S06", "D12-S07", "D12-S08", "D13-S01"],
+  "checks_total": 45,
+  "checks_passed": 45,
+  "checks_failed": 0,
+  "lint_status": "PASS — 0 errors (biome check, 956 files)",
+  "typescript_status": "PASS — bunx tsc --noEmit 0 errors",
+  "build_status": "tsc direct pass (Next.js TypeScript worker SIGTERM/OOM — consistent with Waves 2f–6 pattern)",
+  "test_script": "scripts/test-wave7.ts",
+  "branch": "ocmbr/wave7-execution",
+  "collected_at": "2026-07-04T00:00:00.000Z",
+  "details": {
+    "D12-S05_risk_register": {
+      "schema": "src/server/db/schema/risk-register-foundation.ts",
+      "service": "src/server/services/risk-register.service.ts",
+      "router": "src/server/api/routers/risk-register.ts",
+      "ui_layout": "src/app/risk-register/layout.tsx",
+      "ui_page": "src/app/risk-register/page.tsx",
+      "migration": "drizzle/0015_wave7_systems.sql",
+      "permissions": ["compliance:read", "compliance:write"]
+    },
+    "D12-S06_incident_report": {
+      "schema": "src/server/db/schema/incident-report-foundation.ts",
+      "service": "src/server/services/incident-report.service.ts",
+      "router": "src/server/api/routers/incident-report.ts",
+      "ui_layout": "src/app/incidents/layout.tsx",
+      "ui_page": "src/app/incidents/page.tsx",
+      "migration": "drizzle/0015_wave7_systems.sql",
+      "permissions": ["compliance:read", "compliance:write"]
+    },
+    "D12-S07_policy_document": {
+      "schema": "src/server/db/schema/policy-document-foundation.ts",
+      "service": "src/server/services/policy-document.service.ts",
+      "router": "src/server/api/routers/policy-document.ts",
+      "ui_layout": "src/app/policies/layout.tsx",
+      "ui_page": "src/app/policies/page.tsx",
+      "migration": "drizzle/0015_wave7_systems.sql",
+      "permissions": ["compliance:read", "compliance:write"]
+    },
+    "D12-S08_data_privacy": {
+      "schema": "src/server/db/schema/data-privacy-foundation.ts",
+      "service": "src/server/services/data-privacy.service.ts",
+      "router": "src/server/api/routers/data-privacy.ts",
+      "ui_layout": "src/app/data-privacy/layout.tsx",
+      "ui_page": "src/app/data-privacy/page.tsx",
+      "migration": "drizzle/0015_wave7_systems.sql",
+      "permissions": ["compliance:read", "compliance:write"]
+    },
+    "D13-S01_training": {
+      "schema": "src/server/db/schema/training-foundation.ts",
+      "service": "src/server/services/training.service.ts",
+      "router": "src/server/api/routers/training.ts",
+      "ui_layout": "src/app/training/layout.tsx",
+      "ui_page": "src/app/training/page.tsx",
+      "migration": "drizzle/0015_wave7_systems.sql",
+      "permissions": ["training:read", "training:write"]
+    }
+  }
+}
