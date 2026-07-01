@@ -1,0 +1,13 @@
+# Health and Smoke Test Results
+
+Date: 2026-06-29
+Status: NOT EXECUTED
+
+## Reason
+
+Health checks and smoke tests depend on successful AWS workflow execution and staging deployment.
+Workflow dispatch failed with:
+
+HTTP 403: Resource not accessible by integration
+
+Per verification rule, execution stopped immediately at first failure.

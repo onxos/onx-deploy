@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-07-01T07:44:55.581Z",
+  "scenarios": [
+    {
+      "id": "D04-S09-SCH-01",
+      "description": "approval schema file exists",
+      "pass": true
+    },
+    {
+      "id": "D04-S09-SCH-02",
+      "description": "approvalWorkflow and approvalRecord tables exported",
+      "pass": true
+    },
+    {
+      "id": "D04-S09-SVC-01",
+      "description": "approval service exists",
+      "pass": true
+    },
+    {
+      "id": "D04-S09-SVC-02",
+      "description": "processApproval function exported",
+      "pass": true
+    },
+    {
+      "id": "D04-S09-API-01",
+      "description": "approval router exists",
+      "pass": true
+    },
+    {
+      "id": "D04-S09-API-02",
+      "description": "approvalRouter registered in root",
+      "pass": true
+    },
+    {
+      "id": "D04-S09-UI-01",
+      "description": "approval-workflows layout exists",
+      "pass": true
+    },
+    {
+      "id": "D04-S09-UI-02",
+      "description": "approval-workflows page exists",
+      "pass": true
+    }
+  ]
+}

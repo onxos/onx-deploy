@@ -1,4 +1,6 @@
 export type AtlasTrainId =
+  | "L"
+  | "M"
   | "N"
   | "O"
   | "P"
@@ -38,6 +40,8 @@ export interface AtlasTrainRecord {
 }
 
 const ownerByTrain: Record<AtlasTrainId, string> = {
+  L: "Dashboard lead",
+  M: "Outcomes lead",
   N: "Evolution lead",
   O: "Editorial admin",
   P: "Titan operations",
@@ -58,6 +62,102 @@ const trainDefinitions: Array<
     workPackages: Array<[string, string, string, string, string]>;
   }
 > = [
+  {
+    id: "L",
+    title: "Lifecycle Analytics & Reporting Layer",
+    objective:
+      "Provide dashboard visibility for lifecycle conversion, progress trends, execution velocity, and report export.",
+    routes: ["/dashboard", "/reports"],
+    dependencies: "Train K execution records and analytics router",
+    residualRisk:
+      "Advanced analytics remain dependent on future production-scale telemetry.",
+    nextStep: "Proceed to Train M outcomes and recognition.",
+    workPackages: [
+      [
+        "WP-L-01",
+        "Dashboard Overview",
+        "Operational dashboard for lifecycle status, completion velocity, and key execution indicators.",
+        "/dashboard",
+        "overview",
+      ],
+      [
+        "WP-L-02",
+        "Dream Conversion Funnel",
+        "Funnel visibility from dream capture through potential and goal progression.",
+        "/dashboard",
+        "funnel",
+      ],
+      [
+        "WP-L-03",
+        "Goal Progress Charts",
+        "Progress visualizations for goal completion, pacing, and blockers.",
+        "/dashboard",
+        "progress",
+      ],
+      [
+        "WP-L-04",
+        "Execution Velocity & Trends",
+        "Trend summaries for execution throughput, stability, and quality movement.",
+        "/dashboard",
+        "velocity",
+      ],
+      [
+        "WP-L-05",
+        "Report Generation & Export",
+        "Lifecycle report generation and export surfaces for operational review.",
+        "/reports",
+        "report",
+      ],
+    ],
+  },
+  {
+    id: "M",
+    title: "Outcomes, Recognition & Flourishing Layer",
+    objective:
+      "Capture outcomes and lessons while exposing recognition and flourishing views for continuous quality growth.",
+    routes: ["/outcomes", "/recognition", "/flourishing"],
+    dependencies: "Train L reporting and outcome record modules",
+    residualRisk:
+      "Outcome interpretation quality still depends on disciplined operator review.",
+    nextStep: "Proceed to Train N evolution and retrospectives.",
+    workPackages: [
+      [
+        "WP-M-01",
+        "Outcome Recording",
+        "Structured outcome records with quality, confidence, and evidence linkage.",
+        "/outcomes",
+        "outcomes",
+      ],
+      [
+        "WP-M-02",
+        "Lessons Learned",
+        "Curated lesson records linked to decisions, outcomes, and follow-up actions.",
+        "/outcomes",
+        "lessons",
+      ],
+      [
+        "WP-M-03",
+        "Achievement Badges",
+        "Recognition views for achievements, milestones, and quality signals.",
+        "/recognition",
+        "recognition",
+      ],
+      [
+        "WP-M-04",
+        "Flourishing Timeline",
+        "Timeline surface for flourishing indicators across institutions and teams.",
+        "/flourishing",
+        "flourishing",
+      ],
+      [
+        "WP-M-05",
+        "Outcome Review Dashboard",
+        "Review dashboard summarizing quality distribution and closure readiness.",
+        "/outcomes",
+        "review",
+      ],
+    ],
+  },
   {
     id: "N",
     title: "Evolution, Review & Continuous Improvement Layer",
@@ -718,7 +818,7 @@ export function getAtlasTrain(id: AtlasTrainId) {
 }
 
 export function getAtlasV5ProgramSummary() {
-  const trains = atlasV5ExecutionRecords.length + 2;
+  const trains = atlasV5ExecutionRecords.length;
   const workPackages = trains * 5;
   const criteria = workPackages * 10;
 

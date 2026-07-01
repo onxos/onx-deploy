@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-07-01T07:44:55.510Z",
+  "scenarios": [
+    {
+      "id": "D03-S03-SCH-01",
+      "description": "AR schema file exists",
+      "pass": true
+    },
+    {
+      "id": "D03-S03-SCH-02",
+      "description": "arInvoice and arPayment tables exported",
+      "pass": true
+    },
+    {
+      "id": "D03-S03-SVC-01",
+      "description": "AR service exists",
+      "pass": true
+    },
+    {
+      "id": "D03-S03-SVC-02",
+      "description": "recordPayment function exported",
+      "pass": true
+    },
+    {
+      "id": "D03-S03-API-01",
+      "description": "AR router exists",
+      "pass": true
+    },
+    {
+      "id": "D03-S03-API-02",
+      "description": "arRouter registered in root",
+      "pass": true
+    },
+    {
+      "id": "D03-S03-UI-01",
+      "description": "AR layout exists",
+      "pass": true
+    },
+    {
+      "id": "D03-S03-UI-02",
+      "description": "AR page exists",
+      "pass": true
+    }
+  ]
+}

@@ -1,6 +1,10 @@
 import { createTRPCRouter } from "@/server/api/trpc";
 import { adminRouter } from "./routers/admin";
 import { analyticsRouter } from "./routers/analytics";
+import { appointmentRouter } from "./routers/appointment";
+import { approvalRouter } from "./routers/approval";
+import { arRouter } from "./routers/ar";
+import { attendanceRouter } from "./routers/attendance";
 import { audit_reviewRouter } from "./routers/audit_review";
 import { authRouter } from "./routers/auth";
 import { branchRbacRouter } from "./routers/branch-rbac";
@@ -19,9 +23,11 @@ import { goalRouter } from "./routers/goal";
 import { hrRouter } from "./routers/hr";
 import { institutionRouter } from "./routers/institution";
 import { insuranceRouter } from "./routers/insurance";
+import { insurancePolicyRouter } from "./routers/insurance-policy";
 import { inventoryRouter } from "./routers/inventory";
 import { judgmentRouter } from "./routers/judgment";
 import { launchRouter } from "./routers/launch";
+import { leaveRouter } from "./routers/leave";
 import { operationsRouter } from "./routers/operations";
 import { orgRouter } from "./routers/org";
 import { outcomeRouter } from "./routers/outcome";
@@ -29,16 +35,19 @@ import { performanceRouter } from "./routers/performance";
 import { posRouter } from "./routers/pos";
 import { potentialRouter } from "./routers/potential";
 import { procurementRouter } from "./routers/procurement";
+import { procurementPrRouter } from "./routers/procurement-pr";
 import { release_mgmtRouter } from "./routers/release_mgmt";
 import { sechRouter } from "./routers/sech";
 import { security_reviewRouter } from "./routers/security_review";
 import { stewardshipRouter } from "./routers/stewardship";
+import { stockMovementRouter } from "./routers/stock-movement";
 import { taskRouter } from "./routers/task";
 import { tenantRouter } from "./routers/tenant";
 import { titanRouter } from "./routers/titan";
 import { titan_opsRouter } from "./routers/titan_ops";
 import { understandingRouter } from "./routers/understanding";
 import { userRouter } from "./routers/user";
+import { vaccinationRouter } from "./routers/vaccination";
 
 export const appRouter = createTRPCRouter({
   admin: adminRouter,
@@ -80,7 +89,17 @@ export const appRouter = createTRPCRouter({
   org: orgRouter,
   pos: posRouter,
   procurement: procurementRouter,
+  procurementPr: procurementPrRouter,
   tenant: tenantRouter,
+  // Wave 2a
+  appointment: appointmentRouter,
+  approval: approvalRouter,
+  ar: arRouter,
+  attendance: attendanceRouter,
+  insurancePolicy: insurancePolicyRouter,
+  leave: leaveRouter,
+  stockMovement: stockMovementRouter,
+  vaccination: vaccinationRouter,
 });
 
 export type AppRouter = typeof appRouter;
