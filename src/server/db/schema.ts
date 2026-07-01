@@ -62,6 +62,7 @@ export * from "./schema/prescription-foundation";
 export * from "./schema/procurement-foundation";
 export * from "./schema/procurement-pr-foundation";
 export * from "./schema/purchase-order-foundation";
+export * from "./schema/recommendation-foundation";
 export * from "./schema/recruitment-foundation";
 export * from "./schema/referral-foundation";
 export * from "./schema/regulatory-register-foundation";
