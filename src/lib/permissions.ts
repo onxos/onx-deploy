@@ -185,6 +185,11 @@ export const PERMISSIONS = [
   // Wave 5 — D12-S01/S02 Compliance (OCMBR-005)
   "compliance:read",
   "compliance:write",
+  // Wave 6 — D11-S06/S07/S08 Emergency Dispatch + On-call + Availability (OCMBR-005)
+  "oncall:read",
+  "oncall:write",
+  "availability:read",
+  "availability:write",
 ] as const;
 
 export type Permission = (typeof PERMISSIONS)[number];
@@ -306,6 +311,10 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "emergency:write",
     "compliance:read",
     "compliance:write",
+    "oncall:read",
+    "oncall:write",
+    "availability:read",
+    "availability:write",
   ],
   editor: [
     "analytics:read",
