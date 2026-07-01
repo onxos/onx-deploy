@@ -47,7 +47,7 @@ export async function generateRecommendation(
 
 export async function listOutputsByEntity(
   entityType: string,
-  entityId: string,
+  _entityId: string,
 ) {
   return db
     .select()
