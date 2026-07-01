@@ -23,9 +23,11 @@ import { dicomStudyRouter } from "./routers/dicom-study";
 import { discountRouter } from "./routers/discount";
 import { dreamRouter } from "./routers/dream";
 import { editorialRouter } from "./routers/editorial";
+import { emergencyCaseRouter } from "./routers/emergency-case";
 import { enablementRouter } from "./routers/enablement";
 import { evolutionRouter } from "./routers/evolution";
 import { externalLabRouter } from "./routers/external-lab";
+import { fieldVisitRouter } from "./routers/field-visit";
 import { financeRouter } from "./routers/finance";
 import { gapRouter } from "./routers/gap";
 import { glRouter } from "./routers/gl";
@@ -46,6 +48,8 @@ import { labResultHistoryRouter } from "./routers/lab-result-history";
 import { labTestRouter } from "./routers/lab-test";
 import { launchRouter } from "./routers/launch";
 import { leaveRouter } from "./routers/leave";
+import { licenceCertificateRouter } from "./routers/licence-certificate";
+import { mobileClinicRouter } from "./routers/mobile-clinic";
 import { operationsRouter } from "./routers/operations";
 import { orgRouter } from "./routers/org";
 import { outcomeRouter } from "./routers/outcome";
@@ -61,6 +65,7 @@ import { procurementPrRouter } from "./routers/procurement-pr";
 import { purchaseOrderRouter } from "./routers/purchase-order";
 import { recruitmentRouter } from "./routers/recruitment";
 import { referralRouter } from "./routers/referral";
+import { regulatoryRegisterRouter } from "./routers/regulatory-register";
 import { release_mgmtRouter } from "./routers/release_mgmt";
 import { reorderRouter } from "./routers/reorder";
 import { sechRouter } from "./routers/sech";
@@ -173,6 +178,12 @@ export const appRouter = createTRPCRouter({
   labResultHistory: labResultHistoryRouter,
   telvetMedicalNote: telvetMedicalNoteRouter,
   telvetSession: telvetSessionRouter,
+  // Wave 5
+  emergencyCase: emergencyCaseRouter,
+  fieldVisit: fieldVisitRouter,
+  licenceCertificate: licenceCertificateRouter,
+  mobileClinic: mobileClinicRouter,
+  regulatoryRegister: regulatoryRegisterRouter,
 });
 
 export type AppRouter = typeof appRouter;
