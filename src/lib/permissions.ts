@@ -81,6 +81,24 @@ export const PERMISSIONS = [
   // Wave 2 — D09-S05 Vaccination (OCMBR-005)
   "vaccination:read",
   "vaccination:write",
+  // Wave 2b — D02-S05 Payroll (OCMBR-005)
+  "payroll:read",
+  "payroll:write",
+  // Wave 2b — D04-S04 Purchase Order (OCMBR-005)
+  "purchase-order:read",
+  "purchase-order:write",
+  // Wave 2b — D05-S02 Inventory Locations (OCMBR-005)
+  "inventory-location:read",
+  "inventory-location:write",
+  // Wave 2b — D05-S03 Item Batches (OCMBR-005)
+  "item-batch:read",
+  "item-batch:write",
+  // Wave 2b — D05-S05 Reorder (OCMBR-005)
+  "reorder:read",
+  "reorder:write",
+  // Wave 2b — D09-S03 SOAP Notes (OCMBR-005)
+  "soap-note:read",
+  "soap-note:write",
 ] as const;
 
 export type Permission = (typeof PERMISSIONS)[number];
@@ -134,6 +152,18 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "appointment:write",
     "vaccination:read",
     "vaccination:write",
+    "payroll:read",
+    "payroll:write",
+    "purchase-order:read",
+    "purchase-order:write",
+    "inventory-location:read",
+    "inventory-location:write",
+    "item-batch:read",
+    "item-batch:write",
+    "reorder:read",
+    "reorder:write",
+    "soap-note:read",
+    "soap-note:write",
   ],
   editor: [
     "analytics:read",
@@ -156,6 +186,12 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "stock:read",
     "appointment:read",
     "vaccination:read",
+    "payroll:read",
+    "purchase-order:read",
+    "inventory-location:read",
+    "item-batch:read",
+    "reorder:read",
+    "soap-note:read",
   ],
   operator: [
     "article:create",
@@ -171,6 +207,10 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "appointment:write",
     "vaccination:read",
     "stock:read",
+    "inventory-location:read",
+    "item-batch:read",
+    "soap-note:read",
+    "soap-note:write",
   ],
   viewer: ["analytics:read"],
   guest: [],

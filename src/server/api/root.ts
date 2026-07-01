@@ -25,20 +25,26 @@ import { institutionRouter } from "./routers/institution";
 import { insuranceRouter } from "./routers/insurance";
 import { insurancePolicyRouter } from "./routers/insurance-policy";
 import { inventoryRouter } from "./routers/inventory";
+import { inventoryLocationRouter } from "./routers/inventory-location";
+import { itemBatchRouter } from "./routers/item-batch";
 import { judgmentRouter } from "./routers/judgment";
 import { launchRouter } from "./routers/launch";
 import { leaveRouter } from "./routers/leave";
 import { operationsRouter } from "./routers/operations";
 import { orgRouter } from "./routers/org";
 import { outcomeRouter } from "./routers/outcome";
+import { payrollRouter } from "./routers/payroll";
 import { performanceRouter } from "./routers/performance";
 import { posRouter } from "./routers/pos";
 import { potentialRouter } from "./routers/potential";
 import { procurementRouter } from "./routers/procurement";
 import { procurementPrRouter } from "./routers/procurement-pr";
+import { purchaseOrderRouter } from "./routers/purchase-order";
 import { release_mgmtRouter } from "./routers/release_mgmt";
+import { reorderRouter } from "./routers/reorder";
 import { sechRouter } from "./routers/sech";
 import { security_reviewRouter } from "./routers/security_review";
+import { soapNoteRouter } from "./routers/soap-note";
 import { stewardshipRouter } from "./routers/stewardship";
 import { stockMovementRouter } from "./routers/stock-movement";
 import { taskRouter } from "./routers/task";
@@ -100,6 +106,13 @@ export const appRouter = createTRPCRouter({
   leave: leaveRouter,
   stockMovement: stockMovementRouter,
   vaccination: vaccinationRouter,
+  // Wave 2b
+  inventoryLocation: inventoryLocationRouter,
+  itemBatch: itemBatchRouter,
+  payroll: payrollRouter,
+  purchaseOrder: purchaseOrderRouter,
+  reorder: reorderRouter,
+  soapNote: soapNoteRouter,
 });
 
 export type AppRouter = typeof appRouter;
